@@ -1,17 +1,5 @@
----
-layout: post
-title:  "ICT Infrastructure Course Notes"
-date:   2017-12-14
-excerpt: "Just try to recap all the topic debated in the ICT Infrastructure Course"
-tag:
-- english
-- ICT Infrastructure
-- University 
-- Notes
-feature: http://www.arabianoilandgas.com/pictures/gallery/ICTinfrastructure.jpg
-comments: true
----
-_Since there is no material on ICT Infastructure course, I'm trying to recap all lessons done in this page. The notes are written trying to remember the contents of the course (in accordance with the OneNote Notebook published on course page) and then expanding that contents with structured resources found online. Thanks to anyone that will help me to expand this note (download source [here]({{ site.url }}/assets/2017-12-13-presentations.md) and send me update version)._
+
+_Since there is no material on ICT Infastructure course, I'm trying to recap all lessons done in this page. The notes are written trying to remember the contents of the course (in accordance with the OneNote Notebook published on course page) and then expanding that contents with structured resources found online. Thanks to anyone that will help me to expand this note or correct my bad english._
 
 # Introduction
 The world is changing and a lots of axiom are becaming false. Some example? In the bechelor course (and not, sigh), the teachers say: "The main bottleneck is the disk", and so all the performance are evalueted with reference to disk usage, number of IOs operations and so on... This, nowdaays, is false.  Just thing of [Intel Optane SSD](https://www.anandtech.com/show/11702/intel-introduces-new-ruler-ssd-for-servers) where the new SSD tecnologie based on 3D NAND permits to write and read more fast then previous SSD (the disk that we have installed on our system, sigh number 2), and so we have to redesign the system. Some distributed file system, written in '90s, are crashing due the axiom that the disks are slower than CPU and so you have enough time to do all the computation needed. False! 
@@ -49,7 +37,7 @@ If you read wikipedia pages about IB and OmniPath you will find a acronym: RDMA.
 ### Some consideration about numbers
 Start think about real world. We have some server with 1 Gbps (not so high speed, just think that is the speed you can reach with your laptop attaching a cable that is in classroom in the univesity). We have to connects this servers to each other, using a switches (each of them has 48 ports). We have a lots of servers... The computation is done.
 
- ![server speed]({{ site.url }}/speed-required.png)
+ ![server speed](https://raw.githubusercontent.com/alessandro308/ICT-infrastructure/master/speed-required.png)
 
 #### Real use case
 As we see we need a lots of bandwith to manage a lots of service (you don't say?) and even if the north-south traffic (the traffic that goes outsite from our datacenter) can be relatively small (the university connection exits on the world with 40 Gbps), the east-west traffic (the traffic inside the datacenter) can reach a very huge number of Gbps. [Aruba datacenter](https://www.arubacloud.com/infrastructures/italy-dc-it1.aspx) (called IT1) with another Aruba datacenter (IT2) reach a bandwidth of 82 Gbps of Internet connection.
@@ -116,6 +104,9 @@ Now some standard are trying to impose a common structure to the network element
 # Storage
 After the fabric, another fondamental component of a datacenter is the storage. The storage can be provided with various tecnologies. 
 The simple one is that the disk are put inside each servers and are used as we use the disk on our laptop. Of course it is not useful is we have a bunch of data to manage, and some networking solution can be better to use.
+
+## Network Attached Storage (NAS)
+NAS is a file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients.
 
 # References
  - https://tools.ietf.org/html/rfc4391
