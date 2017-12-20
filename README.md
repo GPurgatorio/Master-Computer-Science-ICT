@@ -106,7 +106,65 @@ After the fabric, another fondamental component of a datacenter is the storage. 
 The simple one is that the disk are put inside each servers and are used as we use the disk on our laptop. Of course it is not useful is we have a bunch of data to manage, and some networking solution can be better to use.
 
 ## Network Attached Storage (NAS)
-NAS is a file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients.
+NAS is a file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients. NAS systems are networked appliances which contain one or more storage drives, often arranged into logical, redundant storage containers or RAID. They typically provide access to files using network file sharing protocols such as NFS, SMB/CIFS, or AFP.
+
+## Storage Area Network (SAN)
+While NAS provides both storage and a file system, SAN provides only block-based storage and leaves file system concerns on the "client" side. SAN protocols include Fibre Channel, iSCSI, ATA over Ethernet (AoE) and HyperSCSI.
+
+## Benefits
+The main features that are provided by a storage system are the following:
+ - Thin provisioning
+	This is a virtualization technology that gives the appearance of having more physical resources than are actually avaiable. Thin provisioning allows space to be easily allocated to servers, on a just-enough and just-in-time basis. Thin provisioning is called "sparse volumes" in some contexts.
+ - Deduplication
+	If the same file is required in two context, it is saved one time and is served to different context.
+ - Compression
+ - Authentication
+ - RTO/RPO "support" DR
+ 	The Recovery Point Objective is defined by business continuity planning. It is the maximum targeted period in which data might be lost from an IT service due to a major incident. 
+ - Network Interface (iSCSI, Fibre Channel...)
+ - RAID
+ - Tiering
+ 	Tiering is a technology to assign a category to data to choose various type of storage media to recude total storage cost. Tiered storage policies place the most frequently accessed data on the highest performing storage. Rarely accessed data goes on low-performance, cheaper storage.
+ 	![Tiering](https://tse3.mm.bing.net/th?id=OIP.YK0eZhfsCyTmJgM1Rr2nUAEsB0&pid=15.1)
+ - NAS Protocols
+ - Snapshot
+
+## Non-RAID drive architectures
+Also other architectures exist and are used when RAID is too expensive or not required.
+ - JBOD ("just a bunch of disks"): multiple hard disk drives operated as individual independent hard disk drives
+ - SPAN: A method of combining the free space on multiple hard disk drives from "JBoD" to create a spanned volume
+ - DAS (Direct-attached storage): a digital storage directly attached to the computer accessing it.
+
+## Some consideration about Flash Drives
+The bottleneck in new drives is the connector. The SATA connector is too slow to use SSD at the maximum speed. Some results can be see [here](http://www.itc.unipi.it/wp-content/uploads/2016/02/ITC-TR-01-16.pdf).
+
+The solution? Delete the connector and attach it to PCIe. So new Specification is used, the NVMe, an open logical device interface specification for accessing non-volatile storage media attached via a PCI Express bus.
+
+## Storage in the feature
+![Memory History](https://img.digitaltrends.com/image/3dxpointslide1-1000x559.jpg)
+As we can see in the image, it's been decades since the last mainstream memory update is done. In fact, the SSD became popular in the last years due the cost but they exists since 1989. 
+![3D XPoint Technology](http://cdn.wccftech.com/wp-content/uploads/2015/07/Intel-Micron-3D-XPoint-Memory.jpg)
+New technology was introduced in 2015, the 3D XPoint. This improvement takes ICT world in a new phase? If yesterday our problem was the disk latancy, so we design all algorithm to reduce IOs operation, now the disk is almast fast as the DRAM, as shown the following image:
+![Disk latancy](https://images.anandtech.com/doci/9470/asd14.PNG)
+
+With the NVMe drives we can reach 11GBps, aka 88 Gbps. Since the software latency is circa 5 microseconds, TCP/IP software introduces also a latency, 70-80 microseconds, the disk is no more a problem.
+
+![RDMA how does it work](https://image.slidesharecdn.com/1mellanox-140331123657-phpapp02/95/infiniband-essentials-every-hpc-expert-must-know-10-638.jpg?cb=1396269459)
+
+# Hypervisors
+A hypervisor is a software, firmware or hardware that create and runs virtual machines. 
+An hypervisor permits to overbook physical resources to allocate more resources than exist.
+
+It create also a virtual switch to distribute the networking over all VMs. 
+
+# Cloud
+![Infrastructure](https://www.vroege.biz/wp-content/uploads/051016_1337_ComparingAz1.png)
+The cloud is someone else's computer that you can use to execute your application with more realiable feature than your laptop. 
+
+The cloud provide high avaialabity. This feature can be achived with redundancy of resources to avoid system failure. Some Load Balancer is used to balance the request between all the resources to avoid failure due the resources saturation on some machine.
+
+# Orchestration
+# Fog Computing
 
 # References
  - https://tools.ietf.org/html/rfc4391
@@ -120,3 +178,5 @@ NAS is a file-level computer data storage server connected to a computer network
  - https://en.wikipedia.org/wiki/Multitier_architecture
  - https://blog.westmonroepartners.com/a-beginners-guide-to-understanding-the-leaf-spine-network-topology/
  - http://searchdatacenter.techtarget.com/definition/Leaf-spine
+ - https://en.wikipedia.org/wiki/Network-attached_storage
+ - https://en.wikipedia.org/wiki/Non-RAID_drive_architectures
