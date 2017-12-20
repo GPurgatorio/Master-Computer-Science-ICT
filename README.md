@@ -141,10 +141,15 @@ The bottleneck in new drives is the connector. The SATA connector is too slow to
 The solution? Delete the connector and attach it to PCIe. So new Specification is used, the NVMe, an open logical device interface specification for accessing non-volatile storage media attached via a PCI Express bus.
 
 ## Storage in the feature
+
 ![Memory History](https://img.digitaltrends.com/image/3dxpointslide1-1000x559.jpg)
+
 As we can see in the image, it's been decades since the last mainstream memory update is done. In fact, the SSD became popular in the last years due the cost but they exists since 1989. 
+
 ![3D XPoint Technology](http://cdn.wccftech.com/wp-content/uploads/2015/07/Intel-Micron-3D-XPoint-Memory.jpg)
+
 New technology was introduced in 2015, the 3D XPoint. This improvement takes ICT world in a new phase? If yesterday our problem was the disk latancy, so we design all algorithm to reduce IOs operation, now the disk is almast fast as the DRAM, as shown the following image:
+
 ![Disk latancy](https://images.anandtech.com/doci/9470/asd14.PNG)
 
 With the NVMe drives we can reach 11GBps, aka 88 Gbps. Since the software latency is circa 5 microseconds, TCP/IP software introduces also a latency, 70-80 microseconds, the disk is no more a problem.
@@ -161,6 +166,7 @@ It create also a virtual switch to distribute the networking over all VMs.
 
 # Cloud
 ![Infrastructure](https://www.vroege.biz/wp-content/uploads/051016_1337_ComparingAz1.png)
+
 The cloud is someone else's computer that you can use to execute your application with more realiable feature than your laptop. A cloud is a collection of network-accessible IT resources. 
 
 ### Rapid Elasticity
@@ -211,3 +217,4 @@ The fog computing is an architecture that uses one or more collaborative end-use
  - https://en.wikipedia.org/wiki/Network-attached_storage
  - https://en.wikipedia.org/wiki/Non-RAID_drive_architectures
  - https://en.wikipedia.org/wiki/Fog_computing
+ - https://www.openfogconsortium.org
