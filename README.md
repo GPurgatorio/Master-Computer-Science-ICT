@@ -114,9 +114,9 @@ While NAS provides both storage and a file system, SAN provides only block-based
 ## Benefits
 The main features that are provided by a storage system are the following:
  - Thin provisioning
-	 This is a virtualization technology that gives the appearance of having more physical resources than are actually avaiable. Thin provisioning allows space to be easily allocated to servers, on a just-enough and just-in-time basis. Thin provisioning is called "sparse volumes" in some contexts.
+	- This is a virtualization technology that gives the appearance of having more physical resources than are actually avaiable. Thin provisioning allows space to be easily allocated to servers, on a just-enough and just-in-time basis. Thin provisioning is called "sparse volumes" in some contexts.
  - Deduplication
-	 If the same file is required in two context, it is saved one time and is served to different context.
+	- If the same file is required in two context, it is saved one time and is served to different context.
  - Compression
  - Authentication
  - RTO/RPO "support" DR
