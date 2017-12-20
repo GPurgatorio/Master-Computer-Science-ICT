@@ -120,11 +120,11 @@ The main features that are provided by a storage system are the following:
  - Compression
  - Authentication
  - RTO/RPO "support" DR
- 	 The Recovery Point Objective is defined by business continuity planning. It is the maximum targeted period in which data might be lost from an IT service due to a major incident. 
+ 	- The Recovery Point Objective is defined by business continuity planning. It is the maximum targeted period in which data might be lost from an IT service due to a major incident. 
  - Network Interface (iSCSI, Fibre Channel...)
  - RAID
  - Tiering
- 	 Tiering is a technology to assign a category to data to choose various type of storage media to recude total storage cost. Tiered storage policies place the most frequently accessed data on the highest performing storage. Rarely accessed data goes on low-performance, cheaper storage.
+ 	- Tiering is a technology to assign a category to data to choose various type of storage media to recude total storage cost. Tiered storage policies place the most frequently accessed data on the highest performing storage. Rarely accessed data goes on low-performance, cheaper storage.
  	![Tiering](https://tse3.mm.bing.net/th?id=OIP.YK0eZhfsCyTmJgM1Rr2nUAEsB0&pid=15.1)
  - NAS Protocols
  - Snapshot
