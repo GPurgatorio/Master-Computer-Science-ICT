@@ -70,7 +70,7 @@ So we virtualize the networking, the storage, the data center... and the cloud! 
 ## Network topologies
 ### Spanning Tree Protocol (STP) 
 The spanning Tree Protocol is a network protocol that builds a logical loop-free topology for Ethernet networks. The spanning tree is built using some Bridge Protocol Data Units (BPDUs) frames. In 2001 the IEEE introduced Rapid Spanning Tree Protocol (RSTP) that provides significantly faster spanning tree convergence after a topology change.
-
+[Why so useful?](http://searchdatacenter.techtarget.com/feature/The-case-for-a-leaf-spine-data-center-topology)
 ![Spine-Leaf VS Traditional 3-tier](https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAhHAAAAJGI4NmQ3ZDkzLTA2MzUtNGY2MC1hZWMzLTZhMDZkNGEwZTU3Nw.png)
 ### Three-tier design
 This architecture is simple architecture where each component has a redundant unit to replace it in case of failure.
