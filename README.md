@@ -1,5 +1,62 @@
+# ICT Infrastructures - University of Pisa (Italy)
 
-_Since there is no material on ICT Infastructure course, I'm trying to recap all lessons done in this page. The notes are written trying to remember the contents of the course (in accordance with the OneNote Notebook published on course page) and then expanding that contents with structured resources found online. If you find any error please, fork and push!_
+*Since there is no material on ICT Infrastructures course, I'm trying to recap all lessons done in this page. The notes are written trying to remember the contents of the course (in accordance with the OneNote Notebook published on course page) and then expanding that contents with structured resources found online. If you find any error please, fork and submit a pull request!*
+
+# Table of contents
+<!-- AUTO-GENERATED-CONTENT:START (TOC:collapse=true&collapseText=Click to expand) -->
+<details>
+<summary>Click to expand</summary>
+
+- [Introduction](#introduction)
+- [Datacenters](#datacenters)
+- [Design and Architectures](#design-and-architectures)
+  * [CRAC: Computer Room Air Conditioner](#crac-computer-room-air-conditioner)
+  * [In-Row cooling](#in-row-cooling)
+  * [PUE: Power Usage Effectiveness](#pue-power-usage-effectiveness)
+- [Fabric](#fabric)
+    + [Ethernet](#ethernet)
+    + [Infiniband](#infiniband)
+    + [Omni-Path](#omni-path)
+      - [RDMA: Remote Direct Memory Access](#rdma-remote-direct-memory-access)
+  * [Some consideration about numbers](#some-consideration-about-numbers)
+    + [Real use case](#real-use-case)
+- [Connectors](#connectors)
+- [Software Defined __](#software-defined-__)
+  * [SDN](#sdn)
+  * [SDS](#sds)
+  * [Software-defined data center](#software-defined-data-center)
+- [Hyperconvergence](#hyperconvergence)
+- [Network topologies](#network-topologies)
+  * [Spanning Tree Protocol (STP)](#spanning-tree-protocol-stp)
+  * [Three-tier design](#three-tier-design)
+  * [Spine and leaf Architecture](#spine-and-leaf-architecture)
+  * [Full Fat Tree](#full-fat-tree)
+- [VLAN](#vlan)
+- [Switch Anatomy](#switch-anatomy)
+- [Storage](#storage)
+- [Network Attached Storage (NAS)](#network-attached-storage-nas)
+- [Storage Area Network (SAN)](#storage-area-network-san)
+- [Benefits](#benefits)
+- [Non-RAID drive architectures](#non-raid-drive-architectures)
+- [Some consideration about Flash Drives](#some-consideration-about-flash-drives)
+- [Storage in the feature](#storage-in-the-feature)
+- [Hypervisors](#hypervisors)
+- [Cloud](#cloud)
+  * [Rapid Elasticity](#rapid-elasticity)
+  * [High Avaialability](#high-avaialability)
+  * [Cloud computering Layer](#cloud-computering-layer)
+      - [Phyisical Layer](#phyisical-layer)
+      - [Virtual Layer](#virtual-layer)
+      - [Control Layer](#control-layer)
+      - [Service orchestration Layer](#service-orchestration-layer)
+      - [Security](#security)
+  * [Vendor Lock-in](#vendor-lock-in)
+- [Orchestration](#orchestration)
+- [Fog Computing](#fog-computing)
+- [References](#references)
+
+</details>
+<!-- AUTO-GENERATED-CONTENT:END -->
 
 # Introduction
 The world is changing and a lot of axiom are becaming false. Some example? In the bechelor course (and not, sigh), the teachers say: "The main bottleneck is the disk", and so all the performance are evalueted with reference to disk usage, number of IOs operations and so on... This, nowadays, is false.  Just thing of [Intel Optane SSD](https://www.anandtech.com/show/11702/intel-introduces-new-ruler-ssd-for-servers) where the new SSD tecnologie based on 3D NAND permits to write and read more fast then previous SSD (the disk that we have installed on our system, sigh number 2), and so we have to redesign the system. Some distributed file system, written in '90s, are crashing due the axiom that the disks are slower than CPU and so you have enough time to do all the computation needed. False! 
@@ -10,8 +67,52 @@ The world is evolving faster than I can write this notes, so maybe some things w
 
 Let's start to see how a datacenter is build to support new requests. 
 
+# Datacenters
+
+A data center is a facility used to house computer systems and associated components, such as telecommunications and storage systems. It generally includes redundant or backup components and infrastructure for power supply, data communications connections, environmental controls (e.g. air conditioning, fire suppression) and various security devices. A large data center is an industrial-scale operation using as much electricity as a small town.
+
+## Design and Architectures
+
+### CRAC: Computer Room Air Conditioner
+
+Popular in the '90 (3-5KW/rack), but not very efficient in terms of energy consumption.
+
+<p align="center">
+  <img width="600" src="./assets/crac.png">
+</p>
+
+<p align="center">
+  <img width="600" src="./assets/crac1.png">
+</p>
+
+Drawbacks are density and the absence of locality.
+
+### In-Row cooling
+
+In-row cooling technology is a type of air conditioning system commonly used in data centers in which the cooling unit is placed between the server cabinets in a row for offering cool air to the server equipment more effectively.
+
+In-row cooling systems use a horizontal airflow pattern utilizing hot aisle/cold aisle configurations and they only occupy one-half rack of row space without any additional side clearance space. Typically, each unit is about 12 inches wide by 42 inches deep.
+
+These units may be a supplement to raised-floor cooling (creating a plenum to distribute conditioned air) or may be the primary cooling source on a slab floor.
+
+<p align="center">
+  <img width="600" src="./assets/in-row-cooling.jpg">
+</p>
+
+The in-row cooling unit draws warm exhaust air directly from the hot aisle, cools it and distributes it to the cold aisle. This ensures that inlet temperatures are steady for precise operation. Coupling the air conditioning with the heat source produces an efficient direct return air path; this is called “close coupled cooling,” which also lowers the fan energy required. In-row cooling also prevents the mixing of hot and cold air, thus increasing efficiency.
+
+### PUE: Power Usage Effectiveness
+
+PUE is a ratio that describes how efficiently a computer data center uses energy; specifically, how much energy is used by the computing equipment (in contrast to cooling and other overhead).
+
+PUE is the ratio of total amount of energy used by a computer data center facility  to the energy delivered to computing equipment. PUE is the inverse of data center infrastructure efficiency (DCIE).
+
+As example, consider that the PUE of the university's datacenter during 2018 is less 1.2, while the average italian datacenter's PUE are around 2-2.5.
+
 # Fabric
-The fabric is the interconnection of node in a datacenter. We can think this level as a bunch of switch and wires. 
+The fabric is the interconnection between nodes inside a datacenter. We can think this level as a bunch of switch and wires. 
+
+We refer to North-South traffic indicating the traffic outgoing and incoming to the datacenter (internet), while we refer to East-West as the internal traffic between servers.
 
 #### Ethernet
 The connection can be performed with various technologies, the most famous is **Ethernet**, commonly used in Local Area Networks (LAN) and Wide Area Networks (WAN). Ethernet use twisted pair and fiber optic links. Ethernet as some famous features such as 48-bit MAC address and Ethernet frame format that influenced other networking protocols.
@@ -31,13 +132,15 @@ InfiniBand trasmits data in packets up to 4KB. A massage can be:
 Moreover, another communication architecture that exist and is interested to see is Omni-Path. This architecture is owned by Intel and performs high-performance communication. Production of Omni-Path products started in 2015 and a mass delivery of these products started in the first quarted of 2016 (you can insert here some more stuff written on [Wikipedia](https://en.wikipedia.org/wiki/Omni-Path)). 
 The interest of this architecture is that Intel plans to develop technologiy based on that will serve as the on-ramp to exascale computing (a computing system capacle of the least one exaFLOPS). 
 
-##### RDMA
-If you read wikipedia pages about IB and OmniPath you will find a acronym: RDMA. This acronym means **Remote Direct Memory Access**, a direct memory access (really!) from one computer into that of another without involving either one's OS, this permits high-throuhput, low-latency networking performing.
+##### RDMA: Remote Direct Memory Access
+If you read wikipedia pages about IB and OmniPath you will find a acronym: RDMA. This acronym means Remote Direct Memory Access, a direct memory access (really!) from one computer into that of another without involving either one's OS, this permits high-throuhput, low-latency networking performing.
 
 ### Some consideration about numbers
 Start think about real world. We have some server with 1 Gbps (not so high speed, just think that is the speed you can reach with your laptop attaching a cable that is in classroom in the univesity). We have to connects this servers to each other, using a switches (each of them has 48 ports). We have a lots of servers... The computation is done.
 
- ![server speed](https://raw.githubusercontent.com/alessandro308/ICT-infrastructure/master/speed-required.png)
+<p align="center">
+  <img width="600" src="./assets/speed-required.png">
+</p>
 
 #### Real use case
 As we see we need a lots of bandwith to manage a lots of service (you don't say?) and even if the north-south traffic (the traffic that goes outsite from our datacenter) can be relatively small (the university connection exits on the world with 40 Gbps), the east-west traffic (the traffic inside the datacenter) can reach a very huge number of Gbps. [Aruba datacenter](https://www.arubacloud.com/infrastructures/italy-dc-it1.aspx) (called IT1) with another Aruba datacenter (IT2) reach a bandwidth of 82 Gbps of Internet connection.
@@ -65,29 +168,46 @@ Software-defined Storage is a term fro computer data storage software for policy
 Software-defined data center is a sort of upgrade of the previous term and indicate a series of virtualization concepts such as abstraction, pooling and automation to all data center resources and services to achieve IT as a service.
 
 ## Hyperconvergence
-So we virtualize the networking, the storage, the data center... and the cloud! Some tools, as [Nutanix(https://www.nutanix.com/hyperconverged-infrastructure/) build the hyperconverged infrastructure ([HCI](https://en.wikipedia.org/wiki/Hyper-converged_infrastructure)) technology.
+So we virtualize the networking, the storage, the data center... and the cloud! Some tools, as [Nutanix](https://www.nutanix.com/hyperconverged-infrastructure/) build the [hyperconverged infrastructure HCI](https://en.wikipedia.org/wiki/Hyper-converged_infrastructure) technology.
 
 ## Network topologies
+
+A way of cabling allowing multiple computers to comunicate. It's not necessary a graph, but for the reliability purpose it often realized as a set of connected  nodes. At least 10% of nodes should be connected in order to guarantee a sufficient reliability ([Small World Theory](https://en.wikipedia.org/wiki/Small-world_network)).
+
 ### Spanning Tree Protocol (STP) 
+
 The spanning Tree Protocol is a network protocol that builds a logical loop-free topology for Ethernet networks. The spanning tree is built using some Bridge Protocol Data Units (BPDUs) frames. In 2001 the IEEE introduced Rapid Spanning Tree Protocol (RSTP) that provides significantly faster spanning tree convergence after a topology change.
-[Why so useful?](http://searchdatacenter.techtarget.com/feature/The-case-for-a-leaf-spine-data-center-topology)
-![Spine-Leaf VS Traditional 3-tier](https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAhHAAAAJGI4NmQ3ZDkzLTA2MzUtNGY2MC1hZWMzLTZhMDZkNGEwZTU3Nw.png)
+
+Now days this protocol is used only in campus and not in datacenters, due to its hight latency of convergence (up to 10-15 seconds to activate a backup line).
+
 ### Three-tier design
+
 This architecture is simple architecture where each component has a redundant unit to replace it in case of failure.
 
 ### Spine and leaf Architecture
 With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are diveded into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric. 
 In that topoligy the Link Aggregation Control Protocol (LACP) is used. It provides a method to control the bundling of several physical ports together to form a single logical channel.
 
+<p align="center">
+  <img width="600" src="./assets/spine-leaf-vs-3-tier.png">
+</p>
+
 ### Full Fat Tree
-In this network topology, the link that are nearer the top of the hierarchy are "fatter" (thicker) than the link further down the hierarchy. 
-![Full Fat Tree](https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Fat_tree_network.svg/220px-Fat_tree_network.svg.png)
+
+In this network topology, the link that are nearer the top of the hierarchy are "fatter" (thicker) than the link further down the hierarchy. Used only in high performance computing where performances have priority over budgets.
+
+<p align="center">
+  <img width="200" src="./assets/full-fat-tree-network.png">
+</p>
 
 ## VLAN
 Now, the problem is that every switch can be connected to each other and so there is no more LANs separation in the datacenter, every packet can go wherever it wants and some problems may appear. For this problem the VLAN is invented. It partition a broadcast domain and create a isolated computer network.
 
 It works by applying _tags_ to network packets (in Ethernet frame) and handling these tags in the networking systems. 
-![Ethernet Frame](https://adelzalok.files.wordpress.com/2011/09/figure-13-ieee-8021q-vlan1.png)
+
+<p align="center">
+  <img width="600" src="./assets/vlan.png">
+</p>
 
 A switch can be configured to accept some tags on some ports and some other tags on some other ports. 
 
@@ -99,7 +219,10 @@ A switch is an ASIC (application-specific integrated circuit). It can be proprie
 It can be see as two plane that cooperate, the control plane and the data plane. The first runs an OS (Linux, BSD...) and expose a CLI to configure it. The second plana manges the data.
 
 Now some standard are trying to impose a common structure to the network elements (switch included) to facilitate the creation of standard ochestration and automation tools.
-![Future of networking](http://en.community.dell.com/cfs-file/__key/communityserver-blogs-components-weblogfiles/00-00-00-00-11/5611.futurenetworking.png)
+
+Datacenter's switches are useually non-blocking. It basically means that this switches have the forwarding capacity that supports concurrently all ports at full port capacity.
+
+
 
 # Storage
 After the fabric, another fondamental component of a datacenter is the storage. The storage can be provided with various tecnologies. 
@@ -218,3 +341,5 @@ The fog computing is an architecture that uses one or more collaborative end-use
  - https://en.wikipedia.org/wiki/Non-RAID_drive_architectures
  - https://en.wikipedia.org/wiki/Fog_computing
  - https://www.openfogconsortium.org
+ - https://en.wikipedia.org/wiki/Power_usage_effectiveness
+ - https://howdoesinternetwork.com/2015/what-is-a-non-blocking-switch
