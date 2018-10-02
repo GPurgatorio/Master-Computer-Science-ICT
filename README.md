@@ -163,7 +163,7 @@ It can be see as two plane that cooperate, the control plane and the data plane.
 
 Now some standard are trying to impose a common structure to the network elements (switch included) to facilitate the creation of standard ochestration and automation tools.
 
-![Future of networking](http://en.community.dell.com/cfs-file/__key/communityserver-blogs-components-weblogfiles/00-00-00-00-11/5611.futurenetworking.png)
+Datacenter's switches are useually not blocking.
 
 
 
