@@ -7,11 +7,12 @@
 <details>
 <summary>Click to expand</summary>
 
+- [Table of contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Datacenters](#datacenters)
-- [Design and Architectures](#design-and-architectures)
-  * [CRAC: Computer Room Air Conditioner](#crac-computer-room-air-conditioner)
-  * [In-Row cooling](#in-row-cooling)
+  * [Design and Architectures](#design-and-architectures)
+    + [CRAC: Computer Room Air Conditioner](#crac-computer-room-air-conditioner)
+    + [In-Row cooling](#in-row-cooling)
   * [PUE: Power Usage Effectiveness](#pue-power-usage-effectiveness)
 - [Fabric](#fabric)
     + [Ethernet](#ethernet)
@@ -20,20 +21,24 @@
       - [RDMA: Remote Direct Memory Access](#rdma-remote-direct-memory-access)
   * [Some consideration about numbers](#some-consideration-about-numbers)
     + [Real use case](#real-use-case)
-- [Connectors](#connectors)
-- [Software Defined __](#software-defined-__)
-  * [SDN](#sdn)
-  * [SDS](#sds)
-  * [Software-defined data center](#software-defined-data-center)
-- [Hyperconvergence](#hyperconvergence)
-- [Network topologies](#network-topologies)
-  * [Spanning Tree Protocol (STP)](#spanning-tree-protocol-stp)
-  * [Three-tier design](#three-tier-design)
-  * [Spine and leaf Architecture](#spine-and-leaf-architecture)
-  * [Full Fat Tree](#full-fat-tree)
-- [VLAN](#vlan)
-- [Switch Anatomy](#switch-anatomy)
-- [Storage](#storage)
+  * [Connectors](#connectors)
+  * [Software Defined *** and Open Newtwork](#software-defined--and-open-newtwork)
+    + [Open Flow](#open-flow)
+    + [SDN: Software Defined Networking](#sdn-software-defined-networking)
+    + [SDS: Software Defined Storage](#sds-software-defined-storage)
+    + [Software-defined data center](#software-defined-data-center)
+  * [Hyperconvergence](#hyperconvergence)
+  * [Network topologies](#network-topologies)
+    + [Spanning Tree Protocol (STP)](#spanning-tree-protocol-stp)
+    + [Three-tier design](#three-tier-design)
+    + [Spine and leaf Architecture](#spine-and-leaf-architecture)
+    + [Full Fat Tree](#full-fat-tree)
+  * [VLAN](#vlan)
+  * [Switch Anatomy](#switch-anatomy)
+- [Disks and Storage](#disks-and-storage)
+  * [Interfaces](#interfaces)
+  * [Redundancy](#redundancy)
+  * [IOPS](#iops)
 - [Network Attached Storage (NAS)](#network-attached-storage-nas)
 - [Storage Area Network (SAN)](#storage-area-network-san)
 - [Benefits](#benefits)
@@ -71,9 +76,9 @@ Let's start to see how a datacenter is build to support new requests.
 
 A data center is a facility used to house computer systems and associated components, such as telecommunications and storage systems. It generally includes redundant or backup components and infrastructure for power supply, data communications connections, environmental controls (e.g. air conditioning, fire suppression) and various security devices. A large data center is an industrial-scale operation using as much electricity as a small town.
 
-## Design and Architectures
+### Design and Architectures
 
-### CRAC: Computer Room Air Conditioner
+#### CRAC: Computer Room Air Conditioner
 
 Popular in the '90 (3-5KW/rack), but not very efficient in terms of energy consumption.
 
@@ -87,7 +92,7 @@ Popular in the '90 (3-5KW/rack), but not very efficient in terms of energy consu
 
 Drawbacks are density and the absence of locality.
 
-### In-Row cooling
+#### In-Row cooling
 
 In-row cooling technology is a type of air conditioning system commonly used in data centers in which the cooling unit is placed between the server cabinets in a row for offering cool air to the server equipment more effectively.
 
@@ -118,7 +123,7 @@ We refer to North-South traffic indicating the traffic outgoing and incoming to 
 The connection can be performed with various technologies, the most famous is **Ethernet**, commonly used in Local Area Networks (LAN) and Wide Area Networks (WAN). Ethernet use twisted pair and fiber optic links. Ethernet as some famous features such as 48-bit MAC address and Ethernet frame format that influenced other networking protocols.
 
 #### Infiniband
-Even if Ethernet is so famous, there are other standard to communicate. **InfiniBand (IB)** is another standard used in high-performance computing (HPC) that features very high throughtput and very low latency. InfiniBand is a protocol and a physical infrastructure and it can send up to 2GB massages with 16 priorities level.
+Even if Ethernet is so famous, there are other standard to communicate. **InfiniBand (IB)** is another standard used in high-performance computing (HPC) that features very high throughtput and very low latency (about 2 microseconds). InfiniBand is a protocol and a physical infrastructure and it can send up to 2GB massages with 16 priorities level.
 The [RFC 4391](https://tools.ietf.org/html/rfc4391) specifies a method for encapsulating and transmitting IPv4/IPv6 and Address Resolution Protocol (ARP) packets over InfiniBand (IB).
 
 InfiniBand trasmits data in packets up to 4KB. A massage can be:
@@ -135,6 +140,8 @@ The interest of this architecture is that Intel plans to develop technologiy bas
 ##### RDMA: Remote Direct Memory Access
 If you read wikipedia pages about IB and OmniPath you will find a acronym: RDMA. This acronym means Remote Direct Memory Access, a direct memory access (really!) from one computer into that of another without involving either one's OS, this permits high-throuhput, low-latency networking performing.
 
+RDMA supports zero-copy networking by enabling the network adapter to transfer data directly to or from application memory, eliminating the need to copy data between application memory and the data buffers in the operating system. Such transfers require no work to be done by CPUs, caches, or context switches, and transfers continue in parallel with other system operations. When an application performs an RDMA Read or Write request, the application data is delivered directly to the network, reducing latency and enabling fast message transfer.
+
 ### Some consideration about numbers
 Start think about real world. We have some server with 1 Gbps (not so high speed, just think that is the speed you can reach with your laptop attaching a cable that is in classroom in the univesity). We have to connects this servers to each other, using a switches (each of them has 48 ports). We have a lots of servers... The computation is done.
 
@@ -147,44 +154,51 @@ As we see we need a lots of bandwith to manage a lots of service (you don't say?
 
 Yesterday I went to master degree thesis discussion of my friend. He is a physicist and his experiment requires 2.2Tbps of bandwidth to store produced data, so public cloud is impossible to use. How can manage 2.2 Tbps? Maybe we can reply to this answer (hopefully, otherwise the exam is failed :/ ).
 
-## Connectors
+### Connectors
 Now we try to analyse the problem from the connector point of view. The fastest wire technology avaiable is the optic fiber. It can be divided into two categories: monomodal (1250 nm) or multimodal (850 nm). Of course, the wire is a wire, and we need something to connect it to somewhere. One of them is the Small form-factor pluggable transceiver (SFP), a compact, hot-pluggable optical module transceiver. The upgrade of this connector is the SFP+ that supports data rates up to 16 Gbps. It supports 10 Gigabit ethernet and can be combined with some other SFP+ with QSFP to reach 4x10Gbps. If combined with QSFP28 we can reach 100 Gbps on the ethernet that is the upper limit nowadays for the data rate.
 
-## Software Defined __ 
-The Software Defined something, where something is Networking (**SDN**) or Storage (**SDS**), is a novel approch to cloud computing. 
-### SDN
-SDN is an architecture purpoting to be dynamic, manageable, cost-effective and some more nice attribute readable [here](https://en.wikipedia.org/wiki/Software-defined_networking#Concept). This type of software create a virtual network to manage the network with more simplicity.
+### Software Defined *** and Open Newtwork
+
+The Software Defined something, where something is Networking (**SDN**) or Storage (**SDS**), is a novel approach to cloud computing. 
+
+#### Open Flow
+
+[OpenFlow](https://en.wikipedia.org/wiki/OpenFlow) is a communications protocol that gives access to the forwarding plane of a network switch or router over the network.
+The switch, once approved the initial connection with a firewall, redirect the allowed traffic to anther port, bypassing the firewall since it is not able to handle the entire data flow bandwidth ([Open daylight](https://www.opendaylight.org/)).
+
+#### SDN: Software Defined Networking
+SDN is an architecture purposing to be dynamic, manageable, cost-effective and some more nice attribute readable [here](https://en.wikipedia.org/wiki/Software-defined_networking#Concept). This type of software create a virtual network to manage the network with more simplicity.
 
 The main concept are the following:
- - Network control is directly programmable
+ - Network control is directly programmable (also from remote)
  - The infrastructure is agile, since it can be dynamically adjustable
- - It is programmatically configured and is managed by managed by a software-based SDN controller
+ - It is programmatically configured and is managed by a software-based SDN controller
  - It is Open Standard-based and Vendor-neutral
 
-### SDS
+#### SDS: Software Defined Storage
 Software-defined Storage is a term fro computer data storage software for policy-based provisioning and management of data storage independent of the underlying hardware. This type of software includes a storage virtualization to separate storage hardware from the software that manages it.
 
-### Software-defined data center
+#### Software-defined data center
 Software-defined data center is a sort of upgrade of the previous term and indicate a series of virtualization concepts such as abstraction, pooling and automation to all data center resources and services to achieve IT as a service.
 
-## Hyperconvergence
+### Hyperconvergence
 So we virtualize the networking, the storage, the data center... and the cloud! Some tools, as [Nutanix](https://www.nutanix.com/hyperconverged-infrastructure/) build the [hyperconverged infrastructure HCI](https://en.wikipedia.org/wiki/Hyper-converged_infrastructure) technology.
 
-## Network topologies
+### Network topologies
 
 A way of cabling allowing multiple computers to comunicate. It's not necessary a graph, but for the reliability purpose it often realized as a set of connected  nodes. At least 10% of nodes should be connected in order to guarantee a sufficient reliability ([Small World Theory](https://en.wikipedia.org/wiki/Small-world_network)).
 
-### Spanning Tree Protocol (STP) 
+#### Spanning Tree Protocol (STP) 
 
 The spanning Tree Protocol is a network protocol that builds a logical loop-free topology for Ethernet networks. The spanning tree is built using some Bridge Protocol Data Units (BPDUs) frames. In 2001 the IEEE introduced Rapid Spanning Tree Protocol (RSTP) that provides significantly faster spanning tree convergence after a topology change.
 
 Now days this protocol is used only in campus and not in datacenters, due to its hight latency of convergence (up to 10-15 seconds to activate a backup line).
 
-### Three-tier design
+#### Three-tier design
 
 This architecture is simple architecture where each component has a redundant unit to replace it in case of failure.
 
-### Spine and leaf Architecture
+#### Spine and leaf Architecture
 With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are diveded into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric. 
 In that topoligy the Link Aggregation Control Protocol (LACP) is used. It provides a method to control the bundling of several physical ports together to form a single logical channel.
 
@@ -192,7 +206,7 @@ In that topoligy the Link Aggregation Control Protocol (LACP) is used. It provid
   <img width="600" src="./assets/spine-leaf-vs-3-tier.png">
 </p>
 
-### Full Fat Tree
+#### Full Fat Tree
 
 In this network topology, the link that are nearer the top of the hierarchy are "fatter" (thicker) than the link further down the hierarchy. Used only in high performance computing where performances have priority over budgets.
 
@@ -200,7 +214,7 @@ In this network topology, the link that are nearer the top of the hierarchy are 
   <img width="200" src="./assets/full-fat-tree-network.png">
 </p>
 
-## VLAN
+### VLAN
 Now, the problem is that every switch can be connected to each other and so there is no more LANs separation in the datacenter, every packet can go wherever it wants and some problems may appear. For this problem the VLAN is invented. It partition a broadcast domain and create a isolated computer network.
 
 It works by applying _tags_ to network packets (in Ethernet frame) and handling these tags in the networking systems. 
@@ -213,20 +227,41 @@ A switch can be configured to accept some tags on some ports and some other tags
 
 VLAN are useful to manage the access control to some resources (and avoid to access to some subnetwork from other subnetwork).
 
-## Switch Anatomy
+### Switch Anatomy
 A switch is an ASIC (application-specific integrated circuit). It can be proprietary architecture or non-proprietary.
 
 It can be see as two plane that cooperate, the control plane and the data plane. The first runs an OS (Linux, BSD...) and expose a CLI to configure it. The second plana manges the data.
 
-Now some standard are trying to impose a common structure to the network elements (switch included) to facilitate the creation of standard ochestration and automation tools.
+Now some standard are trying to impose a common structure to the network elements (switch included) to facilitate the creation of standard orchestration and automation tools.
 
-Datacenter's switches are useually non-blocking. It basically means that this switches have the forwarding capacity that supports concurrently all ports at full port capacity.
+Datacenter's switches are usually non-blocking. It basically means that this switches have the forwarding capacity that supports concurrently all ports at full port capacity.
 
 
 
-# Storage
+# Disks and Storage
 After the fabric, another fondamental component of a datacenter is the storage. The storage can be provided with various tecnologies. 
 The simple one is that the disk are put inside each servers and are used as we use the disk on our laptop. Of course it is not useful is we have a bunch of data to manage, and some networking solution can be better to use.
+
+### Interfaces
+
+- SATA
+- SAS
+- NVMe: controller-less, protocol used over PCI express bus
+- ...
+
+### Redundancy
+
+[RAID](https://en.wikipedia.org/wiki/RAID#Standard_levels) stands for Redundant Array of Independent Disks. The more common RAID configurations are:
+
+- RAID-0: striping
+- RAID-1: mirroring
+- RAID-5: block-level striping with distributed parity
+- RAID-6: block-level striping with double distributed parity.
+
+### IOPS
+
+Input/output operations per second is an input/output performance measurement used to characterize computer storage devices 
+
 
 ## Network Attached Storage (NAS)
 NAS is a file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients. NAS systems are networked appliances which contain one or more storage drives, often arranged into logical, redundant storage containers or RAID. They typically provide access to files using network file sharing protocols such as NFS, SMB/CIFS, or AFP.
@@ -343,3 +378,4 @@ The fog computing is an architecture that uses one or more collaborative end-use
  - https://www.openfogconsortium.org
  - https://en.wikipedia.org/wiki/Power_usage_effectiveness
  - https://howdoesinternetwork.com/2015/what-is-a-non-blocking-switch
+ - https://en.wikipedia.org/wiki/Network_function_virtualization
