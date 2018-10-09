@@ -242,14 +242,14 @@ Datacenter's switches are usually non-blocking. It basically means that this swi
 After the fabric, another fondamental component of a datacenter is the storage. The storage can be provided with various tecnologies. 
 The simple one is that the disk are put inside each servers and are used as we use the disk on our laptop. Of course it is not useful is we have a bunch of data to manage, and some networking solution can be better to use.
 
-#### Interfaces
+## Interfaces
 
 - SATA
 - SAS
 - NVMe: controller-less, protocol used over PCI express bus
 - ...
 
-#### Redundancy
+## Redundancy
 
 [RAID](https://en.wikipedia.org/wiki/RAID#Standard_levels) stands for Redundant Array of Independent Disks. The more common RAID configurations are:
 
@@ -258,15 +258,15 @@ The simple one is that the disk are put inside each servers and are used as we u
 - RAID-5: block-level striping with distributed parity
 - RAID-6: block-level striping with double distributed parity.
 
-#### IOPS
+## IOPS
 
 Input/output operations per second is an input/output performance measurement used to characterize computer storage devices.
 
 
-### Network Attached Storage (NAS)
+## Network Attached Storage (NAS)
 NAS is a file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients. NAS systems are networked appliances which contain one or more storage drives, often arranged into logical, redundant storage containers or RAID. They typically provide access to files using network file sharing protocols such as NFS, SMB/CIFS, or AFP.
 
-### Storage Area Network (SAN)
+## Storage Area Network (SAN)
 While NAS provides both storage and a file system, SAN provides only block-based storage and leaves file system concerns on the "client" side. SAN protocols include Fibre Channel, iSCSI, ATA over Ethernet (AoE) and HyperSCSI.
 
 ### Benefits
@@ -287,18 +287,18 @@ The main features that are provided by a storage system are the following:
  - NAS Protocols
  - Snapshot
 
-### Non-RAID drive architectures
+## Non-RAID drive architectures
 Also other architectures exist and are used when RAID is too expensive or not required.
  - JBOD ("just a bunch of disks"): multiple hard disk drives operated as individual independent hard disk drives
  - SPAN: A method of combining the free space on multiple hard disk drives from "JBoD" to create a spanned volume
  - DAS (Direct-attached storage): a digital storage directly attached to the computer accessing it.
 
-### Some consideration about Flash Drives
+## Some consideration about Flash Drives
 The bottleneck in new drives is the connector. The SATA connector is too slow to use SSD at the maximum speed. Some results can be see [here](http://www.itc.unipi.it/wp-content/uploads/2016/02/ITC-TR-01-16.pdf).
 
 The solution? Delete the connector and attach it to PCIe. So new Specification is used, the NVMe, an open logical device interface specification for accessing non-volatile storage media attached via a PCI Express bus.
 
-### Storage in the feature
+## Storage in the feature
 
 ![Memory History](https://img.digitaltrends.com/image/3dxpointslide1-1000x559.jpg)
 
@@ -314,7 +314,7 @@ With the NVMe drives we can reach 11GBps, aka 88 Gbps. Since the software latenc
 
 ![RDMA how does it work](https://image.slidesharecdn.com/1mellanox-140331123657-phpapp02/95/infiniband-essentials-every-hpc-expert-must-know-10-638.jpg?cb=1396269459)
 
-## Hypervisors
+# Hypervisors
 A hypervisor is a software, firmware or hardware that create and runs virtual machines. 
 It can be bare-metal hypervisor or hosted hypervisor. A bare-metal is where the hypervisor is the OS itself, often requires certified hardware. Hosted hypervisor is VirtualBox.
 
@@ -322,42 +322,42 @@ An hypervisor permits to overbook physical resources to allocate more resources 
 
 It create also a virtual switch to distribute the networking over all VMs. 
 
-## Cloud
+# Cloud
 ![Infrastructure](https://www.vroege.biz/wp-content/uploads/051016_1337_ComparingAz1.png)
 
 The cloud is someone else's computer that you can use to execute your application with more realiable feature than your laptop. A cloud is a collection of network-accessible IT resources. 
 
-#### Rapid Elasticity
+### Rapid Elasticity
 Consumers can adapt to variation in workloads and mantain required performance levels. This permits also to reduce costs avoiding the overprovisining.
 
-#### High Avaialability
+### High Avaialability
 The cloud provide high avaialabity. This feature can be achived with redundancy of resources to avoid system failure. Some Load Balancer is used to balance the request between all the resources to avoid failure due the resources saturation on some machine.
 
 The cloud infrastrucure can be public, if is provisioned for open use by the general public, or private, if is provisioned for exclusive use by a single organization comprising multiple consumers.
 
-#### Cloud computering Layer
+### Cloud computering Layer
 The cloud infrastrucure can be see as a layered infrastructure. 
 
-###### Phyisical Layer
+##### Phyisical Layer
 Executes requests generated by virtualization and control layer. Specifies entities that operate at this layer (devices, systems, protocols...)
 
-###### Virtual Layer
+##### Virtual Layer
 Deployed on the physical layer. Abstract physical resources and makes them appear as virtual resources. Executes the requests generated by control layer.
 
-###### Control Layer
+##### Control Layer
 Enables resource configutarion and resource pool configuration. Enable resource provisioning. Execute requests generated by service layer.
 
-###### Service orchestration Layer
+##### Service orchestration Layer
 Provides workflow for executing automated tasks
 
-###### Security
+##### Security
 Firewall, Antivirus, Standard procedures to direct safe execution of operations...
 
-#### Vendor Lock-in
+### Vendor Lock-in
 The cloud introduces some problems, one of them is the vendor lock-in. It appers when I write a software that uses a vendor API that not respects any standard. If I would like to change cloud I use, I need to modify the code (good luck!).
 
-## Orchestration
-## Fog Computing
+# Orchestration
+# Fog Computing
 The fog computing is an architecture that uses one or more collaborative end-user clients or near-user edge devices to carry out a substantial amount of storage (rather than stored primarily in cloud data centers), communication (rather than routed over the internet backbone), control, configuration, measurement and management (rather than controlled primarily by network gateways such as those in the LTE core network).
 
 # References
