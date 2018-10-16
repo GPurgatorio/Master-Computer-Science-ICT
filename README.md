@@ -175,9 +175,6 @@ The main concept are the following:
  - It is programmatically configured and is managed by a software-based SDN controller
  - It is Open Standard-based and Vendor-neutral
 
-#### SDS: Software Defined Storage
-Software-defined Storage is a term fro computer data storage software for policy-based provisioning and management of data storage independent of the underlying hardware. This type of software includes a storage virtualization to separate storage hardware from the software that manages it.
-
 #### Software-defined data center
 Software-defined data center is a sort of upgrade of the previous term and indicate a series of virtualization concepts such as abstraction, pooling and automation to all data center resources and services to achieve IT as a service.
 
@@ -321,7 +318,14 @@ The main features that are provided by a storage system are the following:
 
 ## HCI - Hyperconvergent Systems
 
-TODO: tomorrow
+- Nutanix: is the current leader of this technoogy
+- Ceph: is a different architecture/approach
+- vSAN
+- SSD - Storage Spaces Direct
+
+
+## SDS - Software Defined Storage
+Software-defined Storage is a term fro computer data storage software for policy-based provisioning and management of data storage independent of the underlying hardware. This type of software includes a storage virtualization to separate storage hardware from the software that manages it.
 
 ## Non-RAID drive architectures
 Also other architectures exist and are used when RAID is too expensive or not required.
@@ -358,10 +362,33 @@ An hypervisor permits to overbook physical resources to allocate more resources 
 
 It create also a virtual switch to distribute the networking over all VMs. 
 
+# Servers
+
+## Form-factors
+
+- 1U (Pizza box)
+- 2U
+- Twin square (24 drives on the front)
+- Blade server
+- Intel Ruler (up to 1 petabyte)4
+
+Differs from desktop systems. 
+- CPU architecture with a new generation memory called [NUMA](https://en.wikipedia.org/wiki/Non-uniform_memory_access).
+- [Hyper threading](https://en.wikipedia.org/wiki/Hyper-threading)
+- https://en.wikipedia.org/wiki/Intel_UltraPath_Interconnect
+- Intra socket connection 
+- Intel [AVX](https://en.wikipedia.org/wiki/Advanced_Vector_Extensions) CPU architecture
+- MCDRAM (multi channel RAM) with less latency
+
 # Cloud
+
+Is a business model. The cloud is someone else's computer that you can use (paying) to execute your application with more realiable feature than your laptop. A cloud is a collection of network-accessible IT resources. 
+
+When you program for the cloud you dont know where your process will be executed or where you data will be stored.
+
 ![Infrastructure](https://www.vroege.biz/wp-content/uploads/051016_1337_ComparingAz1.png)
 
-The cloud is someone else's computer that you can use to execute your application with more realiable feature than your laptop. A cloud is a collection of network-accessible IT resources. 
+
 
 ### Rapid Elasticity
 Consumers can adapt to variation in workloads and mantain required performance levels. This permits also to reduce costs avoiding the overprovisining.
@@ -396,6 +423,7 @@ The cloud introduces some problems, one of them is the vendor lock-in. It appers
 # Fog Computing
 The fog computing is an architecture that uses one or more collaborative end-user clients or near-user edge devices to carry out a substantial amount of storage (rather than stored primarily in cloud data centers), communication (rather than routed over the internet backbone), control, configuration, measurement and management (rather than controlled primarily by network gateways such as those in the LTE core network).
 
+
 # References
  - https://tools.ietf.org/html/rfc4391
  - https://en.wikipedia.org/wiki/Omni-Path
@@ -417,3 +445,4 @@ The fog computing is an architecture that uses one or more collaborative end-use
  - https://en.wikipedia.org/wiki/Network_function_virtualization
  -http://www.itc.unipi.it/index.php/2016/02/23/comparison-of-solid-state-drives-ssds-on-different-bus-interfaces/
 - http://www.itc.unipi.it/wp-content/uploads/2016/05/ITC-TR-02-16.pdf
+- https://www.nutanix.com/hyperconverged-infrastructure/
