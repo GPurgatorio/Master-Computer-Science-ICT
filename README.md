@@ -262,12 +262,45 @@ The simple one is that the disk are put inside each servers and are used as we u
 
 Input/output operations per second is an input/output performance measurement used to characterize computer storage devices.
 
+## Functional programming
 
-## Network Attached Storage (NAS)
-NAS is a file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients. NAS systems are networked appliances which contain one or more storage drives, often arranged into logical, redundant storage containers or RAID. They typically provide access to files using network file sharing protocols such as NFS, SMB/CIFS, or AFP.
+Has become so popular also because of its nature: its pure functions can easily computed in a parallel system.
+
+## Memory Hierarchy
+
+- CPU Registries
+- CPU Cache &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Caching
+- RAM
+- nvRAM  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Memory tiering
+- SS Memory
+- Hard drive
+- Tape &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Storage tiering
+
+As technology evolves, the harder is to maintain a model that lasts. Memory tiering a new term introduced now days with the Intel Sky Lake processors family (XEON). 
+
+nvRAM uses [nvDIMM](https://en.wikipedia.org/wiki/NVDIMM) to save energy, the data does not to be refreshed periodically to maintain data.
+
+In-memory database, like Redis.
+
+<p align="center">
+  <img src="./assets/3d-xpoint-performance.jpg" width="600">
+</p>
+
+Processes can share memory though the memory mapping technique
+
+### Storage aggregation
+
+The strategy for accessing drive makes the difference. 
+
+## Network Area Storage (NAS)
+NAS is a file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients. NAS systems are networked appliances which contain one or more storage drives, often arranged into logical, redundant storage containers or RAID. They typically provide access to files using network file sharing protocols such as NFS, SMB/CIFS, or AFP over a optical fiber.
+
+When using a network file systsem protocol, you are uing a NAS.
 
 ## Storage Area Network (SAN)
 While NAS provides both storage and a file system, SAN provides only block-based storage and leaves file system concerns on the "client" side. SAN protocols include Fibre Channel, iSCSI, ATA over Ethernet (AoE) and HyperSCSI.
+
+If the drive is seen as atteched phisically attached to the machine, and a block transmission protocol you are using a SAN. The optical fiber has become the bottleneck.
 
 ### Benefits
 The main features that are provided by a storage system are the following:
@@ -283,9 +316,12 @@ The main features that are provided by a storage system are the following:
  - RAID
  - Tiering
  	- Tiering is a technology to assign a category to data to choose various type of storage media to recude total storage cost. Tiered storage policies place the most frequently accessed data on the highest performing storage. Rarely accessed data goes on low-performance, cheaper storage.
- 	![Tiering](https://tse3.mm.bing.net/th?id=OIP.YK0eZhfsCyTmJgM1Rr2nUAEsB0&pid=15.1)
  - NAS Protocols
  - Snapshot
+
+## HCI - Hyperconvergent Systems
+
+TODO: tomorrow
 
 ## Non-RAID drive architectures
 Also other architectures exist and are used when RAID is too expensive or not required.
@@ -379,3 +415,5 @@ The fog computing is an architecture that uses one or more collaborative end-use
  - https://en.wikipedia.org/wiki/Power_usage_effectiveness
  - https://howdoesinternetwork.com/2015/what-is-a-non-blocking-switch
  - https://en.wikipedia.org/wiki/Network_function_virtualization
+ -http://www.itc.unipi.it/index.php/2016/02/23/comparison-of-solid-state-drives-ssds-on-different-bus-interfaces/
+- http://www.itc.unipi.it/wp-content/uploads/2016/05/ITC-TR-02-16.pdf
