@@ -386,7 +386,7 @@ Is a business model. The cloud is someone else's computer that you can use (payi
 
 When you program for the cloud you dont know where your process will be executed or where you data will be stored.
 
-![Infrastructure](https://www.vroege.biz/wp-content/uploads/051016_1337_ComparingAz1.png)
+![Infrastructure](./assets/cloud-services.png)
 
 
 
@@ -420,6 +420,11 @@ Firewall, Antivirus, Standard procedures to direct safe execution of operations.
 The cloud introduces some problems, one of them is the vendor lock-in. It appers when I write a software that uses a vendor API that not respects any standard. If I would like to change cloud I use, I need to modify the code (good luck!).
 
 # Orchestration
+
+2 types of orchestration:
+- low level: eg. installation of a new VM
+- high level: eg. configuration of the new VM. At the end of this process the VM will be up and running
+
 # Fog Computing
 The fog computing is an architecture that uses one or more collaborative end-user clients or near-user edge devices to carry out a substantial amount of storage (rather than stored primarily in cloud data centers), communication (rather than routed over the internet backbone), control, configuration, measurement and management (rather than controlled primarily by network gateways such as those in the LTE core network).
 
