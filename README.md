@@ -9,39 +9,34 @@ ICT Infrastructures - University of Pisa (Italy)
 
 - [Introduction](#introduction)
 - [Cloud Computing Reference Model](#cloud-computing-reference-model)
-  * [Virtual Layer](#virtual-layer)
-  * [Control Layer](#control-layer)
-  * [Service Layer](#service-layer)
-  * [Service Managment](#service-managment)
-  * [Business Continuity](#business-continuity)
-- [Datacenters](#datacenters)
+- [Data centers](#data-centers)
 - [Design and Architectures](#design-and-architectures)
-- [Cooling](#cooling)
+  * [Cooling](#cooling)
     + [CRAC: Computer Room Air Conditioner](#crac-computer-room-air-conditioner)
-    + [Hot aisle datacenter](#hot-aisle-datacenter)
+    + [Hot aisle](#hot-aisle)
     + [In-Row cooling](#in-row-cooling)
-  * [Liquid cooling](#liquid-cooling)
+    + [Liquid cooling](#liquid-cooling)
 - [Current](#current)
   * [Power Distribution](#power-distribution)
   * [PUE: Power Usage Effectiveness](#pue-power-usage-effectiveness)
 - [Fabric](#fabric)
-    + [Ethernet](#ethernet)
-    + [Infiniband](#infiniband)
-    + [Omni-Path](#omni-path)
-      - [RDMA: Remote Direct Memory Access](#rdma-remote-direct-memory-access)
-  * [Some consideration about numbers](#some-consideration-about-numbers)
-    + [Real use case](#real-use-case)
-  * [Connectors & plugs](#connectors--plugs)
-  * [Software Defined *** and Open Newtwork](#software-defined--and-open-newtwork)
-    + [Open Flow](#open-flow)
-    + [SDN: Software Defined Networking](#sdn-software-defined-networking)
-    + [Software-defined data center](#software-defined-data-center)
-  * [Hyperconvergence](#hyperconvergence)
+  - [Ethernet](#ethernet)
+  - [Infiniband](#infiniband)
+  - [Omni-Path](#omni-path)
+  - [RDMA: Remote Direct Memory Access](#rdma-remote-direct-memory-access)
+  - [Some consideration about numbers](#some-consideration-about-numbers)
+  - [Real use case](#real-use-case)
+  - [Connectors & plugs](#connectors--plugs)
+  - [Software Defined *** and Open Newtwork](#software-defined--and-open-newtwork)
+    * [Open Flow](#open-flow)
+    * [SDN: Software Defined Networking](#sdn-software-defined-networking)
+  * [Software-defined data center](#software-defined-data-center)
+    * [Hyper-convergence](#hyper-convergence)
 - [Network topologies](#network-topologies)
-    + [Spanning Tree Protocol (STP)](#spanning-tree-protocol-stp)
-    + [Three-tier design](#three-tier-design)
-    + [Network Chassis](#network-chassis)
-    + [Stacking](#stacking)
+  * [Spanning Tree Protocol (STP)](#spanning-tree-protocol-stp)
+  * [Three-tier design](#three-tier-design)
+  * [Network Chassis](#network-chassis)
+  * [Stacking](#stacking)
     + [Spine and leaf Architecture](#spine-and-leaf-architecture)
     + [Full Fat Tree](#full-fat-tree)
   * [VLAN](#vlan)
@@ -71,19 +66,19 @@ ICT Infrastructures - University of Pisa (Italy)
   * [High Avaialability](#high-avaialability)
 - [Cloud computering Layer](#cloud-computering-layer)
     + [Phyisical Layer](#phyisical-layer)
-- [Virtual Layer](#virtual-layer-1)
+- [Virtual Layer](#virtual-layer)
     + [About the virtual memory:](#about-the-virtual-memory)
       - [Balooning](#balooning)
     + [Other considerations about the Virtual Layer](#other-considerations-about-the-virtual-layer)
       - [vMotion - Live Migration](#vmotion----live-migration)
     + [Docker](#docker)
-- [Control Layer](#control-layer-1)
+- [Control Layer](#control-layer)
   * [Service orchestration Layer](#service-orchestration-layer)
-- [Business Continuity](#business-continuity-1)
+- [Business Continuity](#business-continuity)
     + [Backups](#backups)
   * [Security](#security)
     + [Firwall](#firwall)
-  * [Service Managment](#service-managment-1)
+  * [Service Managment](#service-managment)
 - [GDPR General Data Protection Regulation](#gdpr-general-data-protection-regulation)
 - [Vendor Lock-in](#vendor-lock-in)
   * [Standardization-Portability](#standardization-portability)
@@ -110,76 +105,65 @@ ICT Infrastructures - University of Pisa (Italy)
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 # Introduction
-The world is changing and a lot of axiom are becoming false. Some example? In the bachelor course (and not, sigh), the teachers say: "The main bottleneck is the disk", and so all the performance are evalueted with reference to disk usage, number of IOs operations and so on... This, nowadays, is false.  Just thing of [Intel Optane SSD](https://www.anandtech.com/show/11702/intel-introduces-new-ruler-ssd-for-servers) where the new SSD tecnologie based on 3D NAND permits to write and read more fast then previous SSD (the disk that we have installed on our system, sigh number 2), and so we have to redesign the system. There is also **nvRAM**, non volatile RAM : a module similar to the hard drive but really fast. Some distributed file system, written in '90s, are crashing due the axiom that the disks are slower than CPU and so you have enough time to do all the computation needed. False! 
+The world is changing and a lot of axiom are becoming false. Some example? In the bachelor course (and not, sigh), the teachers say: "The main bottleneck is the disk", and so all the performance are evalueted with reference to disk usage, number of IOs operations and so on... This, nowadays, is false.  Just think of [Intel Optane SSD](https://www.anandtech.com/show/11702/intel-introduces-new-ruler-ssd-for-servers) where the new SSD technology based on 3D NAND permits to write and read more fast then previous SSD (the disk that we have installed on our system, sigh number 2), and so we have to redesign the system. There is also nvRAM, non volatile RAM: a module similar to the hard drive but really fast. Some distributed file system, written in '90s, are crashing due the axiom that the disks are slower than CPU and so you have enough time to do all the computation needed. False! 
 
-Another example is in application and server distribution. In the past many application was managed on each server with a shared storage, nowadays we have deploy a large application on a clusters of server with local storage, so new system to develop and manage distributed computing application is needed (Hadoop, cassandra (distributed DB), Spark (Computation)...).
+Another example is in application and server distribution. In the past many application was managed on each server with a shared storage, nowadays we have deploy a large application on a clusters of server with local storage, so new system to develop and manage distributed computing application is needed (Hadoop, Cassandra, Spark...).
 
 The world is evolving faster than I can write this notes, so maybe some things written here are already obsolete, so we can not waste any more time on introduction to avoid to need to rewrite the introduction. 
 
 Let's start to see how a datacenter is build to support new requests. 
 
 # Cloud Computing Reference Model
-Just a brief overview on the reference model of cloud computing.
-
+Just a brief overview on the reference model of cloud computing:
 
 <p align="center">
-  <img width="600" src="./assets/referenceModel.png">
+  <img width="800" src="./assets/referenceModel.png">
 </p>
 
-### Virtual Layer
-The physical server is partitioned in many virtual ones to use the hardware better.  
-**High Parformance Computing** bypasses the virtual layer for performance reasons.
-
-### Control Layer
-Dynamic allocation rather than static.
-
-### Service Layer
-Kind of self service. Use the resource you need without knowing where they are allocated.
-
-### Service Managment
-Upgrading the software or the firmware while the system is running.
-
-### Business Continuity
-**Backups** vs **Replicas**: doing a backup of 1 PB may be a problem.  
-**Fault Tolerance**: I should be able to power off a server without anyone noticing it.
+ - Virtual Layer: the physical server is partitioned in many virtual ones to use the hardware better.  The *High Performance Computing* model bypasses the virtual layer for performance reasons.
+ - Control Layer: dynamic allocation rather than static.
+ - Service Layer: kind of self service. Use the resource you need without knowing where they are allocated.
+ - Service Managment: upgrading the software or the firmware while the system is running.
+ - Business Continuity: 
+  *Backups* vs *Replicas*: doing a backup of 1 PB may be a problem.  
+  *Fault Tolerance*: I should be able to power off a server without anyone noticing it.
 
 
-# Datacenters
+# Data centers
 
 A data center is a facility used to house computer systems and associated components, such as telecommunications and storage systems. It generally includes redundant or backup components and infrastructure for power supply, data communications connections, environmental controls (e.g. air conditioning, fire suppression) and various security devices. A large data center is an industrial-scale operation using as much electricity as a small town.
 
 On average there are only 6 person managing 1 million servers.
-Prefabricated group of racks, already cabled and cooled, are automatically inserted in the datacenter (POD Point Of Delivery). If something is not working in the prefabricated, the specific server is shutted down. If more than the 70% is not working the POD producer will simply change the entire unity.
+Prefabricated group of racks, already cabled and cooled, are automatically inserted in the datacenter (POD - Point Of Delivery). If something is not working in the prefabricated, the specific server is shutted down. If more than the 70% is not working the POD producer will simply change the entire unity.
 
 The datacenter is a place where we concentrate IT system in order to reduce costs. Servers are demanding in terms of current, cooling and security. 
 
-
 ## Design and Architectures
 
-## Cooling
+### Cooling
 
 Today cooling is air based. Just the beginning for liquid cooling.  
-The air pushed throught the server gets a 10/15 degrees temperature augment.
+The air pushed though the server gets a 10/15 degrees temperature augment.
+
 #### CRAC: Computer Room Air Conditioner
 
-Popular in the '90 (3-5KW/rack), but not very efficient in terms of energy consumption.  
-There is a **floating floor**, all the cabling and the cooling is done under the floor. The air goes up because of termal convection.
+Popular in the '90 (3-5KW/rack), but not very efficient in terms of energy consumption. 
+There is a *floating floor*, under which all the cabling and the cooling is performed. The air goes up because of thermal convection where it gets caught, cooled and re-introduced.
 
+Drawbacks are density (if we want to go dense this approach fails) and the absence of locality. No one is using this technique today.
 
 <p align="center">
   <img width="600" src="./assets/crac.png">
 </p>
 
-Drawbacks are density (if we want to go dense this approach fails) and the absence of locality.
-Noone is doing this today.
+#### Hot aisle
 
-#### Hot aisle datacenter
+The building block of this architecture are hot and cold corridors, that optimize efficiency.
+The *workload balancing* may be a problem: there can be the situation where a rack is hotter than the other depending on the workload, thus is difficult to module the amount of hot and cold air. In CRAC model the solution is pumping enough for the higher consumer. 
 
 <p align="center">
   <img width="600" src="./assets/crac1.png">
 </p>
-Hot and cold corridors. 
-The **workload balacing** may be a problem: there can be the situation where a rack is hotter than the other depending on the workload. Difficult to module the ammount of hot and cold air. In CRAC model the solution is pumping for the higher consumer, 
 
 #### In-Row cooling
 
@@ -193,32 +177,37 @@ These units may be a supplement to raised-floor cooling (creating a plenum to di
   <img width="600" src="./assets/in-row-cooling.jpg">
 </p>
 
-The in-row cooling unit draws warm exhaust air directly from the hot aisle, cools it and distributes it to the cold aisle. This ensures that inlet temperatures are steady for precise operation. Coupling the air conditioning with the heat source produces an efficient direct return air path; this is called “close coupled cooling,” which also lowers the fan energy required. In-row cooling also prevents the mixing of hot and cold air, thus increasing efficiency.
+The in-row cooling unit draws warm exhaust air directly from the hot aisle, cools it and distributes it to the cold aisle. This ensures that inlet temperatures are steady for precise operation. Coupling the air conditioning with the heat source produces an efficient direct return air path; this is called *close coupled cooling*, which also lowers the fan energy required. In-row cooling also prevents the mixing of hot and cold air, thus increasing efficiency.
 
-It's possible to give more cooling to a single rack, moduling the air needed. In front of the rack thare are temperature and humidity sensors (humidity should be avoided because can conduct electricity).
+It's possible to give more cooling to a single rack, modulating the air needed. In front of the rack there are temperature and humidity sensors (humidity should be avoided because can conduct electricity).
 There are systems collecting data from the sensors and adjusting the fans. The racks are covered to separate cool air and hot air. It's also possible to optimize the datacenter cooling according to the temperature changes of the region where the datacenter is.
 
-Generally 2 racks (each 70 cm), 1 colling row (30 cm), 2 racks, 1 row ..
+Generally every 2 racks (each 70 cm) there should be a cooling row (30 cm).
 
-### Liquid cooling
-Having water in a DC is a risky business (even if there are different ways to handle a fire). Make the water flow ont thre CPUs lowers the temperature for ~40%. One way of chilling the water could be pushing it down to the ground. Water Distribution System, like the Power Distribution System.
+#### Liquid cooling
+
+Having water in a data center is a risky business (even if there are different ways to handle a fire). Make the water flow onto the CPUs lowers the temperature for ~40%. One way of chilling the water could be pushing it down to the ground. Water Distribution System, like the Power Distribution System.
 
 ## Current
-A 32 KW (consume of 10 appartments) datacenter is small.  
-**Direct Current Transformers** from AC to DC. Direct current is distributed inside the datacenter even if is more dangerous than Alternating current.
+A 32KW datacenter is small (also if it consumes the same amount of current of 10 apartments).  
+
+*Direct Current Transformers* from AC to DC. Direct current is distributed inside the datacenter even if is more dangerous than Alternating current.
 
 Watt = cos fi * V * A  
-**cos fi** gives the efficency of the power supply and generally it changes according to the ammount of current needed (idle vs under pressure).
+**cos fi** gives the efficiency of the power supply and generally it changes according to the amount of current needed (idle vs under pressure).
 
 For example an idle server with 2 CPUs (14 cores each) consumes 140 Watts.
 
 ### Power Distribution
-The Industrial current il 380 Volts, 3 phases.  
-The ammount of current allowed in a DC are the Ampere on the **PDU** (Power Distribution Unit)
+The Industrial current has 380 Volts in 3 phases. The amount of current allowed in a data center are the Ampere on the *PDU* (Power Distribution Unit).
 
-There are one or more lines (for reliability and fault tolerance reasond) coming from different generators to the datacenter (i.e. each line 80 KW , 200 A more or less. Can use it for 6 racks 32A/ rack. Maybe I will not use the whole 32 A so I can put more racks).  
-The lines are attached to an **UPS Uninterruptible Power Supply/Source**. It is a rack or half a rack with batteries (not enought to keep on the servers) that in some cases can power the DC for ~20 minutes. There are a **Control Panel** and a **Generator**. When the power lines fail the UPS is active between their failure and the starting of the generator.  The energy that arrives to the UPS should be divided among the servers and the switches.
-The UPS is attached to the **PDU** (Power Distribution Unit) which is linked to the **server PDU** with a pair of lines for redundancy. In the server there are the power plugs in a row that can monitored via a web server running on the rack PDU. Example of rack PDU: 2 banks, 12 plugs each, 16 A each bank, 15 KW per rack, 42 servers per rack.
+There are one or more lines (for reliability and fault tolerance reasons) coming from different generators to the datacenter (i.e. each line 80 KW , 200 A more or less. Can use it for 6 racks 32A / rack. Maybe I will not use the whole 32 A so I can put more racks).  
+
+The lines are attached to an *UPS Uninterruptible Power Supply/Source*. It is a rack or half a rack with batteries (not enough to keep-on the servers) that in some cases can power the DC for ~20 minutes. There are a *Control Panel* and a *Generator*. When the power lines fail the UPS is active between their failure and the starting of the generator.  The energy that arrives to the UPS should be divided among the servers and the switches.
+
+The UPS is attached to the *PDU* (Power Distribution Unit) which is linked to the *server PDU* with a pair of lines for redundancy. In the server there are the power plugs in a row that can monitored via a web server running on the rack PDU. 
+
+Example of rack PDU: 2 banks, 12 plugs each, 16 A each bank, 15 KW per rack, 42 servers per rack.
 
 ### PUE: Power Usage Effectiveness
 
@@ -226,7 +215,8 @@ PUE is a ratio that describes how efficiently a computer data center uses energy
 
 PUE is the ratio of total amount of energy used by a computer data center facility  to the energy delivered to computing equipment. PUE is the inverse of data center infrastructure efficiency (DCIE).
 
-As example, consider that the PUE of the university's datacenter during 2018 is less 1.2, while the average italian datacenter's PUE are around 2-2.5.
+As example, consider that the PUE of the university's datacenter during 2018 is less 1.2, while the average italian data center's PUE are around 2-2.5.
+
 If the PUE is equal to 2 means that for each Watt used for computing, 2 Watts are used for cooling.
 The ratio is Total Current divided by Compute Current.
 
@@ -235,54 +225,54 @@ The fabric is the interconnection between nodes inside a datacenter. We can thin
 
 We refer to North-South traffic indicating the traffic outgoing and incoming to the datacenter (internet), while we refer to East-West as the internal traffic between servers.
 
-#### Ethernet
-The connection can be performed with various technologies, the most famous is **Ethernet**, commonly used in Local Area Networks (LAN) and Wide Area Networks (WAN). Ethernet use twisted pair and fiber optic links. Ethernet as some famous features such as 48-bit MAC address and Ethernet frame format that influenced other networking protocols. 
+## Ethernet
+The connection can be performed with various technologies, the most famous is **Ethernet**, commonly used in Local Area Networks (LAN) and Wide Area Networks (WAN). Ethernet use twisted pair and optic fiber links. Ethernet as some famous features such as 48-bit MAC address and Ethernet frame format that influenced other networking protocols. 
 
 **MTU** (Maximum Transfer Unit) up to 9 KB with the so called **Jumbo Frames**.
 On top of ethernet there are TCP/IP protocols (this is a standard), they introduce about 70-100 micro sec of latency.
 
-#### Infiniband
-Even if Ethernet is so famous, there are other standard to communicate. **InfiniBand (IB)** is another standard used in high-performance computing (HPC) that features very high throughtput and very low latency (about 2 microseconds). InfiniBand is a protocol and a physical infrastructure and it can send up to 2GB massages with 16 priorities level.
+## Infiniband
+Even if Ethernet is so famous, there are other standard to communicate. **InfiniBand (IB)** is another standard used in high-performance computing (HPC) that features very high throughput and very low latency (about 2 microseconds). InfiniBand is a protocol and a physical infrastructure and it can send up to 2GB massages with 16 priorities level.
 The [RFC 4391](https://tools.ietf.org/html/rfc4391) specifies a method for encapsulating and transmitting IPv4/IPv6 and Address Resolution Protocol (ARP) packets over InfiniBand (IB).
 
-InfiniBand trasmits data in packets up to 4KB. A massage can be:
+InfiniBand transmits data in packets up to 4KB. A massage can be:
  - a direct memory access read from or write to a remote node (**RDMA**)
  - a channel send or receive
  - a transaction-based operation (that can be reversed)
- - a multicast trasmission
+ - a multicast transmission
  - an atomic operation
 
 Pros:
- - no retransmission
- - QoS, trafic preserved, reliable
+ - no retransmissions
+ - QoS, traffic preserved, reliable
 
-#### Omni-Path
-Moreover, another communication architecture that exist and is interested to see is Omni-Path. This architecture is owned by Intel and performs high-performance communication. Production of Omni-Path products started in 2015 and a mass delivery of these products started in the first quarted of 2016 (you can insert here some more stuff written on [Wikipedia](https://en.wikipedia.org/wiki/Omni-Path)). 
-The interest of this architecture is that Intel plans to develop technologiy based on that will serve as the on-ramp to exascale computing (a computing system capacle of the least one exaFLOPS). 
+## Omni-Path
+Moreover, another communication architecture that exist and is interested to see is Omni-Path. This architecture is owned by Intel and performs high-performance communication. Production of Omni-Path products started in 2015 and a mass delivery of these products started in the first quarter of 2016 (you can insert here some more stuff written on [Wikipedia](https://en.wikipedia.org/wiki/Omni-Path)). 
+The interest of this architecture is that Intel plans to develop technology based on that will serve as the on-ramp to exascale computing (a computing system capable of the least one exaFLOPS). 
 
-##### RDMA: Remote Direct Memory Access
-If you read wikipedia pages about IB and OmniPath you will find a acronym: RDMA. This acronym means Remote Direct Memory Access, a direct memory access (really!) from one computer into that of another without involving either one's OS, this permits high-throuhput, low-latency networking performing.
+## RDMA: Remote Direct Memory Access
+If you read wikipedia pages about IB and OmniPath you will find a acronym: RDMA. This acronym means Remote Direct Memory Access, a direct memory access (really!) from one computer into that of another without involving either one's OS, this permits high-throughput, low-latency networking performing.
 
 RDMA supports zero-copy networking by enabling the network adapter to transfer data directly to or from application memory, eliminating the need to copy data between application memory and the data buffers in the operating system. Such transfers require no work to be done by CPUs, caches, or context switches, and transfers continue in parallel with other system operations. When an application performs an RDMA Read or Write request, the application data is delivered directly to the network, reducing latency and enabling fast message transfer.
 
-### Some consideration about numbers
-Start think about real world. We have some server with 1 Gbps (not so high speed, just think that is the speed you can reach with your laptop attaching a cable that is in classroom in the univesity). We have to connects this servers to each other, using a switches (each of them has 48 ports). We have a lots of servers... The computation is done.
+## Some consideration about numbers
+Start think about real world. We have some server with 1 Gbps (not so high speed, just think that is the speed you can reach with your laptop attaching a cable that is in classroom in the university). We have to connect this servers to each other, using a switches (each of them has 48 ports). We have a lots of servers... The computation is done.
 
 <p align="center">
   <img width="600" src="./assets/speed-required.png">
 </p>
 
-#### Real use case
-As we see we need a lots of bandwith to manage a lots of service (you don't say?) and even if the north-south traffic (the traffic that goes outsite from our datacenter) can be relatively small (the university connection exits on the world with 40 Gbps), the east-west traffic (the traffic inside the datacenter) can reach a very huge number of Gbps. [Aruba datacenter](https://www.arubacloud.com/infrastructures/italy-dc-it1.aspx) (called IT1) with another Aruba datacenter (IT2) reach a bandwidth of 82 Gbps of Internet connection.
+## Real use case
+As we see we need a lots of bandwidth to manage a lots of service (you don't say?) and even if the north-south traffic (the traffic that goes outside from our datacenter) can be relatively small (the university connection exits on the world with 40 Gbps), the east-west traffic (the traffic inside the datacenter) can reach a very huge number of Gbps. [Aruba datacenter](https://www.arubacloud.com/infrastructures/italy-dc-it1.aspx) (called IT1) with another Aruba datacenter (IT2) reach a bandwidth of 82 Gbps of Internet connection.
 
 Yesterday I went to master degree thesis discussion of my friend. He is a physicist and his experiment requires 2.2Tbps of bandwidth to store produced data, so public cloud is impossible to use. How can manage 2.2 Tbps? Maybe we can reply to this answer (hopefully, otherwise the exam is failed :/ ).
 
-### Connectors & plugs
-Now we try to analyse the problem from the connector point of view. The fastest wire technology avaiable is the optic fiber. It can be divided into two categories: monomodal (1250 nm) or multimodal (850 nm). The monomodal fiber is more expensive but has better properties, the multimodal one is acceptable for a datacenter. They also have different transceiver. There are two kind of connectors LC, ok for datacenters, and SC, usually used in metropolitan areas because it has a better signal propagation (there can be a cable with a LC in one side and a SC on the other side).  
+## Connectors & plugs
+Now we try to analyse the problem from the connector point of view. The fastest wire technology available is the optic fiber. It can be divided into two categories: monomodal (1250 nm) or multimodal (850 nm). The monomodal fiber is more expensive but has better properties, the multimodal one is acceptable for a datacenter. They also have different transceiver. There are two kind of connectors LC, ok for datacenters, and SC, usually used in metropolitan areas because it has a better signal propagation (there can be a cable with a LC in one side and a SC on the other side).  
 
  Of course, a wire is a wire, and we need something to connect it to somewhere. One of them is the Small form-factor pluggable transceiver (SFP), a compact, hot-pluggable optical module transceiver. The upgrade of this connector is the SFP+ that supports data rates up to 16 Gbps. It supports 10 Gigabit ethernet and can be combined with some other SFP+ with QSFP to reach 4x10Gbps. If combined with QSFP28 we can reach 100 Gbps on the ethernet that is the upper limit nowadays for the data rate.
 
-From letf to right: RJ45 plug, SFP+ and QSFP+ **transceiver module**, LC connector. 
+From left to right: RJ45 plug, SFP+ and QSFP+ **transceiver module**, LC connector. 
 <p float="left">
   <img width="100" src="./assets/rj45.jpeg">
   <img width="150" src="./assets/sfpplus.jpg">
@@ -297,7 +287,7 @@ Cables have categories:
 - cat5  
 - cat6  
 
-2.5/5 Gbps are new standards working on cat5 and cat6 cables respectively, in order to deliver more bandwidth to the wifi access point.  
+2.5/5 Gbps are new standards working on cat5 and cat6 cables respectively, in order to deliver more bandwidth to the WiFi access point.  
 16 Gbps uses **SFP+** plug (SFP28, where 28 is number of pins).  
 40 Gbps (4 lines 10 Gbps each) uses **QSFP+** (QSFP28).
 
@@ -308,18 +298,18 @@ Nowadays we have:
 
 The **Transceiver module** can serve copper or optical fiber; it has a chip inside and is not cheap.
 
-### Software Defined *** and Open Newtwork
+## Software Defined *** and Open Newtwork
 
 The Software Defined something, where something is Networking (**SDN**) or Storage (**SDS**), is a novel approach to cloud computing. 
 
-#### Open Flow
+### Open Flow
 
 [OpenFlow](https://en.wikipedia.org/wiki/OpenFlow) is a communications protocol that gives access to the forwarding plane of a network switch or router over the network.
 The switch, once approved the initial connection with a firewall, redirect the allowed traffic to anther port, bypassing the firewall since it is not able to handle the entire data flow bandwidth ([Open daylight](https://www.opendaylight.org/)).
 
-- copy/redirect/ close the flow to optimize and control the behaviour of the network.
+- copy/redirect/ close the flow to optimize and control the behavior of the network.
 
-#### SDN: Software Defined Networking
+### SDN: Software Defined Networking
 SDN is an architecture purposing to be dynamic, manageable, cost-effective and some more nice attribute readable [here](https://en.wikipedia.org/wiki/Software-defined_networking#Concept). This type of software create a virtual network to manage the network with more simplicity.
 
 The main concept are the following:
@@ -329,31 +319,31 @@ The main concept are the following:
  - It is Open Standard-based and Vendor-neutral
 
 Thee is a **flow table** in the switches that remembers the connection. The routing policies are adopted according to this table.  
-Deep pkt instection made by a level 7 firewall. The firewalll validates the flow and if it's aware that the flow needs bandwidth, the firewall allows it to bypass the redirection (of the firewall).
+Deep pkt inspection made by a level 7 firewall. The firewall validates the flow and if it's aware that the flow needs bandwidth, the firewall allows it to bypass the redirection (of the firewall).
 
-#### Software-defined data center
+### Software-defined data center
 Software-defined data center is a sort of upgrade of the previous term and indicate a series of virtualization concepts such as abstraction, pooling and automation to all data center resources and services to achieve IT as a service.
 
-### Hyperconvergence
+### Hyper-convergence
 So we virtualize the networking, the storage, the data center... and the cloud! Some tools, as [Nutanix](https://www.nutanix.com/hyperconverged-infrastructure/) build the [hyperconverged infrastructure HCI](https://en.wikipedia.org/wiki/Hyper-converged_infrastructure) technology.
 
 ## Network topologies
 
-A way of cabling allowing multiple computers to comunicate. It's not necessary a graph, but for the reliability purpose it often realized as a set of connected  nodes. At least 10% of nodes should be connected in order to guarantee a sufficient reliability ([Small World Theory](https://en.wikipedia.org/wiki/Small-world_network)).
+A way of cabling allowing multiple computers to communicate. It's not necessary a graph,but for the reliability purpose it often realized as a set of connected  nodes. At least 10% of nodes should be connected in order to guarantee a sufficient reliability ([Small World Theory](https://en.wikipedia.org/wiki/Small-world_network)).
 
  At layer 2 there is no routing table, even if there are some cache mechanism. The topology is more like a tree than a graph because some edges can be cutted preserving reachability and lowering the costs.
 
-#### Spanning Tree Protocol (STP) 
+### Spanning Tree Protocol (STP) 
 
 The spanning Tree Protocol is a network protocol that builds a logical loop-free topology for Ethernet networks. The spanning tree is built using some Bridge Protocol Data Units (BPDUs) frames. In 2001 the IEEE introduced Rapid Spanning Tree Protocol (RSTP) that provides significantly faster spanning tree convergence after a topology change.
 
 Now days this protocol is used only in campus and not in datacenters, due to its hight latency of convergence (up to 10-15 seconds to activate a backup line).
 
-#### Three-tier design
+### Three-tier design
 
 This architecture is simple architecture where each component has a redundant unit to replace it in case of failure.
 
-#### Network Chassis
+### Network Chassis
 The Network Chassis is a sort of big  modular and resilient switch. At the bottom it has a pair of power plugs and then it's made of modular **line cards** (with some kind of ports) and a pair of **RPM** Routing Processing Modules to ensure that the line cards work. The chassis can be over provisioned to resist to aging but it has a limit.  
 Pros
 - resilient
@@ -361,23 +351,23 @@ Pros
 - expandible  
 
 Cons
-- exepensive
+- expensive
 - not entirely future proof (today some switches may need up to 1KW power supply, while years ago they needed only 200 W)
 - aging problem
 
 The chassis is connected with the rack's **tor** and **bor** (top/bottom of rack) switches via a double link. 
 
- #### Stacking
- Indipendent switches stacked with dedicated links. It's cheaper than the chassis but there is less redundancy.
+### Stacking
+Independent switches stacked with dedicated links. It's cheaper than the chassis but there is less redundancy.
 
 #### Spine and leaf Architecture
 
 <p align="center">
-  <img width="600" src="./assets/spine-leaf-vs-3-tier.png">
+  <img width="800" src="./assets/spine-leaf-vs-3-tier.png">
 </p>
 
-With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are diveded into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric. 
-In that topoligy the **Link Aggregation Control Protocol (LACP) is used**. It provides a method to control the bundling of several physical ports together to form a single logical channel. The bandwidth is aggregated (i.e. 2*25 Gbps), but it's still capped to 25 Gbps because the traffic goes only from one way to the other each time. 
+With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are divided into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric. 
+In that topology the **Link Aggregation Control Protocol (LACP) is used**. It provides a method to control the bundling of several physical ports together to form a single logical channel. The bandwidth is aggregated (i.e. 2*25 Gbps), but it's still capped to 25 Gbps because the traffic goes only from one way to the other each time. 
 
 - fixed form factor (non modular switches)
 - active-active redundancy

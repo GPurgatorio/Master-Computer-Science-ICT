@@ -4,7 +4,7 @@
   "description": "Notes of ICT Infrastructures course - University of Pisa (Italy)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "toc": "markdown"
   },
   "repository": {
     "type": "git",
@@ -15,6 +15,7 @@
   ],
   "authors": [
     "Alessandro Pagiaro",
+    "Leonardo Frioli",
     "Giacomo De Liberali"
   ],
   "license": "MIT",
