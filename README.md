@@ -1004,7 +1004,46 @@ Every HCI node will have some SSD (at leat 2, 1 GB/sec writing) and some mechani
 
 Remember that bandwidth are not fully used because of some overhead..
 
+# About numbers
+## Current
+- Watt = cos fi * A * V
+- The Industrial current il 380 Volts, 3 phases
+- 32 KW (consume of 10 appartments) datacenter is a small one
+- 2 idle CPUs (14 cores each) consume 140 Watts 
+- lines coming from the generator to the UPS: 80 KW each, ~ 200 A; can be used for 6 racks each 32 A (I will not use the whole 32 A so I'll put more racks) 
+- rack PDU: 2 banks, 12 plugs each
+  - 16 A each bank
+  - 15 KW per rack
+  - 42 servers per rack (42 U) => ~ 350 W x server (2 CPUs 140 W look above)
 
+## Fabric
+- ethernet MTU 9 KB (jumbo frame)
+- TCP/IP introduce 70-100 micro sec of latency
+- Infiniband MTU 4 KB, latency 2 micro sec
+- servers with 1 Gbps connection (not so high) connected to 48 ports switch => switch uplink 48 Gbps.
+- 100 Gbps uppper bound nowadays for ethernet (using QSFP28, 4 * 25 Gbps)
+- other bandwidths
+  - 25 Gbps
+  - 50 Gbps (2* 25)
+  - 16 Gbps
+  - 40 Gbps (4 *10)  
+- STP can take up to 30-50 sec to converge
+- some switches up to 1 KWatt (years ago 200 W)
+- **spine and leaf**
+  - LACP links 2*25 Gbps
+  - 1/3 ports upwards, 2/3 downward
+  - 48 ports 10 Gbps downward
+    - plus 6 ports 40 Gbps each upward
+  - 48 ports 25 Gbps each downward
+    - 6 port 100 Gbps upward
+
+## Disk and Storage
+- PCI express bus 15 GB/s = 120 Gbps
+- 4 drives can saturate a full PCIe bus and also a 100 Gbps link
+- NVMe drives up to 11 GBps (to be verified)
+- Intel Ruler up to 1 PB capacity
+- SATA SSD 500 MB bandwidth
+- 4 fiber channel are enought with 15 GB/s
 
 # References
  - https://tools.ietf.org/html/rfc4391
