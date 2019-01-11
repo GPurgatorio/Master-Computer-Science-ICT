@@ -182,7 +182,7 @@ The in-row cooling unit draws warm exhaust air directly from the hot aisle, cool
 It's possible to give more cooling to a single rack, modulating the air needed. In front of the rack there are temperature and humidity sensors (humidity should be avoided because can conduct electricity).
 There are systems collecting data from the sensors and adjusting the fans. The racks are covered to separate cool air and hot air. It's also possible to optimize the datacenter cooling according to the temperature changes of the region where the datacenter is.
 
-Generally every 2 racks (each 70 cm) there should be a cooling row (30 cm).
+Usually every 2 racks (each 70 cm) there should be a cooling row (30 cm).
 
 #### Liquid cooling
 
@@ -194,8 +194,7 @@ A 32KW datacenter is small (also if it consumes the same amount of current of 10
 *Direct Current Transformers* from AC to DC. Direct current is distributed inside the datacenter even if is more dangerous than Alternating current.
 
 Watt = cos fi * V * A  
-**cos fi** gives the efficiency of the power supply and generally it changes according to the amount of current needed (idle vs under pressure).
-
+**cos fi** gives the efficiency of the power supply and generally it changes according to the amount of current needed (idle vs under pressure).  
 For example an idle server with 2 CPUs (14 cores each) consumes 140 Watts.
 
 ### Power Distribution
@@ -232,11 +231,11 @@ The connection can be performed with various technologies, the most famous is **
 On top of ethernet there are TCP/IP protocols (this is a standard), they introduce about 70-100 micro sec of latency.
 
 ## Infiniband
-Even if Ethernet is so famous, there are other standard to communicate. **InfiniBand (IB)** is another standard used in high-performance computing (HPC) that features very high throughput and very low latency (about 2 microseconds). InfiniBand is a protocol and a physical infrastructure and it can send up to 2GB massages with 16 priorities level.
+Even if Ethernet is so famous, there are other standard to communicate. **InfiniBand (IB)** is another standard used in high-performance computing (HPC) that features very high throughput and very low latency (about 2 microseconds). InfiniBand is a protocol and a physical infrastructure and it can send up to 2GB messages with 16 priorities level.
 The [RFC 4391](https://tools.ietf.org/html/rfc4391) specifies a method for encapsulating and transmitting IPv4/IPv6 and Address Resolution Protocol (ARP) packets over InfiniBand (IB).
 
 InfiniBand transmits data in packets up to 4KB. A massage can be:
- - a direct memory access read from or write to a remote node (**RDMA**)
+ - a remote direct memory access read from or write to a remote node (**RDMA**)
  - a channel send or receive
  - a transaction-based operation (that can be reversed)
  - a multicast transmission
@@ -273,8 +272,8 @@ Now we try to analyse the problem from the connector point of view. The fastest 
  - multimodal (850 nm)
  
  The monomodal fiber is more expensive but has better properties, the multimodal one is acceptable for a datacenter. They also have different transceiver. There are two kind of connectors:
-  - LC, ok for datacenters
-  - and SC, usually used in metropolitan areas because it has a better signal propagation
+  - LC: ok for datacenters
+  - and SC: usually used in metropolitan areas because it has a better signal propagation
   
   There can be a cable with a LC in one side and a SC on the other side.  
 
@@ -326,7 +325,7 @@ The main concept are the following:
  - It is programmatically configured and is managed by a software-based SDN controller
  - It is Open Standard-based and Vendor-neutral
 
-Thee is a **flow table** in the switches that remembers the connection. The routing policies are adopted according to this table.  
+There is a **flow table** in the switches that remembers the connection. The routing policies are adopted according to this table.  
 Deep pkt inspection made by a level 7 firewall. The firewall validates the flow and if it's aware that the flow needs bandwidth, the firewall allows it to bypass the redirection (of the firewall).
 
 ### Software-defined data center
@@ -345,7 +344,7 @@ A way of cabling allowing multiple computers to communicate. It's not necessary 
 
 The spanning Tree Protocol is a network protocol that builds a logical loop-free topology for Ethernet networks. The spanning tree is built using some Bridge Protocol Data Units (BPDUs) frames. In 2001 the IEEE introduced Rapid Spanning Tree Protocol (RSTP) that provides significantly faster spanning tree convergence after a topology change.
 
-Now days this protocol is used only in campus and not in datacenters, due to its hight latency of convergence (up to 10-15 seconds to activate a backup line).
+Nowadays this protocol is used only in campus and not in datacenters, due to its hight latency of convergence (up to 10-15 seconds to activate a backup line).
 
 ### Three-tier design
 
@@ -375,14 +374,14 @@ Independent switches stacked with dedicated links. It's cheaper than the chassis
 </p>
 
 With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are divided into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric. 
-In that topology the **Link Aggregation Control Protocol (LACP) is used**. It provides a method to control the bundling of several physical ports together to form a single logical channel. The bandwidth is aggregated (i.e. 2*25 Gbps), but it's still capped to 25 Gbps because the traffic goes only from one way to the other each time. 
+In that topology the **Link Aggregation Control Protocol (LACP) is used**. It provides a method to control the bundling of several physical ports together to form a single logical channel. The bandwidth is aggregated (i.e. 2*25 Gbps), but it's still capped to 25 Gbps because the traffic goes only from one way to the other each time (think this is not right, it shouldn't be capped). 
 
 - fixed form factor (non modular switches)
 - active-active redundancy
 - loop aware topology (no links disabled).
 - interconnect using standard cables (decide how many links use to interconnect spines with leaves and how many others link to racks).
 
-With this architecture it's possible to turn off one switch, upgrade it and rebbot it without compromising the network.
+With this architecture it's possible to turn off one switch, upgrade it and reboot it without compromising the network.
 
 A tipicall configuration of the ports and bandwidth of the leaves is:
 - one third going upwards and two thirds going downwards
@@ -402,7 +401,7 @@ The full fat tree resolves the problem of over-subscription. Adopting the spine 
 </p>
 
 ### VLAN
-Now, the problem is that every switch can be connected to each other and so there is no more LANs separation in the datacenter, every packet can go wherever it wants and some problems may appear. For this problem the VLAN is invented. It partition a broadcast domain and create a isolated computer network.
+Now, the problem is that every switch can be connected to each other and so there is no more LANs separation in the datacenter, every packet can go wherever it wants and some problems may appear. VLANs solve this problem. It partition a broadcast domain and create a isolated computer network.
 
 It works by applying _tags_ to network packets (in Ethernet frame) and handling these tags in the networking systems. 
 
@@ -421,7 +420,7 @@ Datacenter's switches are usually non-blocking. It basically means that this swi
 
 Now some standard are trying to impose a common structure to the network elements (switch included) to facilitate the creation of standard orchestration and automation tools.
 
-The internal is made of a **control plane** which is configurable and a **data plane** where there are the ports. The control plain evolved during the years, now they run an OS and Intel CPU's. Through a CLI Command Line Interface it's possible to configure the control plaun. Some exaples of command are:
+The internal is made of a **control plane** which is configurable and a **data plane** where there are the ports. The control plain evolved during the years, now they run an OS and Intel CPU's. Through a CLI Command Line Interface it's possible to configure the control plain. Some exaples of command are:
 - show running config
 - show interfaces status 
 - show vlan
@@ -442,11 +441,11 @@ Some protocols in the switch (bold ones are important):
 The switch has a firmware and two slots for the OS images. When updating in the first slot we store the old OS image, in the second slot the new one.
 
 **NFV** Network Functions Virtualization (5G mostly NFV based)  
-THe data plain is connected to a DC's VM which acts as a control plane.
+The data plain is connected to a DC's VM which acts as a control plane.
 
 # Disks and Storage
-After the fabric, another fondamental component of a datacenter is the storage. The storage can be provided with various tecnologies. 
-The simple one is that the disk are put inside each servers and are used as we use the disk on our laptop. Of course it is not useful fs we have a bunch of data to manage, and some networking solution can be better to use.
+After the fabric, another fundamental component of a datacenter is the storage. The storage can be provided with various tecnologies. 
+The simple one is that the disks are put inside each servers and are used as we use the disk on our laptop. Of course it is not useful if we have a bunch of data to manage, and some networking solution can be better to use.
 
 ## Interfaces
 
@@ -489,7 +488,7 @@ nvRAM uses [nvDIMM](https://en.wikipedia.org/wiki/NVDIMM) (non volatalie Dual In
 
 In-memory database, like Redis. If you loose power there are still mechanisms to avoid data loss.
 
-Processes can share memory though the memory mapping technique (the memory is seen as a file).
+Processes can share memory through the memory mapping technique (the memory is seen as a file).
 
 ### NVMe
 
@@ -538,7 +537,7 @@ The main features that are provided by a storage system are the following:
  - Network Interface (iSCSI, Fibre Channel...)
  - RAID
  - Tiering
- 	- Tiering is a technology to assign a category to data to choose various type of storage media to reduce total storage cost. Tiered storage policies place the most frequently accessed data on the highest performing storage. Rarely accessed data goes on low-performance, cheaper storage.
+ 	- Tiering is a technology that categorizes data to choose different type of storage media to reduce the total storage cost. Tiered storage policies place the most frequently accessed data on the highest performing storage. Rarely accessed data goes on low-performance, cheaper storage.
  - NAS Protocols
  - Snapshot
 
@@ -553,7 +552,7 @@ This kind of software is expensive (Nutanix HCI is fully software defined so you
 
 The main idea is not to design three different systems (compute, networking, storage) and then connect them, but it's better to have a bit of them in each server I deploy. "Adding servers adds capacity".
 
-The software works with the cooperations of different controller (VMs) in each node (server). The controller (VM) implements the storage abstraction throught the node and it implements also the logical mooving of data. Every write keeps a copy on the local server storage exploiting the PCI bus and avoiding the network cap; a copy of the data is given to the controller of another node. The read is performed locally gaining high performances. The VM is aware that there are two copies of the data so it can exploit this fact. Once a drive fails it's copy is used to  make another copy of the data.
+The software works with the cooperations of different controller (VMs) in each node (server). The controller (VM) implements the storage abstraction through the node and it implements also the logical mooving of data. Every write keeps a copy on the local server storage exploiting the PCI bus and avoiding the network cap; a copy of the data is given to the controller of another node. The read is performed locally gaining high performances. The VM is aware that there are two copies of the data so it can exploit this fact. Once a drive fails it's copy is used to  make another copy of the data.
 
 ## SDS - Software Defined Storage
 Software-defined Storage is a term for computer data storage software for policy-based provisioning and management of data storage independent of the underlying hardware. This type of software includes a storage virtualization to separate storage hardware from the software that manages it.  
@@ -579,7 +578,7 @@ The bottleneck in new drives is the connector. The SATA connector is too slow to
 
 The solution? Delete the connector and attach it to PCIe. So new Specification is used, the NVMe, an open logical device interface specification for accessing non-volatile storage media attached via a PCI Express bus.
 
-## Storage in the feature
+## Storage in the future
 
 ![Memory History](https://img.digitaltrends.com/image/3dxpointslide1-1000x559.jpg)
 
@@ -591,12 +590,12 @@ New technology was introduced in 2015, the 3D XPoint. This improvement takes ICT
 
 ![Disk latancy](https://images.anandtech.com/doci/9470/asd14.PNG)
 
-With the NVMe drives we can reach 11GBps, aka 88 Gbps. Since the software latency is circa 5 microseconds, TCP/IP software introduces also a latency, 70-80 microseconds, the disk is no more a problem.
+With the NVMe drives we can reach 11GBps, aka 88 Gbps. Since the software latency is 5 microseconds more or less, TCP/IP software introduces also a latency, 70-80 microseconds, the disk is no more a problem.
 
 ![RDMA how does it work](https://image.slidesharecdn.com/1mellanox-140331123657-phpapp02/95/infiniband-essentials-every-hpc-expert-must-know-10-638.jpg?cb=1396269459)
 
 # Hypervisors
-A hypervisor is a software, firmware or hardware that create and runs virtual machines. 
+A hypervisor is a software, firmware or hardware that creates and runs virtual machines. 
 It can be bare-metal hypervisor or hosted hypervisor. A bare-metal is where the hypervisor is the OS itself, often requires certified hardware. Hosted hypervisor is VirtualBox.
 
 An hypervisor permits to overbook physical resources to allocate more resources than exist.
@@ -657,15 +656,15 @@ Multi Channel DRAM: more bandwidth than DDR.
 
 Is a business model. The cloud is someone else's computer that you can use (paying) to execute your application with more realiable feature than your laptop (i.e. paying for doing tests on your app using the cloud infrastructure because you need more resources). A cloud is a collection of network-accessible IT resources.  
 When you program for the cloud you dont know where your process will be executed or where you data will be stored.
-- over provisioning the system
-- rent the over provisioned resources
-- reallocating resourcis, VMs
+- overprovisioning the system
+- rent the overprovisioned resources
+- reallocating resources, VMs
 
 **Private Cloud** set of IT resources that are local.
 
 There is a trade off between centralization ( the bottleneck is the storage) and distribution (the bottleneck is the network).
 
-**SLA** Service Leval Agreement: how much do I make users pay?
+**SLA** Service Level Agreement: how much do I make users pay?
 ![Infrastructure](./assets/cloud-services.png)
 
 
@@ -686,7 +685,7 @@ Executes requests generated by virtualization and control layer. Specifies entit
 ## Virtual Layer
 Deployed on the physical layer. Abstract physical resources and makes them appear as virtual resources. Executes the requests generated by control layer. It permits a better use of the hardware when you have services that underuse it.  With VMs there is a 10% of performance loss but we gain in flexibility, security ...
 
-This allows a **multi tenant environment** since I can run multile organizations VMs on the same server.
+This allows a **multi tenant environment** since I can run multiple organizations VMs on the same server.
 
 The **hypervisor** is responsible for running multiple VMs. Since I want to execute x86 ISA over an x86 server I don't need to translate the code. **KVM** kernel, preempting the VOS process.
 - **paravirtualization** the virtual kernel cooperates with the hosting OS.
@@ -695,7 +694,7 @@ The **hypervisor** is responsible for running multiple VMs. Since I want to exec
 
 Each VM has a **configuration file** where there are the values aswering the questions: how much memory, how much disk, where is the disk file, how many CPU's cores ...
 
-The disk is virtualized usign a file, while for the Network there are a VNIC (Network Interface Card) connected to a VSWITCH, comunicating with the physical NIC. The VNIC is used also by the real OS because it's physical NIC is busy doing the VSWITCH.  
+The disk is virtualized usign a file, while for the Network there is a VNIC (Network Interface Card) connected to a VSWITCH, comunicating with the physical NIC. The VNIC is used also by the real OS because it's physical NIC is busy doing the VSWITCH.  
 The Virtual Disk is a file of fixed size or dynamically expanding. The VOS can be shared among the VMs and stored elsewhere than in the vdisk file. Each write goes on the vdisk (can undo all the write ops), instead each read first look in the "file" where the VOS is, than in the vdisk file if the previous check wasn't successful.  
 
 The Virtual CPU masks the feature of a CPU to a VM. The VCPU can be overbooked, up to twice the number of cores. The CPU has several rings of protection (user ... nested vos,vos,os).
@@ -740,7 +739,7 @@ Network it's the first problem when I want to make a backup, beacuse the size of
 Sometimes it's simply impossible to make a backup.
 
 **incremental backup**
-Backup only the updated parts. High RTO cause I have to reconstruct all the files hierarchy going back througth the back ups. Some times snapshots are needed.
+Backup only the updated parts. High RTO cause I have to reconstruct all the files hierarchy going back througth the back ups. Sometimes snapshots are needed.
 
 **image level**  
 uses snapshots. It's agentless (agent == client), the agent can't crash since there isn't one.
@@ -780,7 +779,7 @@ In Windows you (the admin) can take the ownership, but you can't give it. Noone 
 **OpenID** authentication
 **RBAC** Roled Based Access Control
 
-**Kerberos** based on symmetric crypthography. The clietn first asks for a ticket to the Kerbero's KDC, then it can access the resource.
+**Kerberos** based on symmetric crypthography. The client first asks for a ticket to the Kerbero's KDC, then it can access the resource.
 
 **byometric security** : once it gets compromized can't be restored, because you can't change someone biometrical data.
 
@@ -803,7 +802,7 @@ Be aware of regulations and legal constraints that define how to run a system.
 Level of compliancy to the policy. Demonstrate compliancy. Is this system behaving according to the regulations?  
 Information processors (cloud providers) are responsible of the infos they process.
 
-**SLA** Service Level Agrrement: legal contract thet you sign as a customer to the provider defining what the user is paying for.  
+**SLA** Service Level Agrrement: legal contract that you sign as a customer to the provider defining what the user is paying for.  
 **service avaiability** = 1 - (downtime/ agreed service time)  
 The uptime is difficult to define and to test because the reachability of the cloud depend also from the service providers.
 
@@ -894,7 +893,7 @@ Some services run in multiple **zones**.
 
 
 ## Spine and Leaf
-Non modular, fixed switches are interconnected with some MLAG (Multi-chassis Link Aggregation). Loosely copuled form of aggregation: the two switches are independent and share some form of aggregation. LCP protocol allowing to bind multiple links to a single conceptual link (link aggregation, active-active).  
+Non modular, fixed switches are interconnected with some MLAG (Multi-chassis Link Aggregation). Loosely copuled form of aggregation: the two switches are independent and share some form of aggregation. LACP protocol allowing to bind multiple links to a single conceptual link (link aggregation, active-active).  
 **over-subscription** the links to the spine should be able to sustain the trafic coming from all the links below. This is not a problem for EW trafic between servers attached to the same switch (because the link to the spine is not affected).  
 Pros:
 - resilient
