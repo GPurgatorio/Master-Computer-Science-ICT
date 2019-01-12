@@ -1,6 +1,7 @@
 ICT Infrastructures - University of Pisa (Italy)
 
-*Since there is no material on ICT Infrastructures course, I'm trying to recap all lessons done in this page. The notes are written trying to remember the contents of the course (in accordance with the OneNote Notebook published on course page) and then expanding that contents with structured resources found online. If you find any error please, fork and submit a pull request!*
+*Since there is only little material on ICT Infrastructures course, this is a recap and summary of classes. The notes are a compilation of the course contents and focus on the topics in accordance with Prof. Antonio Cisternino's OneNote Notebook. 
+It is highly recommended to study with the EMC DELL slides provided under <<_Raccolta contenuto>> which will not be uploaded here for copyright reasons. Each heading correspond to a module. If you find any error please, fork and submit a pull request!*
 
 # Table of contents
 <!-- AUTO-GENERATED-CONTENT:START (TOC:collapse=true&collapseText=Click to expand) -->
@@ -105,31 +106,46 @@ ICT Infrastructures - University of Pisa (Italy)
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 # Introduction
-The world is changing and a lot of axiom are becoming false. Some example? In the bachelor course (and not, sigh), the teachers say: "The main bottleneck is the disk", and so all the performance are evalueted with reference to disk usage, number of IOs operations and so on... This, nowadays, is false.  Just think of [Intel Optane SSD](https://www.anandtech.com/show/11702/intel-introduces-new-ruler-ssd-for-servers) where the new SSD technology based on 3D NAND permits to write and read more fast then previous SSD (the disk that we have installed on our system, sigh number 2), and so we have to redesign the system. There is also nvRAM, non volatile RAM: a module similar to the hard drive but really fast. Some distributed file system, written in '90s, are crashing due the axiom that the disks are slower than CPU and so you have enough time to do all the computation needed. False! 
+The ICT world is changing (and will keep changing beyod the last time these notes were updated) and a lot of axioms about its infrastructures are becoming outdated. A couple of examples:
 
-Another example is in application and server distribution. In the past many application was managed on each server with a shared storage, nowadays we have deploy a large application on a clusters of server with local storage, so new system to develop and manage distributed computing application is needed (Hadoop, Cassandra, Spark...).
+- a few years ago it was known that the main bandwidth bottleneck is the disk, and so a system's whole performance was evalueted with reference to disk usage, number of IOs operations and so on... This, nowadays, is false.  Just think of [Intel Optane SSD](https://www.anandtech.com/show/11702/intel-introduces-new-ruler-ssd-for-servers) where the new SSD technology based on 3D NAND permits to write and read is faster than previous SSD, and so we have to redesign the entire system accordingly. Additionally, nvRAM (non-volatile RAM) are becoming more of an industry standard. nvRAM is a storage module similar to the hard drive but much faster. Hence, some distributed file systems, written in '90s, are becoming obsolete and conflicting with current trend or even crash due the axiom that the disks are slower than CPU and give enough time to do computation between the previously slower read/write operations! 
 
-The world is evolving faster than I can write this notes, so maybe some things written here are already obsolete, so we can not waste any more time on introduction to avoid to need to rewrite the introduction. 
+- In application and server distribution. In the past many applications were managed on each server with a shared storage. Nowadays we have deploy a large application on server clusters (i.e. a server node composed of multiple units working together as one) with local storage, so new system to develop and manage distributed computing application is needed (Hadoop, Cassandra, Spark...).
 
-Let's start to see how a datacenter is build to support new requests. 
 
-# Cloud Computing Reference Model
-Just a brief overview on the reference model of cloud computing:
+<!-- The world is evolving faster than this summary. It so maybe some things written here are already obsolete, so we can not waste any more time on introduction to avoid to need to rewrite the introduction.  -->
+
+
+# Cloud Computing Reference Model [Module 2](#)
+Since the course revolves around Cloud Computing architectures, it is important to keep the following reference model of the cloud stack in mind:
+<!-- Just a brief overview on the reference model of cloud computing:
+ -->
 
 <p align="center">
   <img width="800" src="./assets/referenceModel.png">
 </p>
-
- - Virtual Layer: the physical server is partitioned in many virtual ones to use the hardware better.  The *High Performance Computing* model bypasses the virtual layer for performance reasons.
- - Control Layer: dynamic allocation rather than static.
- - Service Layer: kind of self service. Use the resource you need without knowing where they are allocated.
- - Service Managment: upgrading the software or the firmware while the system is running.
- - Business Continuity: 
-  *Backups* vs *Replicas*: doing a backup of 1 PB may be a problem.  
+ 
+ 1. **Physical Layer [Module 3](#)**: Foundation layer of the cloud infrastructure.
+The physical infrastructure supporting the operation of the cloud
+ 2. **Virtual Layer [Module 4](#)**: Abstracts physical resources and makes them appear as virtual resources. e.g. a physical server is partitioned into many virtual ones to use the hardware better.  The *High Performance Computing* model bypasses the virtual layer for performance reasons.
+ 3. **Control Layer [Module 5](#)**: Dynamic Resource configuration and allocation.
+ 4. **Orchestration Layer [Module 6](#)**: workflows for task automation.
+ 5. **Service Layer [Module 6](#)**: self-service portal/interface and service catalog. Allows cloud users to obtain the resources they need without knowing where they are allocated.
+ 6. **Service Managment [Module 9](#)**: on operational and business level
+ 7. **Business Continuity [Module 7](#)**: Enables ensuring the availability of services in line with SLAs. 
+ e.g. *Backups* vs *Replicas*: doing a backup of 1 PB may be a problem.  
   *Fault Tolerance*: I should be able to power off a server without anyone noticing it.
+  *live migration*: upgrading the software or the firmware while the system is running.
+  8. **Security [Module 8](#)**: Governance, Risk and compliance. Also things like GDPR, phishing, antivirus, firewalls and DoS Attacks..
+
+
+
+
 
 
 # Data centers
+
+We start the course with datacenter design, see how it is built to support current and future design considerations, scalability, etc. 
 
 A data center is a facility used to house computer systems and associated components, such as telecommunications and storage systems. It generally includes redundant or backup components and infrastructure for power supply, data communications connections, environmental controls (e.g. air conditioning, fire suppression) and various security devices. A large data center is an industrial-scale operation using as much electricity as a small town.
 
@@ -156,9 +172,9 @@ Drawbacks are density (if we want to go dense this approach fails) and the absen
   <img width="600" src="./assets/crac.png">
 </p>
 
-#### Hot aisle
+#### Hot/Cold aisles
 
-The building block of this architecture are hot and cold corridors, that optimize efficiency.
+The building block of this architecture are hot and cold corridors, that optimize cooling efficiency.
 The *workload balancing* may be a problem: there can be the situation where a rack is hotter than the other depending on the workload, thus is difficult to module the amount of hot and cold air. In CRAC model the solution is pumping enough for the higher consumer. 
 
 <p align="center">
@@ -185,8 +201,8 @@ There are systems collecting data from the sensors and adjusting the fans. The r
 Usually every 2 racks (each 70 cm) there should be a cooling row (30 cm).
 
 #### Liquid cooling
-
 Having water in a data center is a risky business (even if there are different ways to handle a fire). Make the water flow onto the CPUs lowers the temperature for ~40%. One way of chilling the water could be pushing it down to the ground. Water Distribution System, like the Power Distribution System.
+
 
 ## Current
 A 32KW datacenter is small (also if it consumes the same amount of current of 10 apartments).  
@@ -444,7 +460,7 @@ The switch has a firmware and two slots for the OS images. When updating in the 
 The data plain is connected to a DC's VM which acts as a control plane.
 
 # Disks and Storage
-After the fabric, another fundamental component of a datacenter is the storage. The storage can be provided with various tecnologies. 
+After the fabric, another fundamental component of a datacenter is the storage. The storage can be provided with various technologies. 
 The simple one is that the disks are put inside each servers and are used as we use the disk on our laptop. Of course it is not useful if we have a bunch of data to manage, and some networking solution can be better to use.
 
 ## Interfaces
@@ -612,7 +628,7 @@ Racks are divided in Units: 1 U is the minimal size you can allocate on a rack. 
 
 - 1U Pizza box:  
 two sockets (CPU),  
-~10 drives disposed orizontally.  
+~10 drives disposed horizontally.  
 In the bottom part there are 2 power plugs, networking plugs for KVM (configuration console) and a **BMC** (Base Management Console) which is a stand alone OS talking with the motherboard used for remote monitoring, shut down ...  
 The drives are in the front (up) part, immediatly above them there are the fans and the disk controller. Tipically the max number of CPUs is four and they are closed to the memory modules.
 <p align="center">
@@ -1009,7 +1025,23 @@ Every HCI node will have some SSD (at leat 2, 1 GB/sec writing) and some mechani
 
 - **Consider SLA**: how much I gonna pay for the missed target/data? If it's a lot it's better to overprovision.
 
-Remember that bandwidth are not fully used because of some overhead..
+Remember that bandwidth are not fully used because of some overhead..(e.g. to connect two spine nodes together)
+
+@megantosh: my exam was a variation of the above questions:
+
+- Design a data center that should contain 40 Racks, consuming  15 kW each. Discuss all necessary considerations, e.g. Power Distribution, Cabling, Cooling.
+*drawing a scheme with the components like PDU etc. was appreciated. Discussing firefighting, cooling using natural resources (water from ocean etc.). Show that you can do the Math: 15000 Watt = 380 V * A * cos fi where cos fi is the heat dissemination happening from conversion of AC into DC current*
+
+-  1024 Servers need to be connected with any of the following switch options: 48x25Gbps East/West Traffic with 6 x 100 Gbps for North/South (and two other configs to choose from). Oversubcription level can be up to 1/6. Which network Topology would you choose? Discuss its pros and cons. 
+*I gave a couple but he was more interested to see one discussed in thorough detail. So not to recite theory but to be able to apply the knowledge from the section above. for 1024, 48x25, oversubscr 1/6. I went for spine/leaf model and he wanted to know how many switches  would be  required  in that  case (do not forget redudancy causes doubling + two links of the 6 will be gone for connecting the two spines together)*
+
+
+- How does live migration of a VM happen and would you prefer to do it over HCI or SAN?
+*as long as no detail is provided, you are allowed to make your own assumptions. - I said both should be effectively the same given that bandwidth would not be blocked and that we are using latest/fastest technology. Crucial part of the VM Migration was (apart from copying config files, moving virtual registers and  halting the old machine for a millisecond) is that copying the files happens  in the background. If a file is required to complete a process and it has still not been migrated, the new  VM goes and fetches it first from the old VM before it continues with copying any other file*
+
+
+- Discuss the role (functions) of the orchestration layer. Give an example workflow. where does it lie in the cloud stack?
+*check the slides for sure, they are very helpful! A process I gave  was provisioning an Alexa skill on AWS which requires building a Lambda function (an AWS service) and a Skill controller. I think he was happy to have a real-life example. Draw the workflow like a business process from the point of provisioning to the billing etc.*
 
 # About numbers
 ## Current
