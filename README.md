@@ -150,7 +150,7 @@ We start the course with datacenter design, see how it is built to support curre
 A data center is a facility used to house computer systems and associated components, such as telecommunications and storage systems. It generally includes redundant or backup components and infrastructure for power supply, data communications connections, environmental controls (e.g. air conditioning, fire suppression) and various security devices. A large data center is an industrial-scale operation using as much electricity as a small town.
 
 On average there are only 6 person managing 1 million servers.
-Prefabricated group of racks, already cabled and cooled, are automatically inserted in the datacenter (POD - Point Of Delivery). If something is not working in the prefabricated, the specific server is shutt down. If more than the 70% is not working the POD producer will simply change the entire unity.
+Prefabricated group of racks, already cabled and cooled, are automatically inserted in the datacenter (POD - Point Of Delivery). If something is not working in the prefabricated, the specific server is shut down. If more than the 70% is not working the POD producer will simply change the entire unity.
 
 The datacenter is a place where we concentrate IT system in order to reduce costs. Servers are demanding in terms of current, cooling and security. 
 
@@ -198,7 +198,7 @@ The in-row cooling unit draws warm exhaust air directly from the hot aisle, cool
 It's possible to give more cooling to a single rack, modulating the air needed. In front of the rack there are temperature and humidity sensors (humidity should be avoided because can conduct electricity).
 There are systems collecting data from the sensors and adjusting the fans. The racks are covered to separate cool air and hot air. It's also possible to optimize the datacenter cooling according to the temperature changes of the region where the datacenter is. It is also possible to apply "static analysis" to the datacenter location, in order to optimize resource consumption according to temperature changes. Programs are available in order to simulate airflows in datacenter in order to optimize the fans. 
 
-Usually every 2 racks (each 70 cm) there should be a cooling row (30 cm). 
+Usually every 2 racks (each 70 cm) there should be a cooling row (30 cm).
 
 #### Liquid cooling
 Having water in a data center is a risky business (even if there are different ways to handle a fire). Make the water flow onto the CPUs lowers the temperature for ~40%. One way of chilling the water could be pushing it down to the ground. Water Distribution System, like the Power Distribution System.
@@ -386,7 +386,7 @@ Cons
 The chassis is connected with the rack's **tor** and **bor** (top/bottom of rack) switches via a double link. 
 
 ### Stacking
-Independent switches stacked with dedicated links. It's cheaper than the chassis but there is less redundancy and it is not upgadible without connettivity.
+Independent switches stacked with dedicated links. It's cheaper than the chassis but there is less redundancy and it is not upgradable without connettivity.
 
 #### Spine and leaf Architecture
 
@@ -395,16 +395,16 @@ Independent switches stacked with dedicated links. It's cheaper than the chassis
 </p>
 
 With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are divided into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric. 
-In that topology the **Link Aggregation Control Protocol (LACP) is used**. It provides a method to control the bundling of several physical ports together to form a single logical channel. Every switch's first two ports are reserved to create a link with a twin switch (a loop is created, but the OS is aware of that and it avoids it). NExt ports are the ones used to create a link with leaf switches. The bandwidth is aggregated (i.e. 2*25 Gbps), but it's still capped to 25 Gbps because the traffic goes only from one way to the other each time (think this is not right, it shouldn't be capped). 
+In that topology the **Link Aggregation Control Protocol (LACP) is used**. It provides a method to control the bundling of several physical ports together to form a single logical channel. The first two ports of every switch are reserved to create a link with a twin switch (a loop is created, but the OS is aware of that and it avoids it). Next ports are the ones used to create links with leaf nodes. The bandwidth is aggregated (i.e. 2*25 Gbps), but it's still capped to 25 Gbps because the traffic goes only from one way to the other each time (think this is not right, it shouldn't be capped). 
 
 - fixed form factor (non modular switches)
 - active-active redundancy
 - loop aware topology (no links disabled).
 - interconnect using standard cables (decide how many links use to interconnect spines with leaves and how many others link to racks).
 
-With this architecture it's possible to turn off one switch, upgrade it and reboot it without compromising the network. I lose half the bandwidth in the process, but the twin switch keeps the connection alive.
+With this architecture it's possible to turn off one switch, upgrade it and reboot it without compromising the network. Half of the bandwidth is lost in the process, but the twin switch keeps the connection alive.
 
-A tipical configuration of the ports and bandwidth of the leaves is:
+A typical configuration of the ports and bandwidth of the leaves is:
 - one third going upwards and two thirds going downwards
 - 48 ports 10 Gbps each, 6 ports 40 Gbps each
 - or 48 ports 25 each, 6 ports 100 each
