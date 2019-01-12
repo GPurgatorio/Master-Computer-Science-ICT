@@ -271,10 +271,10 @@ The interest of this architecture is that Intel plans to develop technology base
 ## RDMA: Remote Direct Memory Access
 If you read wikipedia pages about IB and OmniPath you will find a acronym: RDMA. This acronym means Remote Direct Memory Access, a direct memory access (really!) from one computer into that of another without involving either one's OS, this permits high-throughput, low-latency networking performing.
 
-RDMA supports zero-copy networking by enabling the network adapter to transfer data directly to or from application memory, eliminating the need to copy data between application memory and the data buffers in the operating system. Such transfers require no work to be done by CPUs, caches, or context switches, and transfers continue in parallel with other system operations. When an application performs an RDMA Read or Write request, the application data is delivered directly to the network, reducing latency and enabling fast message transfer.
+RDMA supports zero-copy networking by enabling the network adapter to transfer data directly to or from application memory, eliminating the need to copy data between application memory and the data buffers in the operating system, and by bypassing TCP/IP. Such transfers require no work to be done by CPUs, caches, or context switches, and transfers continue in parallel with other system operations. When an application performs an RDMA Read or Write request, the application data is delivered directly to the network, reducing latency and enabling fast message transfer. The main use case is distributed storage (known as RoCE in Ethernet environment).
 
 ## Some consideration about numbers
-Start think about real world. We have some server with 1 Gbps (not so high speed, just think that is the speed you can reach with your laptop attaching a cable that is in classroom in the university). We have to connect this servers to each other, using a switches (each of them has 48 ports). We have a lots of servers... The computation is done.
+Start think about real world. We have some server with 1 Gbps (not so high speed, just think that is the speed you can reach with your laptop attaching a cable that is in classroom in the university). We have to connect this servers to each other, using switches (each of them has 48 ports). We have a lots of servers... The computation is done.
 
 <p align="center">
   <img width="600" src="./assets/speed-required.png">
@@ -324,7 +324,7 @@ Nowadays we have:
 
 The **Transceiver module** can serve copper or optical fiber; it has a chip inside and is not cheap.
 
-## Software Defined *** and Open Newtwork
+## Software Defined *** and Open Network
 
 The Software Defined something, where something is Networking (**SDN**) or Storage (**SDS**), is a novel approach to cloud computing. 
 
@@ -345,7 +345,8 @@ The main concept are the following:
  - It is Open Standard-based and Vendor-neutral
 
 There is a **flow table** in the switches that remembers the connection. The routing policies are adopted according to this table.  
-Deep pkt inspection made by a level 7 firewall. The firewall validates the flow and if it's aware that the flow needs bandwidth, the firewall allows it to bypass the redirection (of the firewall).
+Deep pkt inspection made by a level 7 firewall. The firewall validates the flow and if it's aware that the flow needs bandwidth, the firewall allows it to bypass the redirection (of the firewall). 
+The new wave of network switch strongly revolves around the concept of "programming" and "monitoring" the switch. Dell and also Onie (open source on github) provides a way to install any OS and use third party tools to monitor the switching. The switch
 
 ### Software-defined data center
 Software-defined data center is a sort of upgrade of the previous term and indicate a series of virtualization concepts such as abstraction, pooling and automation to all data center resources and services to achieve IT as a service.
@@ -357,11 +358,12 @@ So we virtualize the networking, the storage, the data center... and the cloud! 
 
 A way of cabling allowing multiple computers to communicate. It's not necessary a graph,but for the reliability purpose it often realized as a set of connected  nodes. At least 10% of nodes should be connected in order to guarantee a sufficient reliability ([Small World Theory](https://en.wikipedia.org/wiki/Small-world_network)).
 
- At layer 2 there is no routing table, even if there are some cache mechanism. The topology is more like a tree than a graph because some edges can be cutted preserving reachability and lowering the costs.
+ At layer 2 there is no routing table (*broadcast domain*), even if there are some cache mechanism. The topology is more like a tree than a graph because some edges can be cutted preserving reachability and lowering the costs.
 
 ### Spanning Tree Protocol (STP) 
 
-The spanning Tree Protocol is a network protocol that builds a logical loop-free topology for Ethernet networks. The spanning tree is built using some Bridge Protocol Data Units (BPDUs) frames. In 2001 the IEEE introduced Rapid Spanning Tree Protocol (RSTP) that provides significantly faster spanning tree convergence after a topology change.
+First of all it is necessary to understand the loop problem. A loop is a cycle of the links between various nodes which creates a "DDoS-like" situation by flooding the network. 
+The spanning Tree Protocol is a network protocol that builds a logical loop-free topology for Ethernet networks. It builds a spanning tree from the existing topology graph, and disabilitates the remaining links. The spanning tree is built using some Bridge Protocol Data Units (BPDUs) frames. In 2001 the IEEE introduced Rapid Spanning Tree Protocol (RSTP) that provides significantly faster spanning tree convergence after a topology change.
 
 Nowadays this protocol is used only in campus and not in datacenters, due to its hight latency of convergence (up to 10-15 seconds to activate a backup line).
 
@@ -384,7 +386,7 @@ Cons
 The chassis is connected with the rack's **tor** and **bor** (top/bottom of rack) switches via a double link. 
 
 ### Stacking
-Independent switches stacked with dedicated links. It's cheaper than the chassis but there is less redundancy.
+Independent switches stacked with dedicated links. It's cheaper than the chassis but there is less redundancy and it is not upgadible without connettivity.
 
 #### Spine and leaf Architecture
 
@@ -393,23 +395,29 @@ Independent switches stacked with dedicated links. It's cheaper than the chassis
 </p>
 
 With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are divided into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric. 
-In that topology the **Link Aggregation Control Protocol (LACP) is used**. It provides a method to control the bundling of several physical ports together to form a single logical channel. The bandwidth is aggregated (i.e. 2*25 Gbps), but it's still capped to 25 Gbps because the traffic goes only from one way to the other each time (think this is not right, it shouldn't be capped). 
+In that topology the **Link Aggregation Control Protocol (LACP) is used**. It provides a method to control the bundling of several physical ports together to form a single logical channel. Every switch's first two ports are reserved to create a link with a twin switch (a loop is created, but the OS is aware of that and it avoids it). NExt ports are the ones used to create a link with leaf switches. The bandwidth is aggregated (i.e. 2*25 Gbps), but it's still capped to 25 Gbps because the traffic goes only from one way to the other each time (think this is not right, it shouldn't be capped). 
 
 - fixed form factor (non modular switches)
 - active-active redundancy
 - loop aware topology (no links disabled).
 - interconnect using standard cables (decide how many links use to interconnect spines with leaves and how many others link to racks).
 
-With this architecture it's possible to turn off one switch, upgrade it and reboot it without compromising the network.
+With this architecture it's possible to turn off one switch, upgrade it and reboot it without compromising the network. I lose half the bandwidth in the process, but the twin switch keeps the connection alive.
 
-A tipicall configuration of the ports and bandwidth of the leaves is:
+A tipical configuration of the ports and bandwidth of the leaves is:
 - one third going upwards and two thirds going downwards
-- 48 ports 10 Gbps each , 6 ports 40 Gbps each
+- 48 ports 10 Gbps each, 6 ports 40 Gbps each
 - or 48 ports 25 each, 6 ports 100 each
 
-Just a small remark: with spine and leaf we introduce more hops, so more latency, than the chassis approach.
+Just a small remark: with spine and leaf we introduce more hops, so more latency, than the chassis approach. The solution for this problem is using as a base of the spine a huge switch (256 ports) which actually acts as a chassis, in order to reduce the number of hops and latency.
 
-#### Full Fat Tree
+#### Oversubscription
+Just a little note about oversubscription. Given two linked switches with a 100 Gbps link and 48 ports with 10 Gbps per port. Then:
+    *oversubscription* = 48*10 / 100 = 4.8
+A degree that is considered acceptable is 2.5. But is it possible to achieve a degree of oversubscription equal to 1?
+Yes, and it is possibile by just linking half the ports upwards and half down. This is the basis of the full fat tree.
+
+## Full Fat Tree
 
 In this network topology, the link that are nearer the top of the hierarchy are "fatter" (thicker) than the link further down the hierarchy. Used only in high performance computing where performances have priority over budgets.
 
@@ -420,9 +428,9 @@ The full fat tree resolves the problem of over-subscription. Adopting the spine 
 </p>
 
 ### VLAN
-Now, the problem is that every switch can be connected to each other and so there is no more LANs separation in the datacenter, every packet can go wherever it wants and some problems may appear. VLANs solve this problem. It partition a broadcast domain and create a isolated computer network.
+Now, the problem is that every switch can be connected to each other and so there is no more LANs separation in the datacenter, every packet can go wherever it wants and some problems may appear. VLANs solve this problem. It partitions a broadcast domain and create a isolated computer virtual network.
 
-It works by applying _tags_ to network packets (in Ethernet frame) and handling these tags in the networking systems. 
+It works by applying _tags_ (from 1 to 4094) to network packets (in Ethernet frame) and handling these tags in the networking systems. 
 
 <p align="center">
   <img width="600" src="./assets/vlan.png">
@@ -430,7 +438,7 @@ It works by applying _tags_ to network packets (in Ethernet frame) and handling 
 
 A switch can be configured to accept some tags on some ports and some other tags on some other ports. 
 
-VLAN are useful to manage the access control to some resources (and avoid to access to some subnetwork from other subnetwork). Different VLANs for different purposes.
+VLAN are useful to manage the access control to some resources (and avoid to access to some subnetwork from other subnetwork). Different VLANs are usually used for different purposes.
 
 ### Switch Anatomy
 A switch is an ASIC (application-specific integrated circuit). It can be proprietary architecture or non-proprietary. Layer two switches receive pkts and implements the equivalent of a bus: store and forward (there is a special address allowing broadcast). At layer 3 there is no loop problem, as in layer 2, because of the Internet Table.
@@ -439,21 +447,21 @@ Datacenter's switches are usually non-blocking. It basically means that this swi
 
 Now some standard are trying to impose a common structure to the network elements (switch included) to facilitate the creation of standard orchestration and automation tools.
 
-The internal is made of a **control plane** which is configurable and a **data plane** where there are the ports. The control plain evolved during the years, now they run an OS and Intel CPU's. Through a CLI Command Line Interface it's possible to configure the control plain. Some exaples of command are:
+The internal is made of a **control plane** which is configurable and a **data plane** where there are the ports and where the actual switching is made. The control plain evolved during the years, now they run an OS and Intel CPU's. Through a CLI Command Line Interface it's possible to configure the control plain. Some exaples of command are:
 - show running config
 - show interfaces status 
 - show vlan
 - config ( to enter in config mode)
 
 Some protocols in the switch (bold ones are important):
-- PING to test connectivity.
-- LLDP Local Link Discovery Protocol ( a way to explore the graph).
-- **STP** Spanning Tree Protocol (to avoid loops).
-- RSTP Rapid-STP
-- DCBX Data Center Bridging eXchange (QoS, priority)
-- PFC Priority Flow Control
-- ETS Enanched Transmission Selection (priority)
-- **LACP**  Link Aggregation Control Protocol (use two wires as they are one).
+- PING: to test connectivity.
+- LLDP: Local Link Discovery Protocol ( a way to explore the graph).
+- **STP**: Spanning Tree Protocol (to avoid loops).
+- RSTP: Rapid-STP
+- DCBX: Data Center Bridging eXchange (QoS, priority)
+- PFC: Priority Flow Control
+- ETS: Enanched Transmission Selection (priority)
+- **LACP**:  Link Aggregation Control Protocol (use two wires as they are one).
 
 **ONIE** (Open Netwoking Installed Environment) boot loader  
 
