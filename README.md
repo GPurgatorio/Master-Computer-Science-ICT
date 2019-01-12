@@ -412,8 +412,10 @@ A tipical configuration of the ports and bandwidth of the leaves is:
 Just a small remark: with spine and leaf we introduce more hops, so more latency, than the chassis approach. The solution for this problem is using as a base of the spine a huge switch (256 ports) which actually acts as a chassis, in order to reduce the number of hops and latency.
 
 #### Oversubscription
-Just a little note about oversubscription. Given two linked switches with a 100 Gbps link and 48 ports with 10 Gbps per port. Then:
-    *oversubscription* = 48*10 / 100 = 4.8
+Just a little note about oversubscription. Given two linked switches with a 100 Gbps link and 48 ports with 10 Gbps per port. Then: 
+
+*oversubscription* = 48*10 / 100 = 4.8
+
 A degree that is considered acceptable is 2.5. But is it possible to achieve a degree of oversubscription equal to 1?
 Yes, and it is possibile by just linking half the ports upwards and half down. This is the basis of the full fat tree.
 
