@@ -402,9 +402,9 @@ With this architecture it's possible to turn off one switch, upgrade it and rebo
 A tipicall configuration of the ports and bandwidth of the leaves is:
 - one third going upwards and two thirds going downwards
 - 48 ports 10 Gbps each (downward)
-    - + 6 ports 40 Gbps each (upward)
+    - plus 6 ports 40 Gbps each (upward)
 - or 48 ports 25 each (downward)
-    - + 6 ports 100 each (upward)
+    - plus 6 ports 100 each (upward)
 
 Just a small remark: with spine and leaf we introduce more hops, so more latency, than the chassis approach.
 
