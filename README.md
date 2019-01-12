@@ -106,9 +106,9 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 # Introduction
-The ICT world is changing (and will keep changing beyod the last time these notes were updated) and a lot of axioms about its infrastructures are becoming outdated. A couple of examples:
+The ICT world is changing (and will keep changing beyond the last time these notes were updated) and a lot of axioms about its infrastructures are becoming outdated. A couple of examples:
 
-- a few years ago it was known that the main bandwidth bottleneck is the disk, and so a system's whole performance was evalueted with reference to disk usage, number of IOs operations and so on... This, nowadays, is false.  Just think of [Intel Optane SSD](https://www.anandtech.com/show/11702/intel-introduces-new-ruler-ssd-for-servers) where the new SSD technology based on 3D NAND permits to write and read is faster than previous SSD, and so we have to redesign the entire system accordingly. Additionally, nvRAM (non-volatile RAM) are becoming more of an industry standard. nvRAM is a storage module similar to the hard drive but much faster. Hence, some distributed file systems, written in '90s, are becoming obsolete and conflicting with current trend or even crash due the axiom that the disks are slower than CPU and give enough time to do computation between the previously slower read/write operations! 
+- a few years ago it was known that the main bandwidth bottleneck is the disk, and so a system's whole performance was evaluated with reference to disk usage, number of IOs operations and so on... This, nowadays, is false.  Just think of [Intel Optane SSD](https://www.anandtech.com/show/11702/intel-introduces-new-ruler-ssd-for-servers) where the new SSD technology based on 3D NAND permits to write and read is faster than previous SSD, and so we have to redesign the entire system accordingly. Additionally, nvRAM (non-volatile RAM) are becoming more of an industry standard. nvRAM is a storage module similar to the hard drive but much faster. Hence, some distributed file systems, written in '90s, are becoming obsolete and conflicting with current trend or even crash due the axiom that the disks are slower than CPU and give enough time to do computation between the previously slower read/write operations! 
 
 - In application and server distribution. In the past many applications were managed on each server with a shared storage. Nowadays we have deploy a large application on server clusters (i.e. a server node composed of multiple units working together as one) with local storage, so new system to develop and manage distributed computing application is needed (Hadoop, Cassandra, Spark...).
 
@@ -150,7 +150,7 @@ We start the course with datacenter design, see how it is built to support curre
 A data center is a facility used to house computer systems and associated components, such as telecommunications and storage systems. It generally includes redundant or backup components and infrastructure for power supply, data communications connections, environmental controls (e.g. air conditioning, fire suppression) and various security devices. A large data center is an industrial-scale operation using as much electricity as a small town.
 
 On average there are only 6 person managing 1 million servers.
-Prefabricated group of racks, already cabled and cooled, are automatically inserted in the datacenter (POD - Point Of Delivery). If something is not working in the prefabricated, the specific server is shutted down. If more than the 70% is not working the POD producer will simply change the entire unity.
+Prefabricated group of racks, already cabled and cooled, are automatically inserted in the datacenter (POD - Point Of Delivery). If something is not working in the prefabricated, the specific server is shutt down. If more than the 70% is not working the POD producer will simply change the entire unity.
 
 The datacenter is a place where we concentrate IT system in order to reduce costs. Servers are demanding in terms of current, cooling and security. 
 
@@ -183,7 +183,7 @@ The *workload balancing* may be a problem: there can be the situation where a ra
 
 #### In-Row cooling
 
-In-row cooling technology is a type of air conditioning system commonly used in data centers in which the cooling unit is placed between the server cabinets in a row for offering cool air to the server equipment more effectively.
+In-row cooling technology is a type of air conditioning system commonly used in data centers (15-60 kW/rack) in which the cooling unit is placed between the server cabinets in a row for offering cool air to the server equipment more effectively.
 
 In-row cooling systems use a horizontal airflow pattern utilizing hot aisle/cold aisle configurations and they only occupy one-half rack of row space without any additional side clearance space. Typically, each unit is about 12 inches wide by 42 inches deep.
 
@@ -196,20 +196,23 @@ These units may be a supplement to raised-floor cooling (creating a plenum to di
 The in-row cooling unit draws warm exhaust air directly from the hot aisle, cools it and distributes it to the cold aisle. This ensures that inlet temperatures are steady for precise operation. Coupling the air conditioning with the heat source produces an efficient direct return air path; this is called *close coupled cooling*, which also lowers the fan energy required. In-row cooling also prevents the mixing of hot and cold air, thus increasing efficiency.
 
 It's possible to give more cooling to a single rack, modulating the air needed. In front of the rack there are temperature and humidity sensors (humidity should be avoided because can conduct electricity).
-There are systems collecting data from the sensors and adjusting the fans. The racks are covered to separate cool air and hot air. It's also possible to optimize the datacenter cooling according to the temperature changes of the region where the datacenter is.
+There are systems collecting data from the sensors and adjusting the fans. The racks are covered to separate cool air and hot air. It's also possible to optimize the datacenter cooling according to the temperature changes of the region where the datacenter is. It is also possible to apply "static analysis" to the datacenter location, in order to optimize resource consumption according to temperature changes. Programs are available in order to simulate airflows in datacenter in order to optimize the fans. 
 
-Usually every 2 racks (each 70 cm) there should be a cooling row (30 cm).
+Usually every 2 racks (each 70 cm) there should be a cooling row (30 cm). 
 
 #### Liquid cooling
 Having water in a data center is a risky business (even if there are different ways to handle a fire). Make the water flow onto the CPUs lowers the temperature for ~40%. One way of chilling the water could be pushing it down to the ground. Water Distribution System, like the Power Distribution System.
 
+#### Other ideas
+A lot of research has been lately invested towards oil cooling computers (particularly in the contest of High Performance Computing). Both this approach and liquid cooling provide water circuits that flow straight over the CPU in order to maximize the effectivness of the cooling. 
+A typical approach to cool the air is to place chillers outside the building, or by trying geocooling, which revolves around using the cold air in depth. The main idea is to make a deep hole in the ground, and make the cables pass through it. 
 
 ## Current
 A 32KW datacenter is small (also if it consumes the same amount of current of 10 apartments).  
 
 *Direct Current Transformers* from AC to DC. Direct current is distributed inside the datacenter even if is more dangerous than Alternating current.
 
-Watt = cos fi * V * A  
+Watt = cos fi * V * A  where on the left is DC and on the right (V) is AC
 **cos fi** gives the efficiency of the power supply and generally it changes according to the amount of current needed (idle vs under pressure).  
 For example an idle server with 2 CPUs (14 cores each) consumes 140 Watts.
 
@@ -218,7 +221,7 @@ The Industrial current has 380 Volts in 3 phases. The amount of current allowed 
 
 There are one or more lines (for reliability and fault tolerance reasons) coming from different generators to the datacenter (i.e. each line 80 KW , 200 A more or less. Can use it for 6 racks 32A / rack. Maybe I will not use the whole 32 A so I can put more racks).  
 
-The lines are attached to an *UPS Uninterruptible Power Supply/Source*. It is a rack or half a rack with batteries (not enough to keep-on the servers) that in some cases can power the DC for ~20 minutes. There are a *Control Panel* and a *Generator*. When the power lines fail the UPS is active between their failure and the starting of the generator.  The energy that arrives to the UPS should be divided among the servers and the switches.
+The lines are attached to an *UPS (Uninterruptible Power Supply/Source)*. It is a rack or half a rack with batteries (not enough to keep-on the servers) that in some cases can power the DC for ~20 minutes. There are a *Control Panel* and a *Generator*. When the power lines fail the UPS is active between their failure and the starting of the generator.  The energy that arrives to the UPS should be divided among the servers and the switches.
 
 The UPS is attached to the *PDU* (Power Distribution Unit) which is linked to the *server PDU* with a pair of lines for redundancy. In the server there are the power plugs in a row that can monitored via a web server running on the rack PDU. 
 
