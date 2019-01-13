@@ -792,11 +792,29 @@ Some services run in multiple **zones**.
 
 **multipath** give different addresses to each component.
 
-#### Backups
-It' a data protection solution.
+<p align="center">
+  <img src="./assets/redundancy.png" width="600">
+</p>
 
-**RTO** Recovery Time Objective: time it will take to have a full recovery.  
-**RPO** Recovery Point Objective: what is the last consistent copy of the storage I will find. How many data points do you have to go back in time?
+- Key techniques to protect compute
+  - Clustering (Two common clustering implementations are: Active/active ; Active/passive)
+  - VM live migration
+- Key techniques to protect network connectivity
+  - Link and switch aggregation
+  - NIC teaming
+  - Multipathing
+  - In-service software upgrade
+  - Configuring redundant hot swappable components
+- Key techniques to protect storage
+  - RAID and erasure coding
+  - Dynamic disk sparing
+  - Configuring redundant storage system components
+
+#### Backups 
+With Replicas are  data protection solutions. 
+
+**RTO** Recovery Time Objective: time it will take to have a full recovery. relates to the time taken to recover data from backup
+**RPO** Recovery Point Objective: what is the last consistent copy of the storage I will find. How many data points do you have to go back in time? specifies the time interval between two backups.
 
 Network it's the first problem when I want to make a backup, beacuse the size of the backup is bigger than the network bandwidth.  
 Sometimes it's simply impossible to make a backup.
@@ -804,8 +822,10 @@ Sometimes it's simply impossible to make a backup.
 **incremental backup**
 Backup only the updated parts. High RTO cause I have to reconstruct all the files hierarchy going back througth the back ups. Sometimes snapshots are needed.
 
+**guest level** or  
 **image level**  
-uses snapshots. It's agentless (agent == client), the agent can't crash since there isn't one.
+uses snapshots. It's agentless (agent == client who gathers the data that is to be backed up), the agent can't crash since there isn't one. 
+Backup is saved as a single entity called a VM image. Provides VM image-level and file-level recovery
 
 **backup windows**  
 the horizon effect: you decide a window but the stuff you need will be always in the deleted part.
@@ -813,9 +833,14 @@ the horizon effect: you decide a window but the stuff you need will be always in
 some servers + backup unit  
 some others servers + some other backup unit
 
-Take the hash of two identical files, store only one of the two files and both the hashes.
+**Data Deduplication**  
+The process of detecting and identifying the unique data segments within a given set of data to eliminate redundancy. Take the hash of two identical files, store only one of the two files and both the hashes. 
 
 The **replica** it's a whole complete copy.  The syncronous replica needs an acknowledgement before proceeding. DBs like Oracle, Sequel Servers want syncronous replica. 
+- Local replication
+  - Snapshot and mirroring
+- Remote replication
+  - Synchronous and asynchronous 
 With the **backup** you can choose the chunk of files to "backup".
 
 
@@ -910,10 +935,16 @@ It' rare that a leading vendor define a common standard. Standardization it's im
 
 
 # Orchestration
+Automated arrangement, coordination, and management of various system or component functions in a cloud infrastructure to provide and manage cloud services.
 
 2 types of orchestration:
 - low level: eg. installation of a new VM
 - high level: eg. configuration of the new VM. At the end of this process the VM will be up and running
+
+<p float="left">
+  <img src="./assets/orchestratorworkflow.png" width="400">
+  <img src="./assets/orchestratorworkflow2.png" width="450">
+</p>
 
 # Fog Computing
 The fog computing is an architecture that uses one or more collaborative end-user clients or near-user edge devices to carry out a substantial amount of storage (rather than stored primarily in cloud data centers), communication (rather than routed over the internet backbone), control, configuration, measurement and management (rather than controlled primarily by network gateways such as those in the LTE core network).
