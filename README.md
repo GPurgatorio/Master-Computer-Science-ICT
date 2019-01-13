@@ -813,7 +813,7 @@ Some services run in multiple **zones**.
 #### Backups 
 With Replicas are  data protection solutions. 
 
-**RTO** Recovery Time Objective: time it will take to have a full recovery. relates to the time taken to recover data from backup
+**RTO** Recovery Time Objective: time it will take to have a full recovery. relates to the time taken to recover data from backup  
 **RPO** Recovery Point Objective: what is the last consistent copy of the storage I will find. How many data points do you have to go back in time? specifies the time interval between two backups.
 
 Network it's the first problem when I want to make a backup, beacuse the size of the backup is bigger than the network bandwidth.  
@@ -822,9 +822,8 @@ Sometimes it's simply impossible to make a backup.
 **incremental backup**
 Backup only the updated parts. High RTO cause I have to reconstruct all the files hierarchy going back througth the back ups. Sometimes snapshots are needed.
 
-**guest level** or  
-**image level**  
-uses snapshots. It's agentless (agent == client who gathers the data that is to be backed up), the agent can't crash since there isn't one. 
+**guest level** [...]  
+**image level:**  uses snapshots. It's agentless (agent == client who gathers the data that is to be backed up), the agent can't crash since there isn't one. 
 Backup is saved as a single entity called a VM image. Provides VM image-level and file-level recovery
 
 **backup windows**  
@@ -851,6 +850,25 @@ Three levels of security:
 - **Procedural**: phising, the weakest link is the human.
 - **Logical**: abstraction produced by the OS. **mandatory access** (classification of the infos); **discreptional access** (~ ACL)
 - **Physical**
+
+- Authentication
+  - Process to ensure users or assets are who they claim to be
+  - Two methods: single-factor and multi-factor
+- Authorization
+  - Process of determining access rights of a user, device, application, or process to a service or resource
+  - Authorization should be performed only if authentication is successful
+- Auditing
+  - Process to evaluate the effectiveness of security enforcement mechanisms
+
+Technical security mechanisms must be deployed at:
+ - Compute level
+ - Network level
+ - Storage level
+
+Just a bunch of terms:  
+Physical security; Identity and access management; Role-based access control; Network monitoring and analysis; Firewall; Intrusion detection and prevention system ;Adaptive security ; Port binding and fabric binding ;Virtual private network; Virtual LAN and virtual SAN; Zoning and iSNS discovery domain ; Security hypervisor and management server ; Virtual machine hardening ;Securing operating system and applications;LUN masking; Data encryption; Data shredding .
+
+Disabling all unused devices and ports
 
 Access Control Lists are difficult to manage with lots of users.  
 **PAM** (linux) Password Authentication Module: few systems use ACL via PAM.
@@ -941,9 +959,14 @@ Automated arrangement, coordination, and management of various system or compone
 - low level: eg. installation of a new VM
 - high level: eg. configuration of the new VM. At the end of this process the VM will be up and running
 
+APIs are used to perform activities such as:
+- Resource provisioning and configuration
+- Resource monitoring and management
+- Orchestration
+
 <p float="left">
-  <img src="./assets/orchestratorworkflow.png" width="400">
-  <img src="./assets/orchestratorworkflow2.png" width="450">
+  <img src="./assets/orchestratorworkflow.png" width="600">
+  <img src="./assets/orchestratorworkflow2.png" width="660">
 </p>
 
 # Fog Computing
