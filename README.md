@@ -753,6 +753,27 @@ Good idea but bad implementation. Various open source softwares, difficult to de
 Provides workflow for executing automated tasks. 
 
 ## Business Continuity 
+BusinessContinuity involves various proactive and reactive measures.  
+Disaster recovery is a part of BC, which coordinates the process of restoring infrastructure, including data 
+
+### Redundancy (to avoid single point of failure)
+
+Try to have links in rings insteand of single lines. 
+
+Some services run in multiple **zones**.  
+**Service Availability Zones**: system divided in zones, thing is some zone can fail togheter, but things from different zones can't. Run multiple istances on different zones (i.e racks). They can describe also geographical localtions. 
+
+**cross connection** typical pattern for redundancy.
+
+**active-passive** the II system is off and will be online only in case of failure of the first one.  
+**active-active** i.e. two links aggregated both working.
+
+**active/passive failure**: when a system fails but also the "passive" part fails immediatly because I haven't checked it.
+
+**n+1, n+2 schema** : need n components, deploy n+1 
+
+**multipath** give different addresses to each component.
+
 #### Backups
 It' a data protection solution.
 
@@ -892,24 +913,6 @@ It's acceptable that some users experiments performances issues while upgrading.
 **NIC teaming**
 
 **Erasure Coding** like RAID 5 (xor)
-
-### Redundancy
-
-Try to have links in rings insteand of single lines. 
-
-Some services run in multiple **zones**.  
-**Service Availability Zones**: system divided in zones, thing is some zone can fail togheter, but things from different zones can't. Run multiple istances on different zones (i.e racks). They can describe also geographical localtions. 
-
-**cross connection** typical pattern for redundancy.
-
-**active-passive** the II system is off and will be online only in case of failure of the first one.  
-**active-active** i.e. two links aggregated both working.
-
-**active/passive failure**: when a system fails but also the "passive" part fails immediatly because I haven't checked it.
-
-**n+1, n+2 schema** : need n components, deploy n+1 
-
-**multipath** give different addresses to each component.
 
 # In class exercises
 
