@@ -478,7 +478,7 @@ The simple one is that the disks are put inside each servers and are used as we 
 
 ## Interfaces
 
-- SATA
+- SATA (with controller, slow because it is the bottleneck)
 - SAS Serial Attached SCSI
 - NVMe (Non Volatile Memory express): controller-less, protocol used over PCI express bus
 - ...
@@ -489,8 +489,8 @@ The simple one is that the disks are put inside each servers and are used as we 
 The more common RAID configurations are:
 
 - RAID-0: striping, two drivers aggregated that works as a single one.
-- RAID-1: mirroring,write on both the drives one is the copy of the other.
-- RAID-5: block-level striping with distributed parity. It's xor based: the first bit goes in the first disk, the second bit in the second one and their xor in the third. If one disk crashes I can recompute it ( for each two bits of info I need one extra bit, so one third more disk storage).
+- RAID-1: mirroring, write on both drives, one is the copy of the other.
+- RAID-5: block-level striping with distributed parity. It's xor based: the first bit goes in the first disk, the second bit in the second one and their xor in the third. If one disk crashes I can recompute its content (for each two bits of info I need one extra bit, so one third more disk storage).
 - RAID-6: block-level striping with double distributed parity. Similar to RAID1 but with more disks.
 
 ## IOPS
@@ -513,7 +513,7 @@ Has become so popular also because of its nature: its pure functions can easily 
 
 As technology evolves, the harder is to maintain a model that lasts. Memory tiering a new term introduced nowadays with the Intel Sky Lake processors family (XEON). 
 
-nvRAM uses [nvDIMM](https://en.wikipedia.org/wiki/NVDIMM) (non volatalie Dual Inline Memory Module) to save energy because you can change the ammount of current given to each pin; moreover the data doesn't need to be refreshed periodically to maintain data. 
+nvRAM uses [nvDIMM](https://en.wikipedia.org/wiki/NVDIMM) (non volatalie Dual Inline Memory Module) to save energy because you can change the amount of current given to each pin; moreover the data doesn't need to be refreshed periodically to avoid data loss. 
 
 In-memory database, like Redis. If you loose power there are still mechanisms to avoid data loss.
 
@@ -533,15 +533,18 @@ NAND is a standard Solid State Technology.
 
 Beside Volatile RAM it's now possible to have Persistent State RAM.
 
+With this kind of technology the non volatile tier is only 35% slower then the RAM, so there is the need for supporting large non volatile memory tier with super fast access.
+
 ### Storage aggregation
 
+It is the concept of splitting data between various disks and then "picture" the whole system as a sole huge drive (concept of resource pooling in cloud computing)
 The strategy for accessing drive makes the difference.  
 Fiber channel is the kind of fabric dedicated for the storage. The link coming from the storage ends up in the Host Based Adapter in the server.
 
-## Network Area Storage (NAS)
-NAS is a file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients. NAS systems are networked appliances which contain one or more storage drives, often arranged into logical, redundant storage containers or RAID. They typically provide access to files using network file sharing protocols such as NFS, SMB/CIFS, or AFP over a optical fiber.
+## Network Attached Storage (NAS)
+NAS is a file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients. NAS systems are networked appliances which contain one or more storage drives, often arranged into logical, redundant storage containers or RAID. They typically provide access to files using network file sharing protocols such as NFS, SMB/CIFS, or AFP over a optical fiber. 
 
-When using a network file systsem protocol, you are uing a NAS.
+Basically the whole storage is exposed as a file system. When using a network file system protocol, you are using a NAS.
 
 ## Storage Area Network (SAN)
 While NAS provides both storage and a file system, SAN provides only block-based storage and leaves file system concerns on the "client" side. SAN protocols include Fibre Channel, iSCSI (SCSI over the fiber), ATA over Ethernet (AoE) and HyperSCSI. It can be implemented as some controllers attached to some JBoDS (Just a Bunch of Disks).  
@@ -581,13 +584,13 @@ This kind of software is expensive (Nutanix HCI is fully software defined so you
 
 The main idea is not to design three different systems (compute, networking, storage) and then connect them, but it's better to have a bit of them in each server I deploy. "Adding servers adds capacity".
 
-The software works with the cooperations of different controller (VMs) in each node (server). The controller (VM) implements the storage abstraction through the node and it implements also the logical mooving of data. Every write keeps a copy on the local server storage exploiting the PCI bus and avoiding the network cap; a copy of the data is given to the controller of another node. The read is performed locally gaining high performances. The VM is aware that there are two copies of the data so it can exploit this fact. Once a drive fails it's copy is used to  make another copy of the data.
+The software works with the cooperations of different controller (VMs) in each node (server). The controller (VM) implements the storage abstraction through the node and it implements also the logical mooving of data. Every write keeps a copy on the local server storage exploiting the PCI bus and avoiding the network cap; a copy of the data is given to the controller of another node. The read is performed locally gaining high performances. The VM is aware that there are two copies of the data so it can exploit this fact. Once a drive fails its copy is used to make another copy of the data. The write operation is a little bit slower since I need to wait for the 'ack' of the controller in order to keep replicas of the written data on other nodes.
 
 ## SDS - Software Defined Storage
 Software-defined Storage is a term for computer data storage software for policy-based provisioning and management of data storage independent of the underlying hardware. This type of software includes a storage virtualization to separate storage hardware from the software that manages it.  
 It's used to build a distributed system that provides storage services.
 
-**objec storage** (i.e. S3 by Amazon)  
+**object storage** (i.e. S3 by Amazon)  
 Write, read, rewrite, version delete an object using HTTP.  
 An object has:
 - object ID
@@ -643,7 +646,7 @@ Racks are divided in Units: 1 U is the minimal size you can allocate on a rack. 
 two sockets (CPU),  
 ~10 drives disposed horizontally.  
 In the bottom part there are 2 power plugs, networking plugs for KVM (configuration console) and a **BMC** (Base Management Console) which is a stand alone OS talking with the motherboard used for remote monitoring, shut down ...  
-The drives are in the front (up) part, immediatly above them there are the fans and the disk controller. Tipically the max number of CPUs is four and they are closed to the memory modules.
+The drives are in the front (up) part, immediatly above them there are the fans and the disk controller. Tipically the max number of CPUs is four and they are close to the memory modules.
 <p align="center">
   <img src="./assets/pizzabox.png" width="600">
 </p>
@@ -662,36 +665,50 @@ Differs from desktop systems.
 - MCDRAM (multi channel RAM) with less latency
 
 #### Miscellaneous
-Trade-off in CPU design: high frequency, low cores. All dipends on the application running: it can benefits of high frequency or not (big data systems are more about capacity than latency).
+Trade-off in CPU design: high frequency, low cores. All dipends on the application running: it can benefit from high frequency or not (big data systems are more about capacity than latency).
 
-Latency is slightly higher when I access a RAM bank of another socket because I have to ask for it via a bus that interconnects them.
+Latency is slightly higher when I access a RAM bank of another socket because I have to ask for it via a bus that interconnects them (UPI in an Intel CPU).
 
-Crossbar interconnection (each CPU at the vertex of a square connected by the edges and the diagonals too) between CPU's to reduce 1 hope.
+Crossbar interconnection (each CPU at the vertex of a square connected by the edges and the diagonals too) between CPU's to reduce 1 hop.
 
 **NUMA** Non Uniform Memory Architecture  
-Drop the assumption that all the RAMs are equal. NUMA is supported in the most used servers and virtualizer. Create threads and process that are NUMA aware: split data in an array and each thread works on a part of it.
+Drop the assumption that all the RAMs are equal. NUMA is supported in the most used servers and virtualizer. Create threads and process that are NUMA aware: split data in an array and each thread works on a part of it. APIs are provided in order to access specific memory zones in a NUMA architecture. 
 
 **Inter socket** and **Intra Socket** connection: initially cores used a token ring or two token rings, now they use a mash. 
 
-Inside the core there are some funtional units like: branch missprediction unit, FMA (Floating point Multiply Add).Each core hads a dedicated cache at L1 and a shared cache at L2.
+Inside the core there are some funtional units like: branch missprediction unit, FMA (Floating point Multiply Add). Each core has a dedicated cache at L1 and a shared cache at L2.
 
-If I have two threads in many cases I can execute 2 istruction at time (thread overlapping, hyper threading). 
+Hyper Threading is a technology that allows to duplicate (up to 4 times) the number of logical cores over the actual physical cores. In this case emerges a problem of memory condivision, and the solutions are usually:
+- One cache per core
+- One cache per couple of cores
+- A shared RAM between some cores (Multi channel D-RAM)
 
 Multi Channel DRAM: more bandwidth than DDR.
+
+If I have two threads in many cases I can execute 2 istruction at time (thread overlapping, hyper threading). 
 
 **SMART technology** in drives: predictive system in the drive that gives the probability that the drive will fail in the next hours. Used by the driver provider for statistics, usage patterns.
 
 # Cloud
 
-Is a business model. The cloud is someone else's computer that you can use (paying) to execute your application with more realiable feature than your laptop (i.e. paying for doing tests on your app using the cloud infrastructure because you need more resources). A cloud is a collection of network-accessible IT resources.  
+Is a business model. The cloud is someone else's computer that you can use (paying) to execute your application with more realiable feature than your laptop (i.e. paying for doing tests on your app using the cloud infrastructure because you need more resources). A cloud is a collection of measurable network-accessible IT resources. The interaction to obtain the cloud resources should be "self service" for as much as possible. 
 When you program for the cloud you dont know where your process will be executed or where you data will be stored.
 - overprovisioning the system
 - rent the overprovisioned resources
 - reallocating resources, VMs
 
+One of the main concept of cloud computing is the one of pooling, which means that a set of etherogeneous resources can be viewed as a whole big resource in order to provide reassignment capability and location indipendence (which means that the clint cannot control where his data are, except for maybe the geographical area). Another important concept is the one of resource measurement. The cloud computing business model revolves around pricing and resource consumption, so the system must be able to monitor it.
+Cloud computing benefits are:
+- Agility
+- Reduction of IT cost
+- High Availability and fault tolerance
+- Business Continuity
+- Rapid development and testing
+- No infrastructure management
+
 **Private Cloud** set of IT resources that are local.
 
-There is a trade off between centralization ( the bottleneck is the storage) and distribution (the bottleneck is the network).
+There is a trade off between centralization (the bottleneck is the storage) and distribution (the bottleneck is the network).
 
 **SLA** Service Level Agreement: how much do I make users pay?
 ![Infrastructure](./assets/cloud-services.png)
@@ -705,14 +722,20 @@ The cloud provide high avaialabity. This feature can be achived with redundancy 
 
 The cloud infrastrucure can be public, if it is provisioned for open use by the general public; or private, if is provisioned for exclusive use by a single organization comprising multiple consumers.
 
-## Cloud computering Layer
+## Cloud computering Layers
 The cloud infrastrucure can be see as a layered infrastructure. 
 
-#### Phyisical Layer
-Executes requests generated by virtualization and control layer. Specifies entities that operate at this layer (devices, systems, protocols...)
+#### Physical Layer
+Executes requests generated by virtualization and control layer. Specifies entities that operate at this layer (devices, systems, protocols...). It is formed by storage, network and storage, together with protocols, tools, processes, operating environments.
+
+#### Cross functional layers
+In the cloud computing reference model there are some sylos of cross layer functionalities, they mainly revolve around:
+- Business Continuity: In data center failure is the norm, so I have to consider business continuity. It is reactive (disaster recovery) and proactive (risk assessment, backup, replicas...).
+- Security: policies, standard procedures, firewalls, antivirus, intrusion detection/prevention.
+- Service Management: Portfolio (SLA, roadmap, customer support...) and operation (monitoring, provisioning, compliance...)
 
 ## Virtual Layer
-Deployed on the physical layer. Abstract physical resources and makes them appear as virtual resources. Executes the requests generated by control layer. It permits a better use of the hardware when you have services that underuse it.  With VMs there is a 10% of performance loss but we gain in flexibility, security ...
+Deployed on the physical layer. It abstract physical resources and makes them appear as virtual resources. Executes the requests generated by control layer. It permits a better use of the hardware when you have services that underuse it.  With VMs there is a 10% of performance loss but we gain in flexibility, security ...
 
 This allows a **multi tenant environment** since I can run multiple organizations VMs on the same server.
 
