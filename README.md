@@ -640,19 +640,29 @@ The solution? Delete the connector and attach it to PCIe. So new Specification i
 
 ## Storage in the future
 
-![Memory History](https://img.digitaltrends.com/image/3dxpointslide1-1000x559.jpg)
+<p align="center">
+  <img src="./assets/memory-history.jpg" width="600">
+</p>
+
 
 As we can see in the image, it's been decades since the last mainstream memory update is done. In fact, the SSD became popular in the last years due the cost but they exists since 1989. 
 
-![3D XPoint Technology](http://cdn.wccftech.com/wp-content/uploads/2015/07/Intel-Micron-3D-XPoint-Memory.jpg)
+<p align="center">
+  <img src="./assets/3d-xpoint.jpg" width="600">
+</p>
 
 New technology was introduced in 2015, the 3D XPoint. This improvement takes ICT world in a new phase? If yesterday our problem was the disk latency, so we design all algorithm to reduce IOs operation, now the disk is almost fast as the DRAM, as shown the following image:
 
-![Disk latancy](https://images.anandtech.com/doci/9470/asd14.PNG)
+
+<p align="center">
+  <img src="./assets/storages-latency.png" width="600">
+</p>
 
 With the NVMe drives we can reach 11GBps, aka 88 Gbps. Since the software latency is 5 microseconds more or less, TCP/IP software introduces also a latency, 70-80 microseconds, the disk is no more a problem.
 
-![RDMA how does it work](https://image.slidesharecdn.com/1mellanox-140331123657-phpapp02/95/infiniband-essentials-every-hpc-expert-must-know-10-638.jpg?cb=1396269459)
+<p align="center">
+  <img src="./assets/rdma.jpg" width="600">
+</p>
 
 # Hypervisors
 A hypervisor is a software, firmware or hardware that creates and runs virtual machines. 
@@ -743,7 +753,10 @@ When you program for the cloud you dont know where your process will be executed
 There is a trade off between centralization ( the bottleneck is the storage) and distribution (the bottleneck is the network).
 
 **SLA** Service Level Agreement: how much do I make users pay?
-![Infrastructure](./assets/cloud-services.png)
+
+<p align="center">
+  <img src="./assets/cloud-services.png" width="600">
+</p>
 
 
 ### Rapid Elasticity
