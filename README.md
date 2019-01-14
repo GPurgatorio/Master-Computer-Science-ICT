@@ -3,6 +3,13 @@ ICT Infrastructures - University of Pisa (Italy)
 *Since there is only little material on ICT Infrastructures course, this is a recap and summary of classes. The notes are a compilation of the course contents and focus on the topics in accordance with Prof. Antonio Cisternino's OneNote Notebook. 
 It is highly recommended to study with the EMC DELL slides provided under <<_Raccolta contenuto>> which will not be uploaded here for copyright reasons. Each heading correspond to a module. If you find any error please, fork and submit a pull request!*
 
+<details>
+  <summary>Table of contents</summary>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+</details>
+
 # Introduction
 The ICT world is changing (and will keep changing beyod the last time these notes were updated) and a lot of axioms about its infrastructures are becoming outdated. A couple of examples:
 
