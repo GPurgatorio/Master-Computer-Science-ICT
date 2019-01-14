@@ -814,47 +814,57 @@ Cloud service providers typically deploy a purpose-designed **orchestration soft
 
 
 
-## Business Continuity 
-BusinessContinuity involves various proactive and reactive measures.  
-Disaster recovery is a part of BC, which coordinates the process of restoring infrastructure, including data 
+## Business Continuity layer
+
+<p align="center">
+  <img width="600" src="./assets/business-continuity-layer.png">
+</p>
+
+Business continuity is a set of processes that includes all activities that a business must perform to **mitigate the impact of service outage**. BC entails preparing for, responding to, and recovering from a system outage that adversely affects business operations. It describes the processes and procedures a service provider establishes to **ensure that essential functions can continue during and after a disaster**. Business continuity prevents interruption of mission-critical services, and reestablishes the impacted services as swiftly and smoothly as possible by using an automated process. BC involves **proactive measures**, such as business impact analysis, risk assessment, building resilient IT infrastructure, deploying data protection solutions (**backup and replication**). It also involves reactive countermeasures, such as disaster recovery, to be invoked in the event of a service failure. Disaster recovery (DR) is the coordinated process of restoring IT infrastructure, including data that is required to support ongoing cloud services, after a natural or human-induced disaster occurs. 
 
 ### Redundancy (to avoid single point of failure)
 
-Try to have links in rings insteand of single lines. 
+Single points of failure refers to any individual component or aspect of an infrastructure whose failure can make the entire system or service unavailable. Single points of failure may occur at infrastructure component level and site level (data center). 
 
-Some services run in multiple **zones**.  
-**Service Availability Zones**: system divided in zones, thing is some zone can fail togheter, but things from different zones can't. Run multiple istances on different zones (i.e racks). They can describe also geographical localtions. 
+Methods to avoid Singole Points of Failure:
+- Redundancy
+- Multiple service availablity zones
 
-**cross connection** typical pattern for redundancy.
+#### Redundancy and service Zones
 
-**active-passive** the II system is off and will be online only in case of failure of the first one.  
-**active-active** i.e. two links aggregated both working.
+**N+1 redundancy** is a common form of fault tolerance mechanism that ensures service availability in the event of a component failure. A set of N components has at least one standby component. This is typically implemented as an **active/passive** arrangement, as the additional component does not actively participate in the service operations. The standby component is active only if any one of the active components fails. N+1 redundancy with **active/active** component configuration is also available. In such cases, the standby component remains active in the service operation even if all other components are fully functional. For example, if active/active configuration is implemented at the site level, then a cloud service is fully deployed in both the sites. The load for this cloud service is balanced between the sites. If one of the site is down, the available site would manage the service operations and manage the workload. 
 
-**active/passive failure**: when a system fails but also the "passive" part fails immediatly because I haven't checked it.
+Be carful to **active/passive failure**, when a system fails but also the "passive" part fails immediatly because I haven't checked it.
 
-**n+1, n+2 schema** : need n components, deploy n+1 
 
-**multipath** give different addresses to each component.
+**Key techniques to protect compute**:
+- Clustering (Two common clustering implementations are: Active/active ; Active/passive)
+- VM live migration
+
+**Key techniques to protect network connectivity**:
+- Link and switch aggregation (cross connection)
+  - Links in rings instead of single lines
+- NIC teaming
+- Multipathing: give different addresses to each component
+- In-service software upgrade
+- Configuring redundant hot swappable components
+
+**Key techniques to protect storage**:  
+- RAID and erasure coding
+- Dynamic disk sparing
+- Configuring redundant storage system components
+
+**Networking redundancy**  
 
 <p align="center">
   <img src="./assets/redundancy.png" width="600">
 </p>
 
-- Key techniques to protect compute
-  - Clustering (Two common clustering implementations are: Active/active ; Active/passive)
-  - VM live migration
-- Key techniques to protect network connectivity
-  - Link and switch aggregation
-  - NIC teaming
-  - Multipathing
-  - In-service software upgrade
-  - Configuring redundant hot swappable components
-- Key techniques to protect storage
-  - RAID and erasure coding
-  - Dynamic disk sparing
-  - Configuring redundant storage system components
+**Service zones**   
+Some services run in multiple zones. The system is divided in zones, and each zone can fail disrupting all the services that run inside that zone. But zones can't fail togheter. Zones can describe also geographical localtions. 
 
-#### Backups 
+
+### Backups 
 With Replicas are  data protection solutions. 
 
 **RTO** Recovery Time Objective: time it will take to have a full recovery. relates to the time taken to recover data from backup  
