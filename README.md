@@ -66,8 +66,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
     - [VM Network components](#vm-network-components)
     - [VM components](#vm-components)
   - [Control Layer](#control-layer)
-  - [Service and Orchestration Layer](#service-and-orchestration-layer)
-    - [Service layer](#service-layer)
+  - [Service layer](#service-layer)
   - [Orchestration layer](#orchestration-layer)
     - [Service orchestration](#service-orchestration)
   - [Business Continuity layer](#business-continuity-layer)
@@ -829,14 +828,6 @@ It is sayd to the VM: "Look, you have 1TB of RAM but most of it it's occupied". 
 #### Other considerations about the Virtual Layer
 The persistent state of a VM is made of the **conf file** and the file of the disk. Mooving a VM it's really simple: just stop it and moove the two files just mentioned.  
 
-##### vMotion -  Live Migration
-Mooving a VM from server A to B while it's running. The user could experience a degradation of the service but not a disruption.
-- copy the RAM and at the end, copy the pages writed during this phase.
-- create an empty drive on B
-- copy the CPU registers (the VM is stopped for a really short period)
-- manage VSwitch and ARP protocol. The virtual switch must be aware of the migration: if the old vswitch receives a pkt for the just migrated VM it should send it to B.
-- continue running the VM on B, only when it needs the disk you stop it and start copying the disk file. A jumboframe can be used to avoid storage traffic fragmentation.
-
 #### Docker
 It exploits Linux's Resource Group. The processes in the container can see only a part of the OS. The containers have to share the networking. Docker separates different software stacks on a single node.
 
@@ -871,7 +862,7 @@ A free and open-source software platform for cloud computing, mostly deployed as
 
 Good idea but bad implementation. Various open source softwares, difficult to deply, lots of dead code, bad security implementation. It has a small form of orchestration but it's not a service orchestrator (i.e. no distribution of the workload, scaling)
 
-## Service and Orchestration Layer
+## Service layer
 
 <p align="center">
   <img width="600" src="./assets/orchestration-and-service-layer.png">
@@ -880,8 +871,7 @@ Good idea but bad implementation. Various open source softwares, difficult to de
 **What is a cloud service?**  
 Cloud services are IT resources that are packaged by the service providers and are offered to the consumers. Once constituent IT resources are provisioned and configured, a service is instantiated. The instantiated service is called a service instance. 
 
-### Service layer
-
+**Service layer**  
 The service layer of the cloud infrastructure enables a provider to define services and a consumer to self-provision services. Additionally, it presents cloud interfaces to the consumers, enabling them to consume deployed services. 
 
 The service layer has three key functions which are as follows: 
@@ -942,10 +932,11 @@ Be carful to **active/passive failure**, when a system fails but also the "passi
 
 **Key techniques to protect network connectivity**:
 - Link and switch aggregation (cross connection)
-  - Links in rings instead of single lines
-- NIC teaming
-- Multipathing: give different addresses to each component
-- In-service software upgrade
+  - Link aggregation: **combines two or more parallel network links into a single logical link**, called port-channel, yielding higher bandwidth than a single link could provide. Link aggregation enables distribution of network traffic across the links and traffic failover in the event of a link failure. If a link in the aggregation is lost, all network traffic on that link is redistributed across the remaining links. 
+  - Switch aggregation: **combines two physical switches and makes them appear as a single logical switch**. All network links from these physical switches appear as a single logical link. This enables a single node to use a port-channel across two switches and network traffic is distributed across all the links in the port-channel. 
+- NIC teaming: groups NICs so that they appear as a single, logical NIC to the OS or hypervisor
+- Multipathing: enables a compute system to use multiple paths for transferring data to a LUN on a storage system
+- In-service software upgrade: is a technique where the software (firmware) on a network device (switch and router) can be patched or upgraded without impacting the network availability
 - Configuring redundant hot swappable components
 
 **Key techniques to protect storage**:  
@@ -959,40 +950,60 @@ Be carful to **active/passive failure**, when a system fails but also the "passi
   <img src="./assets/redundancy.png" width="600">
 </p>
 
-**Service zones**   
-Some services run in multiple zones. The system is divided in zones, and each zone can fail disrupting all the services that run inside that zone. But zones can't fail togheter. Zones can describe also geographical localtions. 
+#### Service Availability Zones
+
+A service availability zone is a location with its own set of resources and isolated from other zones to avoid that a failure in one zone will not impact other zones. A zone can be a part of a data center or may even be comprised of the whole data center. This provides redundant cloud computing facilities on which applications or services can be deployed. 
+
+Service providers typically deploy multiple zones within a data center (to run multiple instances of a service), so that if one of the zone incurs outage due to some reasons, then the service can be failed over to the other zone. They also deploy multiple zones across geographically dispersed data centers (to run multiple instances of a service), so that the service can survive even if the failure is at the data center level. It is also important that there should be a mechanism that allows seamless (automated) failover of services running in one zone to another. 
+
+#### Live Migration of a VM
+Moving a VM from server A to B (from hypervisor A to hypervisor B) while it's running. The user could experience a degradation of the service but not a disruption.
+
+In a VM live migration the entire active state of a VM is moved from one hypervisor to another. The state information includes memory contents and all other information that identifies the VM. This method involves copying the contents of VM memory from the source hypervisor to the target and then transferring the control of the VM’s disk files to the target hypervisor. Next, the VM is suspended on the source hypervisor, and the VM is resumed on the target hypervisor. Because the virtual disks of the VMs are not migrated, this technique requires that both source and target hypervisors have access to the same storage. Performing VM live migration requires a high speed network connection. It is important to ensure that even after the migration, the VM network identity and network connections are preserved. 
+
+Live migration summary:
+- copy the RAM and at the end, copy the pages writed during this phase.
+- create an empty drive on B
+- copy the CPU registers (the VM is stopped for a really short period)
+- manage VSwitch and ARP protocol. The virtual switch must be aware of the migration: if the old vswitch receives a pkt for the just migrated VM it should send it to B.
+- continue running the VM on B, only when it needs the disk you stop it and start copying the disk file. A jumboframe can be used to avoid storage traffic fragmentation.
+
+<p align="center">
+  <img src="./assets/vm-migration.png" width="600">
+</p>
 
 
 ### Backups 
-With Replicas are  data protection solutions. 
+With Replicas are  data protection solutions. This task becomes more challenging with the growth of data, reduced IT budgets, and less time available for taking backups. Moreover, service providers need fast backup and recovery of data to meet their service level agreements. The amount of data loss and downtime that a business can endure in terms of RPO and RTO are the primary considerations in selecting and implementing a specific backup strategy. 
 
-**RTO** Recovery Time Objective: time it will take to have a full recovery. relates to the time taken to recover data from backup  
-**RPO** Recovery Point Objective: what is the last consistent copy of the storage I will find. How many data points do you have to go back in time? specifies the time interval between two backups.
+**RTO**: Recovery Time Objective: time it will take to have a full recovery. Relates to the time taken to recover data from backup  
+**RPO**: Recovery Point Objective: what is the last consistent copy of the storage I will find. How many data points do you have to go back in time? specifies the time interval between two backups.
 
 Network it's the first problem when I want to make a backup, beacuse the size of the backup is bigger than the network bandwidth.  
 Sometimes it's simply impossible to make a backup.
 
-**incremental backup**
-Backup only the updated parts. High RTO cause I have to reconstruct all the files hierarchy going back througth the back ups. Sometimes snapshots are needed.
+#### Backup types
 
-**guest level** [...]  
-**image level:**  uses snapshots. It's agentless (agent == client who gathers the data that is to be backed up), the agent can't crash since there isn't one. 
-Backup is saved as a single entity called a VM image. Provides VM image-level and file-level recovery
+**Incremental backup**: backup only the updated parts. High RTO cause I have to reconstruct all the files hierarchy going back througth the back ups. Sometimes snapshots are needed.
 
-**backup windows**  
-the horizon effect: you decide a window but the stuff you need will be always in the deleted part.
+**Guest level**: a VM is treated as if it is a physical compute system. A backup agent is installed on the VM, and it streams the backup data to the storage node. If multiple VMs on a compute system are backed up simultaneously, then the combined I/O and bandwidth demands placed on the compute system by the various guest-level backup operations can deplete the compute system resources. 
 
-some servers + backup unit  
-some others servers + some other backup unit
+**Image level:**  uses snapshots. It's agentless (agent == client who gathers the data that is to be backed up), the agent can't crash since there isn't one. The backup processing is performed by a proxy server that acts as the backup client. Backup is saved as a single entity called a VM image. Provides VM image-level and file-level recovery.
+
+**Backup as a Service**: service providers offer backup as a service that enables an organization to reduce its backup management overhead. It also enables the individual consumer to perform backup and recovery anytime, from anywhere, using a network connection. 
+
+**Backup window**: the horizon effect: you decide a window but the stuff you need will be always in the deleted part.
 
 **Data Deduplication**  
-The process of detecting and identifying the unique data segments within a given set of data to eliminate redundancy. Take the hash of two identical files, store only one of the two files and both the hashes. 
+Deduplication is the process of detecting and identifying the unique data segments (chunk) within a given set of data to eliminate redundancy. The use of deduplication techniques significantly reduces the amount of data to be backed up in a cloud environment, where typically a large number of VMs are deployed. Take the hash of two identical files, store only one of the two files and both the hashes. 
 
-The **replica** it's a whole complete copy.  The syncronous replica needs an acknowledgement before proceeding. DBs like Oracle, SQL Servers want syncronous replica. 
+**Replica**: the process of creating an exact copy (replica) of the data. The syncronous replica needs an acknowledgement before proceeding, and any additional writes on the source cannot occur until each preceding write has been completed and acknowledged.  DBs like Oracle, SQL Servers want syncronous replica. 
 - Local replication
   - Snapshot and mirroring
 - Remote replication
-  - Synchronous and asynchronous 
+  - Synchronous: typically deployed for distances less than 200 KM between the two sites
+  - Asynchronous: write from a compute system is committed to the source and immediately acknowledged
+
 With the **backup** you can choose the chunk of files to "backup".
 
 
