@@ -213,9 +213,21 @@ Nowadays we have:
 
 The **Transceiver module** can serve copper or optical fiber; it has a chip inside and is not cheap.
 
-## Software Defined *** and Open Newtwork
+## Software Defined Approach and Open Network
 
-The Software Defined something, where something is Networking (**SDN**) or Storage (**SDS**), is a novel approach to cloud computing. 
+The Software Defined Approach, where approach is Networking (**SDN**) or Storage (**SDS**), is a novel approach to cloud computing. 
+
+Software-defined approach abstracts all the infrastructure components (compute, storage, and network), and pools them into aggregated capacity. It separates the control or management functions from the underlying components to the external software, which takes over the control operations to manage the multi-vendor infrastructure components centrally. 
+This decoupling enable to centralize all data provisioning and management tasks through software, external to the infrastructure components.
+The software runs on a centralized compute system or a standalone device, called the software-defined controller.
+
+Benefits of software-defined approach:
+- Improves business agility: minimizes resource provisioning time to get new services up and running
+- Provides cost efficiency: enables to effectively use the existing infrastructure and low-cost commodity hardware to lower CAPEX
+- Enables to achieve scale-out architecture 
+- Provides a central point of access to all management functions
+- Allows to create new innovative services using the underlying resources
+
 
 ### Open Flow
 
@@ -333,11 +345,11 @@ Datacenter's switches are usually non-blocking. It basically means that this swi
 
 Now some standard are trying to impose a common structure to the network elements (switch included) to facilitate the creation of standard orchestration and automation tools.
 
-The internal is made of a **control plane** which is configurable and a **data plane** where there are the ports. The control plain evolved during the years, now they run an OS and Intel CPU's. Through a CLI Command Line Interface it's possible to configure the control plain. Some exaples of command are:
+The internal is made of a **control plane** which is configurable and a **data plane** where there are the ports. The control plain evolved during the years, now they run an OS and Intel CPU's. Through a CLI Command Line Interface it's possible to configure the control plain. Some examples of command are:
 - show running config
 - show interfaces status 
 - show vlan
-- config ( to enter in config mode)
+- config (to enter in config mode)
 
 Some protocols in the switch (bold ones are important):
 - PING to test connectivity.
@@ -585,6 +597,7 @@ The drives are in the front (up) part, immediatly above them there are the fans 
 Differs from desktop systems. 
 - CPU architecture with a new generation memory called [NUMA](https://en.wikipedia.org/wiki/Non-uniform_memory_access).
 - [Hyper threading](https://en.wikipedia.org/wiki/Hyper-threading)
+  - Hyper-threading makes a single processor core appear as two logical processor cores, allowing the hyper-threading enabled operating system (or hypervisor) to schedule two threads simultaneously to avoid idle time on processor. However, the two threads cannot be executed at the same time because the two logical cores share the resources of a single physical core. When core resources are not in use by the current thread, especially when the processor is stalled (for example due to data dependency), resources of the core are used to execute the next scheduled thread. 
 - https://en.wikipedia.org/wiki/Intel_UltraPath_Interconnect
 - Intra socket connection 
 - Intel [AVX](https://en.wikipedia.org/wiki/Advanced_Vector_Extensions) CPU architecture
@@ -729,6 +742,13 @@ Mooving a VM from server A to B while it's running. The user could experience a 
 It exploits Linux's Resource Group. The processes in the container can see only a part of the OS. The containers have to share the networking. Docker separates different software stacks on a single node.
 
 ## Control Layer
+
+<p align="center">
+  <img width="600" src="./assets/control-layer.png">
+</p>
+
+The control layer includes control software that are **responsible for managing and controlling  the underlying cloud infrastructure resources and enable provisioning of IT resources** for creating cloud services. Control layer can be deployed on top of the virtual layer or on top of the physical layer. This layer receives request from the service and orchestration layers, and interacts with the underlying virtual and physical resources for provisioning IT resources. For example, when a consumer initiates a service request (a VM instance with 4 GB RAM and 500 GB storage), based on the workflow defined by the orchestration layer for this service, the control layer provisions the required resources from the resource pool to fulfill the service request. This layer also exposes the resources (physical and/or virtual) to and supports the service layer where cloud services interfaces are exposed to the consumers. The key functions of the control layer includes resource configuration, resource provisioning, and monitoring resources. 
+
 Enables resource configutarion and resource pool configuration. Enable resource provisioning. Execute requests generated by service layer. It takes physical or virtual resources and puts them in a common domain allocating existing and new resources.  
 Receives request from the service and orchestration layers and provisions the required resources to fulfill the service request
 
@@ -742,7 +762,12 @@ Receives request from the service and orchestration layers and provisions the re
   - Dynamic allocation of resources
   - Optimizing utilization of resources
 
-**open stack**  
+**Key phases for provisioning resources**:
+  - *Resource discovery*: create an inventory of the infrastructure resources, so that unified manager can learn what resources are available for cloud service deployment
+  - *Resource pool management*: virtual resources such as VM, virtual volume, and virtual network are created from these pools and provisioned for the services
+  - *Resource provisioning*: involves allocating resources from graded resource pools to the service instances
+
+**Open stack**  
 Good idea but bad implementation. Various open source softwares, difficult to deply, lots of dead code, bad security implementation. It has a small form of orchestration but it's not a service orchestrator( i.e. no distribution of the workload, scaling)
 
 ### Service orchestration Layer
