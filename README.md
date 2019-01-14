@@ -311,9 +311,12 @@ The full fat tree resolves the problem of over-subscription. Adopting the spine 
 </p>
 
 ### VLAN
-Now, the problem is that every switch can be connected to each other and so there is no more LANs separation in the datacenter, every packet can go wherever it wants and some problems may appear. VLANs solve this problem. It partition a broadcast domain and create a isolated computer network.
 
-It works by applying _tags_ to network packets (in Ethernet frame) and handling these tags in the networking systems. 
+Now, the problem is that every switch can be connected to each other and so there is no more LANs separation in the datacenter, every packet can go wherever it wants and some problems may appear. VLANs solve this problem partitioning a broadcast domain and creating isolated computer networks.
+
+A virtual LAN (VLAN) is a virtual network consisting of virtual and/or physical switches, which divides a LAN into smaller logical segments. A VLAN groups the nodes with a common set of functional requirements, independent of the physical location of the nodes. In a multi-tenant cloud environment, the provider typically creates and assigns a separate VLAN to each consumer. This provides a private network and IP address space to a consumer, and ensures isolation from the network traffic of other consumers. 
+
+It works by applying *tags* to network packets (in Ethernet frame) and handling these tags in the networking systems. 
 
 <p align="center">
   <img width="600" src="./assets/vlan.png">
@@ -324,7 +327,7 @@ A switch can be configured to accept some tags on some ports and some other tags
 VLAN are useful to manage the access control to some resources (and avoid to access to some subnetwork from other subnetwork). Different VLANs for different purposes.
 
 ### Switch Anatomy
-A switch is an ASIC (application-specific integrated circuit). It can be proprietary architecture or non-proprietary. Layer two switches receive pkts and implements the equivalent of a bus: store and forward (there is a special address allowing broadcast). At layer 3 there is no loop problem, as in layer 2, because of the Internet Table.
+A switch is an ASIC (application-specific integrated circuit). It can be proprietary architecture or non-proprietary. Layer two switches receive packets and implements the equivalent of a bus: store and forward (there is a special address allowing broadcast). At layer 3 there is no loop problem, as in layer 2, because of the Internet Table.
 
 Datacenter's switches are usually non-blocking. It basically means that this switches have the forwarding capacity that supports concurrently all ports at full port capacity.
 
@@ -341,12 +344,12 @@ Some protocols in the switch (bold ones are important):
 - LLDP Local Link Discovery Protocol ( a way to explore the graph).
 - **STP** Spanning Tree Protocol (to avoid loops).
 - RSTP Rapid-STP
-- DCBX Data Center Bridging eXchange (QoS, priority)
+- DCBX Data Center Bridging eExchange (QoS, priority)
 - PFC Priority Flow Control
-- ETS Enanched Transmission Selection (priority)
+- ETS Enhanced Transmission Selection (priority)
 - **LACP**  Link Aggregation Control Protocol (use two wires as they are one).
 
-**ONIE** (Open Netwoking Installed Environment) boot loader  
+**ONIE** (Open Networking Installed Environment) boot loader  
 
 The switch has a firmware and two slots for the OS images. When updating in the first slot we store the old OS image, in the second slot the new one.
 
@@ -462,10 +465,10 @@ The SAN can be divided in different Logical Unit Numbers (LUNs). The LUN abstrac
 
 - Storage capacity of a LUN can be dynamically expanded or reduced (**virtual storage provisioning:** It enables to present a LUN to an application with more capacity than is physically allocated to it on the storage system.)
 - LUN can be created from
-  - RAID set (traditional approach)
-  - Storage pool 
+  - RAID set (traditional approach): suited for applications that require predictable performance
+  - Storage pool: LUNs can be created from the storage pool that comprises a set of physical drives that provide the actual physical storage used by the volumes. Appropriate for applications that can tolerate performance variations.
 
-If the drive is seen as phisically attached to the machine, and a block transmission protocol is adopted that means that you are using a SAN. The optical fiber has become the bottleneck (just four drives to saturate a link).
+If the drive is seen as physically attached to the machine, and a block transmission protocol is adopted that means that you are using a SAN. The optical fiber has become the bottleneck (just four drives to saturate a link).
 
 With SAN the server has the impression that the LUN is attached directly to him, locally; with NAS there isn't this kind of abstraction.
 
@@ -674,6 +677,10 @@ VM networks comprise virtual switches, virtual NICs, and uplink NICs that are cr
 
 **Uplink NIC**: an uplink NIC is a physical NIC connected to the uplink port of a virtual switch and functions as an Inter-Switch Link between the virtual switch and a physical Ethernet switch. It is called uplink because it only provides a physical interface to connect a compute system to the network and is not addressable from the network. Uplink NICs are neither assigned an IP address nor are their built-in MAC addresses available to any compute system in the network. It simply forwards the VM traffic between the VM network and the external physical network without modification.
 
+<p align="center">
+  <img width="600" src="./assets/virtual-network.png">
+</p>
+
 ### VM components
 
 The **hypervisor** is responsible for running multiple VMs. Since I want to execute x86 ISA over an x86 server I don't need to translate the code.
@@ -699,11 +706,6 @@ The disk is virtualized usign a file, while for the Network there is a VNIC (Net
 The Virtual Disk is a file of fixed size or dynamically expanding. The vOS can be shared among the VMs and stored elsewhere than in the vdisk file. Each write goes on the vdisk (can undo all the write ops), instead each read first look in the "file" where the vOS is, than in the vdisk file if the previous check wasn't successful.  
 
 The Virtual CPU masks the feature of a CPU to a VM. The VCPU can be overbooked, up to twice the number of cores. The CPU has several rings of protection (user ... nested vos,vos,os).
-
-<p align="center">
-  <img src="./assets/vm-network.png" width="600">
-</p>
-
 
 
 #### About the virtual memory:  
@@ -811,7 +813,7 @@ some others servers + some other backup unit
 **Data Deduplication**  
 The process of detecting and identifying the unique data segments within a given set of data to eliminate redundancy. Take the hash of two identical files, store only one of the two files and both the hashes. 
 
-The **replica** it's a whole complete copy.  The syncronous replica needs an acknowledgement before proceeding. DBs like Oracle, Sequel Servers want syncronous replica. 
+The **replica** it's a whole complete copy.  The syncronous replica needs an acknowledgement before proceeding. DBs like Oracle, SQL Servers want syncronous replica. 
 - Local replication
   - Snapshot and mirroring
 - Remote replication
