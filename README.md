@@ -449,9 +449,17 @@ Storage system architectures are based on data access methods whose common varia
   <img src="./assets/unified-storage-access.png" width="600">
 </p>
 
+**iSCASI**: Internet Small Computer Systems Interface, an IP-based storage networking standard for linking data storage facilities. It provides block-level access to storage devices by carrying SCSI commands over a TCP/IP network.
+
 ## Storage Area Network (SAN)
+
+A network of compute systems and storage systems is called a storage area network (SAN). A SAN enables the compute systems to access and share storage systems. Sharing improves the utilization of the storage systems. Using a SAN facilitates centralizing storage management, which in turn simplifies and potentially standardizes the management effort.
+SANs are classified based on protocols they support. Common SAN deployments types are Fibre Channel SAN (FC SAN), Internet Protocol SAN (IP SAN), and Fibre Channel over Ethernet SAN (FCoE SAN).
+
 While NAS provides both storage and a file system, SAN provides only block-based storage and leaves file system concerns on the "client" side. SAN protocols include Fibre Channel, iSCSI (SCSI over the fiber), ATA over Ethernet (AoE) and HyperSCSI. It can be implemented as some controllers attached to some JBoDS (Just a Bunch of Disks).  
-The SAN can be divided in different LUNs Logical Unit Numbers. The LUN abstracts the identity and internal functions of storage system(s) and appear as physical storage to the compute system.
+
+The SAN can be divided in different Logical Unit Numbers (LUNs). The LUN abstracts the identity and internal functions of storage system(s) and appear as physical storage to the compute system.
+
 - Storage capacity of a LUN can be dynamically expanded or reduced (**virtual storage provisioning:** It enables to present a LUN to an application with more capacity than is physically allocated to it on the storage system.)
 - LUN can be created from
   - RAID set (traditional approach)
