@@ -72,7 +72,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [Business Continuity layer](#business-continuity-layer)
     - [Redundancy (to avoid single point of failure)](#redundancy-to-avoid-single-point-of-failure)
     - [Backups](#backups)
-    - [Security](#security)
+    - [Security layer](#security-layer)
     - [Service Managment](#service-managment)
   - [GDPR General Data Protection Regulation](#gdpr-general-data-protection-regulation)
   - [Vendor Lock-in](#vendor-lock-in)
@@ -1006,14 +1006,37 @@ Sometimes it's simply impossible to make a backup.
 With the **backup** you can choose the chunk of files to "backup".
 
 
-### Security
-Firewall, Antivirus, Standard procedures to direct safe execution of operations...
+### Security layer 
+
+<p align="center">
+  <img src="./assets/security-layer.png" width="600">
+</p>
+
+Key security threats according:
+- Data leakage: occurs when an unauthorized entity (an attacker) gains access to a cloud consumer’s confidential data stored on the cloud infrastructure
+  - => Data encryption, data shredding and multi-factor authentication
+- Data loss
+   - => Backup and replication
+- Account hijacking: an attacker gains access to consumers’ accounts
+   - multi-factor authentication and firewall
+- Insecure APIs: exploit vulnerability in an API to breach a cloud infrastructure
+  - => proper design and security reviews
+- Malicious insiders
+   - => access control policies 
+- Denial of service
+   - => limits on resource consumption
+- Abuse of cloud services
+   - => difficult to mitigate
+- Shared technology vulnerabilities
+   - => secure trusted components 
+
+
+Firewall, Antivirus, Standard procedures to direct safe execution of operations.
 
 Three levels of security:
 - **Procedural**: phising, the weakest link is the human.
 - **Logical**: abstraction produced by the OS. **mandatory access** (classification of the infos); **discreptional access** (~ ACL)
 - **Physical**
-
 - Authentication
   - Process to ensure users or assets are who they claim to be
   - Two methods: single-factor and multi-factor
@@ -1066,7 +1089,12 @@ Share the identities of the users to not replicate them in each server:
 - **active-directory**: uses a secure protocol to exchange credentials throught the network. It's a centralized data structure listing users.
 
 ### Service Managment
-Be aware of regulations and legal constraints that define how to run a system.
+
+<p align="center">
+  <img src="./assets/service-managment-layer.png" width="600">
+</p>
+
+Cloud service management has a service-based focus, meaning that the management functions are linked to the service requirements and service level agreement (SLA). Be aware of regulations and legal constraints that define how to run a system.
 
 Level of compliancy to the policy. Demonstrate compliancy. Is this system behaving according to the regulations?  
 Information processors (cloud providers) are responsible of the infos they process.
@@ -1082,7 +1110,8 @@ The lower the resources used, the higher the margin got. Low level magrgin busin
 
 Ensure **charge-back** (pay per use), **show-back** (I exhausted the resources so I need more): make a good use of the money spent on hardware, people. Measure how much are you efficient in spending money.
 
-**TCO** Total Cost Ownership: time cost, resource ...  
+**TCO**: estimates the full lifecycle cost of owning service assets. The cost includes capital expenditure (CAPEX), such as procurement and deployment costs of hardware and on-going operational expenditure (OPEX), such as power, cooling, facility, and administration cost. 
+
 Reducing risk is a kind of **ROI** Return On Investment.
 
 **CAPEX** CAPital EXpenses: buy something.
