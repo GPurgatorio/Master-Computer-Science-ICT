@@ -4,7 +4,8 @@
   "description": "Notes of ICT Infrastructures course - University of Pisa (Italy)",
   "main": "index.js",
   "scripts": {
-    "toc": "markdown"
+    "toc": "npx doctoc README.md --github --maxlevel 3",
+    "toc:git:add": "git add README.md"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,11 @@
   },
   "homepage": "https://github.com/giacomodeliberali/ict-infrastructures#readme",
   "devDependencies": {
-    "markdown-magic": "^0.1.25"
-  }
+    "doctoc": "^1.4.0",
+    "pre-commit": "^1.2.2"
+  },
+  "pre-commit": [
+    "toc",
+    "toc:git:add"
+  ]
 }
