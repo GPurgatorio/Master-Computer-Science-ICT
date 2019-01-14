@@ -457,11 +457,7 @@ Datacenter's switches are usually non-blocking. It basically means that this swi
 
 Now some standard are trying to impose a common structure to the network elements (switch included) to facilitate the creation of standard orchestration and automation tools.
 
-<<<<<<< HEAD
-The internal is made of a **control plane** which is configurable and a **data plane** where there are the ports. The control plane evolved during the years, now they run an OS and Intel CPU's. Through a CLI Command Line Interface it's possible to configure the control plane. Some examples of command are:
-=======
-The internal is made of a **control plane** which is configurable and a **data plane** where there are the ports and where the actual switching is made. The control plain evolved during the years, now they run an OS and Intel CPU's. Through a CLI Command Line Interface it's possible to configure the control plain. Some examples of command are:
->>>>>>> master
+The internal is made of a **control plane** which is configurable and a **data plane** where there are the ports and where the actual switching is made. The control plane evolved during the years, now they run an OS and Intel CPU's. Through a CLI Command Line Interface it's possible to configure the control plane. Some examples of command are:
 - show running config
 - show interfaces status 
 - show vlan
@@ -1158,10 +1154,6 @@ Share the identities of the users to not replicate them in each server:
 
 - **active-directory**: uses a secure protocol to exchange credentials throught the network. It's a centralized data structure listing users.
 
-<<<<<<< HEAD
-## Service Managment
-Be aware of regulations and legal constraints that define how to run a system.
-=======
 ## Service Managment layer
 
 <p align="center">
@@ -1169,7 +1161,6 @@ Be aware of regulations and legal constraints that define how to run a system.
 </p>
 
 Cloud service management has a service-based focus, meaning that the management functions are linked to the service requirements and service level agreement (SLA). Be aware of regulations and legal constraints that define how to run a system.
->>>>>>> master
 
 Level of compliancy to the policy. Demonstrate compliancy. Is this system behaving according to the regulations?  
 Information processors (cloud providers) are responsible of the infos they process.
@@ -1198,7 +1189,6 @@ Ensure **charge-back** (pay per use), **show-back** (I exhausted the resources s
 
 Reducing risk is a kind of **ROI** Return On Investment.
 
-<<<<<<< HEAD
 **CAPEX** CAPital EXpenses: buy something. It's a one time cost e.g procurement and deployment costs of hardware .
 
 **OPEX** OPerational EXpences: use something. It's a recurrent cost e.g power, cooling, facility, and administration costs.
@@ -1230,13 +1220,6 @@ Monitoring benefits:
  - Migrating a service to a different availability zone
  - Moving application instances to a public cloud in a hybrid cloud environment
  - Changing policy for balancing client workload across servers
-=======
-**CAPEX** CAPital EXpenses: buy something.
-**OPEX** OPerational EXpences (use something)
-
-**capacity planning**: make some forecast to find when we will exhaust the resources and how many resources we will really need.  
-**monitoring**: collecting data (in a respectfull way).
->>>>>>> master
 
 Keep track of things, processes, servers, configurations so that you can roll back.
 
