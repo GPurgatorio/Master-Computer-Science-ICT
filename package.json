@@ -4,7 +4,8 @@
   "description": "Notes of ICT Infrastructures course - University of Pisa (Italy)",
   "main": "index.js",
   "scripts": {
-    "toc": "npx doctoc README.md --github --maxlevel 3"
+    "toc": "npx doctoc README.md --github --maxlevel 3",
+    "toc:git:add": "git add README.md"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "pre-commit": "^1.2.2"
   },
   "pre-commit": [
-    "toc"
+    "toc",
+    "toc:git:add"
   ]
 }

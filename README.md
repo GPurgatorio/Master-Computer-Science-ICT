@@ -7,7 +7,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   <summary>Table of contents</summary>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+</details>
 
 - [Introduction](#introduction)
 - [Cloud Computing Reference Model Module 2](#cloud-computing-reference-model-module-2)
