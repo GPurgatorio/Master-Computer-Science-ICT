@@ -3,108 +3,6 @@ ICT Infrastructures - University of Pisa (Italy)
 *Since there is only little material on ICT Infrastructures course, this is a recap and summary of classes. The notes are a compilation of the course contents and focus on the topics in accordance with Prof. Antonio Cisternino's OneNote Notebook. 
 It is highly recommended to study with the EMC DELL slides provided under <<_Raccolta contenuto>> which will not be uploaded here for copyright reasons. Each heading correspond to a module. If you find any error please, fork and submit a pull request!*
 
-# Table of contents
-<!-- AUTO-GENERATED-CONTENT:START (TOC:collapse=true&collapseText=Click to expand) -->
-<details>
-<summary>Click to expand</summary>
-
-- [Introduction](#introduction)
-- [Cloud Computing Reference Model](#cloud-computing-reference-model)
-- [Data centers](#data-centers)
-- [Design and Architectures](#design-and-architectures)
-  * [Cooling](#cooling)
-    + [CRAC: Computer Room Air Conditioner](#crac-computer-room-air-conditioner)
-    + [Hot aisle](#hot-aisle)
-    + [In-Row cooling](#in-row-cooling)
-    + [Liquid cooling](#liquid-cooling)
-- [Current](#current)
-  * [Power Distribution](#power-distribution)
-  * [PUE: Power Usage Effectiveness](#pue-power-usage-effectiveness)
-- [Fabric](#fabric)
-  - [Ethernet](#ethernet)
-  - [Infiniband](#infiniband)
-  - [Omni-Path](#omni-path)
-  - [RDMA: Remote Direct Memory Access](#rdma-remote-direct-memory-access)
-  - [Some consideration about numbers](#some-consideration-about-numbers)
-  - [Real use case](#real-use-case)
-  - [Connectors & plugs](#connectors--plugs)
-  - [Software Defined *** and Open Newtwork](#software-defined--and-open-newtwork)
-    * [Open Flow](#open-flow)
-    * [SDN: Software Defined Networking](#sdn-software-defined-networking)
-  * [Software-defined data center](#software-defined-data-center)
-    * [Hyper-convergence](#hyper-convergence)
-- [Network topologies](#network-topologies)
-  * [Spanning Tree Protocol (STP)](#spanning-tree-protocol-stp)
-  * [Three-tier design](#three-tier-design)
-  * [Network Chassis](#network-chassis)
-  * [Stacking](#stacking)
-    + [Spine and leaf Architecture](#spine-and-leaf-architecture)
-    + [Full Fat Tree](#full-fat-tree)
-  * [VLAN](#vlan)
-  * [Switch Anatomy](#switch-anatomy)
-- [Disks and Storage](#disks-and-storage)
-- [Interfaces](#interfaces)
-- [Redundancy](#redundancy)
-- [IOPS](#iops)
-- [Functional programming](#functional-programming)
-- [Memory Hierarchy](#memory-hierarchy)
-  * [NVMe](#nvme)
-  * [Storage aggregation](#storage-aggregation)
-- [Network Area Storage (NAS)](#network-area-storage-nas)
-- [Storage Area Network (SAN)](#storage-area-network-san)
-  * [Benefits](#benefits)
-- [HCI - Hyperconvergent Systems](#hci---hyperconvergent-systems)
-- [SDS - Software Defined Storage](#sds---software-defined-storage)
-- [Non-RAID drive architectures](#non-raid-drive-architectures)
-- [Some consideration about Flash Drives](#some-consideration-about-flash-drives)
-- [Storage in the feature](#storage-in-the-feature)
-- [Hypervisors](#hypervisors)
-- [Servers](#servers)
-- [Form-factors](#form-factors)
-    + [Miscellaneous](#miscellaneous)
-- [Cloud](#cloud)
-  * [Rapid Elasticity](#rapid-elasticity)
-  * [High Avaialability](#high-avaialability)
-- [Cloud computering Layer](#cloud-computering-layer)
-    + [Phyisical Layer](#phyisical-layer)
-- [Virtual Layer](#virtual-layer)
-    + [About the virtual memory:](#about-the-virtual-memory)
-      - [Balooning](#balooning)
-    + [Other considerations about the Virtual Layer](#other-considerations-about-the-virtual-layer)
-      - [vMotion - Live Migration](#vmotion----live-migration)
-    + [Docker](#docker)
-- [Control Layer](#control-layer)
-  * [Service orchestration Layer](#service-orchestration-layer)
-- [Business Continuity](#business-continuity)
-    + [Backups](#backups)
-  * [Security](#security)
-    + [Firwall](#firwall)
-  * [Service Managment](#service-managment)
-- [GDPR General Data Protection Regulation](#gdpr-general-data-protection-regulation)
-- [Vendor Lock-in](#vendor-lock-in)
-  * [Standardization-Portability](#standardization-portability)
-- [Orchestration](#orchestration)
-- [Fog Computing](#fog-computing)
-- [Miscellaneous](#miscellaneous-1)
-  * [Redundancy](#redundancy-1)
-- [In class exercises](#in-class-exercises)
-- [1 - Discuss the difference between spine and leaf fabric and the more traditional fabric architecture based on larger chassis. How bandwidth and latency are affected?](#1---discuss-the-difference-between-spine-and-leaf-fabric-and-the-more-traditional-fabric-architecture-based-on-larger-chassis-how-bandwidth-and-latency-are-affected)
-- [Spine and Leaf](#spine-and-leaf)
-- [Traditional Chassis](#traditional-chassis)
-- [2 - What actions can take the orchestration layer of a cloud system, and based on what information, in order to decide how many web server istances should be used to serve a Web system?](#2---what-actions-can-take-the-orchestration-layer-of-a-cloud-system-and-based-on-what-information-in-order-to-decide-how-many-web-server-istances-should-be-used-to-serve-a-web-system)
-- [3 - Discuss a datacenter architecture made of 10 racks. Assuming a power distribution of 15 W/ rack.](#3---discuss-a-datacenter-architecture-made-of-10-racks-assuming-a-power-distribution-of-15-w-rack)
-- [4 - A service requires a sustained throughput towards the storage of 15 GB/s. Would you recomment using a SAN architecture or an hyperconvergent one.](#4---a-service-requires-a-sustained-throughput-towards-the-storage-of-15-gbs-would-you-recomment-using-a-san-architecture-or-an-hyperconvergent-one)
-  * [SAN area network (recap)](#san-area-network-recap)
-  * [NAS](#nas)
-  * [HCI (hyperconvergent)](#hci-hyperconvergent)
-    + [Discussion](#discussion)
-- [What should I look for..](#what-should-i-look-for)
-- [5 - A service requires a sustained throughput towards the storage of 15 GB/s. How would you dimension an hyperconvergent system to ensure it works properly?](#5---a-service-requires-a-sustained-throughput-towards-the-storage-of-15-gbs-how-would-you-dimension-an-hyperconvergent-system-to-ensure-it-works-properly)
-- [References](#references)
-
-</details>
-<!-- AUTO-GENERATED-CONTENT:END -->
-
 # Introduction
 The ICT world is changing (and will keep changing beyod the last time these notes were updated) and a lot of axioms about its infrastructures are becoming outdated. A couple of examples:
 
@@ -118,8 +16,7 @@ The ICT world is changing (and will keep changing beyod the last time these note
 
 # Cloud Computing Reference Model [Module 2](#)
 Since the course revolves around Cloud Computing architectures, it is important to keep the following reference model of the cloud stack in mind:
-<!-- Just a brief overview on the reference model of cloud computing:
- -->
+<!-- Just a brief overview on the reference model of cloud computing: -->
 
 <p align="center">
   <img width="800" src="./assets/referenceModel.png">
@@ -137,11 +34,6 @@ The physical infrastructure supporting the operation of the cloud
   *Fault Tolerance*: I should be able to power off a server without anyone noticing it.
   *live migration*: upgrading the software or the firmware while the system is running.
   8. **Security [Module 8](#)**: Governance, Risk and compliance. Also things like GDPR, phishing, antivirus, firewalls and DoS Attacks..
-
-
-
-
-
 
 # Data centers
 
@@ -477,8 +369,8 @@ The simple one is that the disks are put inside each servers and are used as we 
 [RAID](https://en.wikipedia.org/wiki/RAID#Standard_levels) stands for Redundant Array of Independent Disks. The RAID is done by the disk controller or the OS.   
 The more common RAID configurations are:
 
-- RAID-0: striping, two drivers aggregated that works as a single one.
-- RAID-1: mirroring,write on both the drives one is the copy of the other.
+- RAID-0: striping, two drivers aggregated that works as a single one (no fault tolerance)
+- RAID-1: mirroring, write on both the drives one is the copy of the other.
 - RAID-5: block-level striping with distributed parity. It's xor based: the first bit goes in the first disk, the second bit in the second one and their xor in the third. If one disk crashes I can recompute it ( for each two bits of info I need one extra bit, so one third more disk storage).
 - RAID-6: block-level striping with double distributed parity. Similar to RAID1 but with more disks.
 
@@ -528,9 +420,34 @@ The strategy for accessing drive makes the difference.
 Fiber channel is the kind of fabric dedicated for the storage. The link coming from the storage ends up in the Host Based Adapter in the server.
 
 ## Network Area Storage (NAS)
+
 NAS is a file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients. NAS systems are networked appliances which contain one or more storage drives, often arranged into logical, redundant storage containers or RAID. They typically provide access to files using network file sharing protocols such as NFS, SMB/CIFS, or AFP over a optical fiber.
 
-When using a network file systsem protocol, you are uing a NAS.
+Storage system architectures are based on data access methods whose common variants are:
+
+- **block-based**: a block-based storage system enables the creation and assignment of storage volumes to compute systems. The compute OS (or hypervisor) discovers these storage volumes as local drives. A file system can be created on these storage volumes, for example NTFS in a Windows environment, which can then be formatted and used by applications.
+
+<p align="center">
+  <img src="./assets/block-based-storage-access.png" width="600">
+</p>
+
+- **file-based**: a file-based storage system, also known as Network-Attached Storage (NAS), is a dedicated, high-performance file server having either integrated storage or connected to external storage. NAS enables clients to share files over an IP network. NAS supports NFS and CIFS protocols to give both UNIX and Windows clients the ability to share the same files using appropriate access and locking mechanisms. NAS systems have integrated hardware and software components, including a processor, memory, NICs, ports to connect and manage physical disk resources, an OS optimized for file serving, and file sharing protocols. 
+
+<p align="center">
+  <img src="./assets/file-based-storage-access.png" width="600">
+</p>
+
+- **object-based**: object-based storage is a way to store file data in the form of objects based on the content and other attributes of the data rather than the name and location of the file. An object contains user data, related metadata (size, date, ownership, etc.), and user defined attributes of data (retention, access pattern, and other business-relevant attributes). The additional metadata or attributes enable optimized search, retention and deletion of objects. The object-based storage system uses a flat, non-hierarchical address space to store data, providing the flexibility to scale massively. Cloud service providers leverage object-based storage systems to offer Storage as a Service because of its inherent security, scalability, and automated data management capabilities. Object-based storage systems support web service access via REST and SOAP.
+
+<p align="center">
+  <img src="./assets/object-based-storage-access.png" width="600">
+</p>
+
+- **unified**: unified storage or multiprotocol storage has emerged as a solution that consolidates block, file, and object-based access within one storage platform. It supports multiple protocols such as CIFS, NFS, iSCSI, FC, FCoE, REST, and SOAP for data access
+
+<p align="center">
+  <img src="./assets/unified-storage-access.png" width="600">
+</p>
 
 ## Storage Area Network (SAN)
 While NAS provides both storage and a file system, SAN provides only block-based storage and leaves file system concerns on the "client" side. SAN protocols include Fibre Channel, iSCSI (SCSI over the fiber), ATA over Ethernet (AoE) and HyperSCSI. It can be implemented as some controllers attached to some JBoDS (Just a Bunch of Disks).  
@@ -629,6 +546,14 @@ They are really different from desktops, the only common part is the CPU istruct
 For istance, servers have an ECC memory with Error Correction Code built in.
 
 Racks are divided in Units: 1 U is the minimal size you can allocate on a rack. Generraly 2 meters rack has 42 Units. 
+
+## Types of compute systems
+
+- **Tower**: a tower compute system, also known as a tower server, is a compute system built in an upright enclosure called a “tower”, which is similar to a desktop cabinet. Tower servers have a robust build, and have integrated power supply and cooling. They typically have individual monitors, keyboards, and mice. Tower servers occupy significant floor space and require complex cabling when deployed in a data center. Tower servers are typically used in smaller environments. Deploying a large number of tower servers in large environments may involve substantial expenditure.
+
+- **Rack-mounted**: a rack-mounted compute system is a compute system designed to be fixed on a frame called a “rack”. A rack is a standardized enclosure containing multiple mounting slots, each of which holds a server. A single rack contains multiple servers stacked vertically, thereby simplifying network cabling, consolidating network equipment, and reducing floor space use. Each rack server has its own power supply and cooling unit. A “rack unit” (denoted by U or RU) is a unit of measure of the height of a server designed to be mounted on a rack. One rack unit is 1.75 inches (~4.5cm). A rack server is typically 19 inches (~50cm) in width and 1.75 inches (~45cm) in height. This is called a 1U rack server. Other common sizes of rack servers are 2U and 4U. Some common rack cabinet sizes are 27U, 37U, and 42U. Typically, a console with a video screen, keyboard, and mouse is mounted on a rack to enable administrators to manage the servers in the rack. Some concerns with rack servers are that they are cumbersome to work with, and they generate a lot of heat because of which more cooling is required, which in turn increases power costs.
+
+- **Blade**: a blade compute system, also known as a blade server, contains only core processing components, such as processor(s), memory, integrated network controllers, storage drive, and essential I/O cards and ports. Each blade server is a self-contained compute system and is typically dedicated to a single application. A blade server is housed in a slot inside a chassis, which holds multiple blades and provides integrated power supply, cooling, networking, and management functions. The blade enclosure enables interconnection of the blades through a high speed bus and also provides connectivity to external storage systems. The modular design of blade servers makes them smaller, which minimizes floor space requirements, increases compute system density and scalability, and provides better energy efficiency as compared to tower and rack servers. 
 
 ## Form-factors
 
