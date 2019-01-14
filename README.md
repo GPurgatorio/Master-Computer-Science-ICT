@@ -72,8 +72,8 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [Business Continuity layer](#business-continuity-layer)
     - [Redundancy (to avoid single point of failure)](#redundancy-to-avoid-single-point-of-failure)
     - [Backups](#backups)
-    - [Security layer](#security-layer)
-    - [Service Managment](#service-managment)
+  - [Security layer](#security-layer)
+  - [Service Managment layer](#service-managment-layer)
   - [GDPR General Data Protection Regulation](#gdpr-general-data-protection-regulation)
   - [Vendor Lock-in](#vendor-lock-in)
     - [Standardization-Portability](#standardization-portability)
@@ -1006,7 +1006,7 @@ Sometimes it's simply impossible to make a backup.
 With the **backup** you can choose the chunk of files to "backup".
 
 
-### Security layer 
+## Security layer 
 
 <p align="center">
   <img src="./assets/security-layer.png" width="600">
@@ -1088,7 +1088,7 @@ Share the identities of the users to not replicate them in each server:
 
 - **active-directory**: uses a secure protocol to exchange credentials throught the network. It's a centralized data structure listing users.
 
-### Service Managment
+## Service Managment layer
 
 <p align="center">
   <img src="./assets/service-managment-layer.png" width="600">
