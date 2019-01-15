@@ -28,8 +28,6 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [Infiniband](#infiniband)
   - [RDMA: Remote Direct Memory Access](#rdma-remote-direct-memory-access)
   - [Omni-Path](#omni-path)
-  - [Some consideration about numbers](#some-consideration-about-numbers)
-  - [Real use case](#real-use-case)
   - [Connectors & plugs](#connectors--plugs)
   - [Software Defined Approach](#software-defined-approach)
     - [SDN: Software Defined Networking](#sdn-software-defined-networking)
@@ -49,14 +47,12 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
 - [Disks and Storage](#disks-and-storage)
   - [Interfaces](#interfaces)
   - [Redundancy](#redundancy)
-  - [Functional programming](#functional-programming)
   - [Memory Hierarchy](#memory-hierarchy)
     - [NVMe](#nvme)
     - [Misc](#misc)
     - [Storage aggregation](#storage-aggregation)
   - [Network Area Storage (NAS)](#network-area-storage-nas)
   - [Storage Area Network (SAN)](#storage-area-network-san)
-    - [Benefits](#benefits)
   - [HCI - Hyperconvergent Systems](#hci---hyperconvergent-systems)
   - [SDS - Software Defined Storage](#sds---software-defined-storage)
   - [Non-RAID drive architectures](#non-raid-drive-architectures)
@@ -99,7 +95,6 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [GDPR General Data Protection Regulation](#gdpr-general-data-protection-regulation)
   - [Vendor Lock-in](#vendor-lock-in)
     - [Standardization-Portability](#standardization-portability)
-- [Fog Computing](#fog-computing)
 - [Miscellaneous](#miscellaneous)
 - [In class exercises](#in-class-exercises)
   - [1 - Discuss the difference between spine and leaf fabric and the more traditional fabric architecture based on larger chassis. How bandwidth and latency are affected?](#1---discuss-the-difference-between-spine-and-leaf-fabric-and-the-more-traditional-fabric-architecture-based-on-larger-chassis-how-bandwidth-and-latency-are-affected)
@@ -288,18 +283,17 @@ RDMA supports zero-copy networking by enabling the network adapter to transfer d
 ## Omni-Path
 Moreover, another communication architecture that exist and is interested to see is Omni-Path. This architecture is owned by Intel and performs high-performance communication. Production of Omni-Path products started in 2015 and a mass delivery of these products started in the first quarter of 2016 (you can insert here some more stuff written on [Wikipedia](https://en.wikipedia.org/wiki/Omni-Path)). 
 The interest of this architecture is that Intel plans to develop technology based on that will serve as the on-ramp to exascale computing (a computing system capable of the least one exaFLOPS). 
-
-## Some consideration about numbers
+<!--
+## Some consideation about numbers
 Start think about real world. We have some server with 1 Gbps (not so high speed, just think that is the speed you can reach with your laptop attaching a cable that is in classroom in the university). We have to connect this servers to each other, using switches (each of them has 48 ports). We have a lots of servers... The computation is done.
 
 <p align="center">
   <img width="600" src="./assets/speed-required.png">
 </p>
 
-## Real use case
-As we see we need a lots of bandwidth to manage a lots of service (you don't say?) and even if the north-south traffic (the traffic that goes outside from our datacenter) can be relatively small (the university connection exits on the world with 40 Gbps), the east-west traffic (the traffic inside the datacenter) can reach a very huge number of Gbps. [Aruba datacenter](https://www.arubacloud.com/infrastructures/italy-dc-it1.aspx) (called IT1) with another Aruba datacenter (IT2) reach a bandwidth of 82 Gbps of Internet connection.
-
-Yesterday I went to master degree thesis discussion of my friend. He is a physicist and his experiment requires 2.2Tbps of bandwidth to store produced data, so public cloud is impossible to use. How can manage 2.2 Tbps? Maybe we can reply to this answer (hopefully, otherwise the exam is failed :/ ).
+## Real use case 
+As we see we need a lots of bandwidth to manage a lots of service and even if the north-south traffic (the traffic that goes outside from our datacenter) can be relatively small (the university connection exits on the world with 40 Gbps), the east-west traffic (the traffic inside the datacenter) can reach a very huge number of Gbps. [Aruba datacenter](https://www.arubacloud.com/infrastructures/italy-dc-it1.aspx) (called IT1) with another Aruba datacenter (IT2) reach a bandwidth of 82 Gbps of Internet connection.
+-->
 
 ## Connectors & plugs
 Now we try to analyse the problem from the connector point of view. The fastest wire technology available is the optic fiber. It can be divided into two categories:
@@ -555,11 +549,10 @@ The more common RAID configurations are:
 - RAID-5: block-level striping with distributed parity. It's xor based: the first bit goes in the first disk, the second bit in the second one and their xor in the third. If one disk crashes I can recompute its content ( for each two bits of info I need one extra bit, so one third more disk storage).
 - RAID-6: block-level striping with double distributed parity. Similar to RAID1 but with more disks.
 
-## Functional programming
 
-Has become so popular also because of its nature: its pure functions can easily computed in a parallel system (no storage so no necessity of locks). It's an event based programming: pass a function when something happens. In Object Oriented languages it's more complicated cause we have interfaces, event listeners...  
 
 ## Memory Hierarchy
+Tiering is a technology that categorizes data to choose different type of storage media to reduce the total storage cost. Tiered storage policies place the most frequently accessed data on the highest performing storage. Rarely accessed data goes on low-performance, cheaper storage.
 
 **Caches**:
 - CPU Registries
@@ -571,15 +564,9 @@ Has become so popular also because of its nature: its pure functions can easily 
 - SS Memory
 - Hard drive
 
-**Storage tiering**:
+**Storage tiering**: 
 - Tape
 
-<!-- As technology evolves, the harder is to maintain a model that lasts. Memory tiering a new term introduced nowadays with the Intel Sky Lake processors family (XEON). 
-
-In-memory database, like Redis. If you loose power there are still mechanisms to avoid data loss.
-
-Processes can share memory through the memory mapping technique (the memory is seen as a file).
- -->
 ### NVMe
 
 <p align="center">
@@ -655,24 +642,6 @@ If the drive is seen as physically attached to the machine, and a block transmis
 
 With SAN the server has the impression that the LUN is attached directly to him, locally; with NAS there isn't this kind of abstraction.
 
-<!-- Some latency can be reduced if we stripe data in a correct way and we exploit the multiple seeks. -->
-
-### Benefits
-The main features that are provided by a storage system are the following:
- - **Thin provisioning**
-	- This is a virtualization technology that gives the appearance of having more physical resources than are actually available. Thin provisioning allows space to be easily allocated to servers, on a just-enough and just-in-time basis. Thin provisioning is called "sparse volumes" in some contexts.
- - **Deduplication**
-	- If the same file is required in two context, it is saved one time and is served to different context.
- - **Compression**
- - **Authentication**
- - **RTO**/**RPO** "support" DR
- 	- The Recovery Point Objective is defined by business continuity planning. It is the maximum targeted period in which data might be lost from an IT service due to a major incident (DR - Disaster Recovery). 
- - **RAID**
- - **Tiering**
- 	- Tiering is a technology that categorizes data to choose different type of storage media to reduce the total storage cost. Tiered storage policies place the most frequently accessed data on the highest performing storage. Rarely accessed data goes on low-performance, cheaper storage.
- - NAS Protocols
- - Network Interface (iSCSI, Fibre Channel...)
- - Snapshot
 
 ## HCI - Hyperconvergent Systems
 
@@ -954,6 +923,9 @@ Receives request from the service and orchestration layers and provisions the re
   - *Resource pool management*: virtual resources such as VM, virtual volume, and virtual network are created from these pools and provisioned for the services
   - *Resource provisioning*: involves allocating resources from graded resource pools to the service instances
 
+**Thin provisioning**
+	- This is a virtualization technology that gives the appearance of having more physical resources than are actually available. Thin provisioning allows space to be easily allocated to servers, on a just-enough and just-in-time basis. Thin provisioning is called "sparse volumes" in some contexts.
+
 **Open stack**  
 A free and open-source software platform for cloud computing, mostly deployed as infrastructure-as-a-service (IaaS), whereby virtual servers and other resources are made available to customers.
 
@@ -1115,6 +1087,8 @@ With Replicas are  data protection solutions. This task becomes more challenging
 **RTO**: Recovery Time Objective: time it will take to have a full recovery. Relates to the time taken to recover data from backup  
 **RPO**: Recovery Point Objective: what is the last consistent copy of the storage I will find. How many data points do you have to go back in time? specifies the time interval between two backups.
 
+The Recovery Point Objective is defined by business continuity planning. It is the maximum targeted period in which data might be lost from an IT service due to a major incident (DR - Disaster Recovery).
+
 Network it's the first problem when I want to make a backup, beacuse the size of the backup is bigger than the network bandwidth.  
 Sometimes it's simply impossible to make a backup.
 
@@ -1130,7 +1104,8 @@ Sometimes it's simply impossible to make a backup.
 
 **Backup window**: the horizon effect: you decide a window but the stuff you need will be always in the deleted part.
 
-**Data Deduplication**: the process of detecting and identifying the unique data segments (chunk) within a given set of data to eliminate redundancy. The use of deduplication techniques significantly reduces the amount of data to be backed up in a cloud environment, where typically a large number of VMs are deployed. Take the hash of two identical files, store only one of the two files and both the hashes. 
+**Data Deduplication**: the process of detecting and identifying the unique data segments (chunk) within a given set of data to eliminate redundancy. The use of deduplication techniques significantly reduces the amount of data to be backed up in a cloud environment, where typically a large number of VMs are deployed. Take the hash of two identical files, store only one of the two files and both the hashes.  
+ If the same file is required in two context, it is saved one time and is served to different context.
 
 **Replica**: the process of creating an exact copy (replica) of the data. The syncronous replica needs an acknowledgement before proceeding, and any additional writes on the source cannot occur until each preceding write has been completed and acknowledged.  DBs like Oracle, SQL Servers want syncronous replica. 
 - Local replication
@@ -1327,8 +1302,6 @@ Even in Open Source there is vendor lock-in due to the difficulty of mooving fro
 ### Standardization-Portability
 It' rare that a leading vendor define a common standard. Standardization it's important but it's not feasable. It partly avoids lock-in. ""The only thing that can be standardize it's the VM"". Every platform tends to have its own API. REST is the standard that is working today in the cloud.
 
-# Fog Computing
-The fog computing is an architecture that uses one or more collaborative end-user clients or near-user edge devices to carry out a substantial amount of storage (rather than stored primarily in cloud data centers), communication (rather than routed over the internet backbone), control, configuration, measurement and management (rather than controlled primarily by network gateways such as those in the LTE core network).
 
 # Miscellaneous
 
