@@ -451,7 +451,7 @@ In that topology the **Link Aggregation Control Protocol (LACP) is used**. It pr
 With this architecture it's possible to turn off one switch, upgrade it and reboot it without compromising the network. Half of the bandwidth is lost in the process, but the twin switch keeps the connection alive.
 
 A typical configuration of the ports and bandwidth of the leaves is:
-- one third going upwards and two thirds going downwards
+- 1/3 going upwards and 2/3 going downwards
 - 48 ports 10 Gbps each (downward)
     - plus 6 ports 40 Gbps each (upward)
 - or 48 ports 25 each (downward)
