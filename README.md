@@ -83,6 +83,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [Control Layer](#control-layer)
   - [Service layer](#service-layer)
   - [Orchestration layer](#orchestration-layer)
+    - [Example of orchestration workflows](#example-of-orchestration-workflows)
     - [Service orchestration](#service-orchestration)
   - [Business Continuity layer](#business-continuity-layer)
     - [Redundancy (to avoid single point of failure)](#redundancy-to-avoid-single-point-of-failure)
@@ -98,7 +99,6 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [GDPR General Data Protection Regulation](#gdpr-general-data-protection-regulation)
   - [Vendor Lock-in](#vendor-lock-in)
     - [Standardization-Portability](#standardization-portability)
-- [Orchestration](#orchestration)
 - [Fog Computing](#fog-computing)
 - [Miscellaneous](#miscellaneous)
 - [In class exercises](#in-class-exercises)
@@ -978,9 +978,31 @@ The service layer has three key functions which are as follows:
 
 ## Orchestration layer
 
+<p align="center">
+  <img width="600" src="./assets/orchestration-and-service-layer.png">
+</p>
+
+
+Automated arrangement, coordination, and management of various system or component functions in a cloud infrastructure to provide and manage cloud services.
+
 A cloud portal is an access (usually web-based) point to a cloud, which provides access to the service catalog, and facilitates self-service provisioning and ongoing access to the cloud interfaces. A cloud portal is also accessed by the cloud administrators to manage cloud infrastructure and the lifecycle of cloud services. Service lifecycle includes various phases of a service from its initiation to termination. 
 
 Once a service provisioning or management request is placed in the cloud portal, the portal routes the request to the orchestration layer where appropriate workflows are triggered to fulfill the request. The orchestration layer is the automation engine of the cloud infrastructure, which defines standardized workflows for process automation. The workflows help orchestrating the execution of various system functions across the cloud infrastructure to fulfill the request. 
+
+
+Tow different types of orchestration:
+- low level: eg. installation of a new VM
+- high level: eg. configuration of the new VM. At the end of this process the VM will be up and running
+
+APIs are used to perform activities such as:
+- Resource provisioning and configuration
+- Resource monitoring and management
+- Service orchestration
+
+### Example of orchestration workflows
+DB2 instance request            |  CRM instance request
+:-:|:-:
+<p float="center"><img src="./assets/orchestratorworkflow.png" width="600"></p>  |  <p float="center"><img src="./assets/orchestratorworkflow2.png" width="660"></p>
 
 ### Service orchestration
 
@@ -997,7 +1019,6 @@ Cloud service providers typically deploy a purpose-designed **orchestration soft
 <p align="center">
   <img width="600" src="./assets/orchestrator-example.png">
 </p>
-
 
 
 ## Business Continuity layer
@@ -1305,24 +1326,6 @@ Even in Open Source there is vendor lock-in due to the difficulty of mooving fro
 
 ### Standardization-Portability
 It' rare that a leading vendor define a common standard. Standardization it's important but it's not feasable. It partly avoids lock-in. ""The only thing that can be standardize it's the VM"". Every platform tends to have its own API. REST is the standard that is working today in the cloud.
-
-
-# Orchestration
-Automated arrangement, coordination, and management of various system or component functions in a cloud infrastructure to provide and manage cloud services.
-
-2 types of orchestration:
-- low level: eg. installation of a new VM
-- high level: eg. configuration of the new VM. At the end of this process the VM will be up and running
-
-APIs are used to perform activities such as:
-- Resource provisioning and configuration
-- Resource monitoring and management
-- Orchestration
-
-<p float="left">
-  <img src="./assets/orchestratorworkflow.png" width="600">
-  <img src="./assets/orchestratorworkflow2.png" width="660">
-</p>
 
 # Fog Computing
 The fog computing is an architecture that uses one or more collaborative end-user clients or near-user edge devices to carry out a substantial amount of storage (rather than stored primarily in cloud data centers), communication (rather than routed over the internet backbone), control, configuration, measurement and management (rather than controlled primarily by network gateways such as those in the LTE core network).
