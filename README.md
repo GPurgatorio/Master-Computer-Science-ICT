@@ -26,6 +26,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
 - [Fabric](#fabric)
   - [Ethernet](#ethernet)
   - [Infiniband](#infiniband)
+  - [RDMA: Remote Direct Memory Access](#rdma-remote-direct-memory-access)
   - [Omni-Path](#omni-path)
   - [Some consideration about numbers](#some-consideration-about-numbers)
   - [Real use case](#real-use-case)
@@ -275,7 +276,7 @@ Pros:
  - no retransmissions
  - QoS, traffic preserved, reliable
 
- ## RDMA: Remote Direct Memory Access
+## RDMA: Remote Direct Memory Access
 Access, a direct memory access (really!) from one computer into that of another without involving either one's OS, this permits high-throughput, low-latency networking performing.
 
 RDMA supports zero-copy networking by enabling the network adapter to transfer data directly to or from application memory, eliminating the need to copy data between application memory and the data buffers in the operating system, and by bypassing TCP/IP. Such transfers require no work to be done by CPUs, caches, or context switches, and transfers continue in parallel with other system operations. When an application performs an RDMA Read or Write request, the application data is delivered directly to the network, reducing latency and enabling fast message transfer. The main use case is distributed storage.
@@ -298,16 +299,25 @@ Yesterday I went to master degree thesis discussion of my friend. He is a physic
 
 ## Connectors & plugs
 Now we try to analyse the problem from the connector point of view. The fastest wire technology available is the optic fiber. It can be divided into two categories:
- - monomodal (1250 nm)
- - multimodal (850 nm)
- 
- The monomodal fiber is more expensive but has better properties, the multimodal one is acceptable for a datacenter. They also have different transceiver. There are two kind of connectors:
+ - mono-modal (1250 nm): expensive, lower loss, covers distances up to 60KM. Used in WAN/MAN
+ - multi-modal (850 nm): cheap, covers distances up to 2KM. Used in datacenters
+
+ They also have different transceiver. There are two kind of connectors:
   - LC: ok for datacenters
-  - and SC: usually used in metropolitan areas because it has a better signal propagation
+  - SC: usually used in metropolitan areas because it has a better signal propagation
   
   There can be a cable with a LC in one side and a SC on the other side.  
 
- Of course, a wire is a wire, and we need something to connect it to somewhere. One of them is the Small form-factor pluggable transceiver (SFP), a compact, hot-pluggable optical module transceiver. The upgrade of this connector is the SFP+ that supports data rates up to 16 Gbps. It supports 10 Gigabit ethernet and can be combined with some other SFP+ with QSFP to reach 4x10Gbps. If combined with QSFP28 we can reach 100 Gbps on the ethernet that is the upper limit nowadays for the data rate.
+ Of course, a wire is a wire, and we need something to connect it to somewhere (transceiver):
+  - **SPF** (Small form-factor pluggable): a compact, hot-pluggable optical module transceiver
+    - 1 Gbps
+  - **SFP+**: can be combined with some other SFP
+    - 10 Gbps
+  - **QSFP28**
+    - 25 GBps
+  - **QSFP** (Quad SPF)
+    - 4x10 Gbps (if combined with SPF+)
+    - 4x25 Gbps (if combined with QSFP28)
 
 From left to right: RJ45 plug, SFP+ and QSFP+ **transceiver module**, LC connector. 
 <p float="left">
