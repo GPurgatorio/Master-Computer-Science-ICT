@@ -27,7 +27,6 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [Ethernet](#ethernet)
   - [Infiniband](#infiniband)
   - [Omni-Path](#omni-path)
-  - [RDMA: Remote Direct Memory Access](#rdma-remote-direct-memory-access)
   - [Some consideration about numbers](#some-consideration-about-numbers)
   - [Real use case](#real-use-case)
   - [Connectors & plugs](#connectors--plugs)
@@ -266,7 +265,7 @@ Even if Ethernet is so famous, there are other standard to communicate. **Infini
 The [RFC 4391](https://tools.ietf.org/html/rfc4391) specifies a method for encapsulating and transmitting IPv4/IPv6 and Address Resolution Protocol (ARP) packets over InfiniBand (IB).
 
 InfiniBand transmits data in packets up to 4KB. A massage can be:
- - a remote direct memory access read from or write to a remote node (**RDMA**)
+ - a remote direct memory access read from or write to a remote node ([**RDMA**](#rdma-remote-direct-memory-access))
  - a channel send or receive
  - a transaction-based operation (that can be reversed)
  - a multicast transmission
@@ -276,14 +275,14 @@ Pros:
  - no retransmissions
  - QoS, traffic preserved, reliable
 
-## Omni-Path
-Moreover, another communication architecture that exist and is interested to see is Omni-Path. This architecture is owned by Intel and performs high-performance communication. Production of Omni-Path products started in 2015 and a mass delivery of these products started in the first quarter of 2016 (you can insert here some more stuff written on [Wikipedia](https://en.wikipedia.org/wiki/Omni-Path)). 
-The interest of this architecture is that Intel plans to develop technology based on that will serve as the on-ramp to exascale computing (a computing system capable of the least one exaFLOPS). 
-
-## RDMA: Remote Direct Memory Access
+ ## RDMA: Remote Direct Memory Access
 If you read wikipedia pages about IB and OmniPath you will find a acronym: RDMA. This acronym means Remote Direct Memory Access, a direct memory access (really!) from one computer into that of another without involving either one's OS, this permits high-throughput, low-latency networking performing.
 
 RDMA supports zero-copy networking by enabling the network adapter to transfer data directly to or from application memory, eliminating the need to copy data between application memory and the data buffers in the operating system, and by bypassing TCP/IP. Such transfers require no work to be done by CPUs, caches, or context switches, and transfers continue in parallel with other system operations. When an application performs an RDMA Read or Write request, the application data is delivered directly to the network, reducing latency and enabling fast message transfer. The main use case is distributed storage (known as RoCE in Ethernet environment).
+
+## Omni-Path
+Moreover, another communication architecture that exist and is interested to see is Omni-Path. This architecture is owned by Intel and performs high-performance communication. Production of Omni-Path products started in 2015 and a mass delivery of these products started in the first quarter of 2016 (you can insert here some more stuff written on [Wikipedia](https://en.wikipedia.org/wiki/Omni-Path)). 
+The interest of this architecture is that Intel plans to develop technology based on that will serve as the on-ramp to exascale computing (a computing system capable of the least one exaFLOPS). 
 
 ## Some consideration about numbers
 Start think about real world. We have some server with 1 Gbps (not so high speed, just think that is the speed you can reach with your laptop attaching a cable that is in classroom in the university). We have to connect this servers to each other, using switches (each of them has 48 ports). We have a lots of servers... The computation is done.
