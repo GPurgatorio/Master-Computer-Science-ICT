@@ -309,15 +309,19 @@ Now we try to analyse the problem from the connector point of view. The fastest 
   There can be a cable with a LC in one side and a SC on the other side.  
 
  Of course, a wire is a wire, and we need something to connect it to somewhere (transceiver):
-  - **SPF** (Small form-factor pluggable): a compact, hot-pluggable optical module transceiver
+  - **SPF** (Small form-factor pluggable), a compact, hot-pluggable optical module transceiver
     - 1 Gbps
-  - **SFP+**: can be combined with some other SFP
+  - **SFP+**, can be combined with some other SFP
     - 10 Gbps
-  - **QSFP28**
+  - **QSFP28**, where the number 28 is the number of pins
     - 25 GBps
   - **QSFP** (Quad SPF)
     - 4x10 Gbps (if combined with SPF+)
     - 4x25 Gbps (if combined with QSFP28)
+  - **RJ45**, in datacenters there are almost no installations of it 
+    - 10/100 Mbps, 1/2.5/5 Gbps.
+    - Different cables have categories (cat4, cat5, cat6) 
+      - 2.5/5 Gbps are new standards working on cat5 and cat6 cables respectively, in order to deliver more bandwidth to the WiFi access point. 
 
 From left to right: RJ45 plug, SFP+ and QSFP+ **transceiver module**, LC connector. 
 <p float="left">
@@ -327,23 +331,12 @@ From left to right: RJ45 plug, SFP+ and QSFP+ **transceiver module**, LC connect
   <img width="150" src="./assets/lc-duplex.jpg">
 </p>
 
-
-**RJ45** plug supports 10/100 Mbps, 1/2.5/5 Gbps but in datacenters there are almost no installations of it.  
-Cables have categories: 
-- cat4
-- cat5  
-- cat6  
-
-2.5/5 Gbps are new standards working on cat5 and cat6 cables respectively, in order to deliver more bandwidth to the WiFi access point.  
-16 Gbps uses **SFP+** plug (SFP28, where 28 is number of pins).  
-40 Gbps (4 lines 10 Gbps each) uses **QSFP+** (QSFP28).
-
 Nowadays we have:
 - 25 Gbps 
 - 50 Gbps (2 * 25)
 - 100 Gbps (4 * 25)
 
-The **Transceiver module** can serve copper or optical fiber; it has a chip inside and is not cheap.
+The **transceiver module** can serve copper or optical fiber; it has a microchip inside and is not cheap.
 
 ## Software Defined Approach and Open Network
 
