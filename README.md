@@ -3,17 +3,23 @@ ICT Infrastructures - University of Pisa (Italy)
 *Since there is only little material on ICT Infrastructures course, this is a recap and summary of classes. The notes are a compilation of the course contents and focus on the topics in accordance with Prof. Antonio Cisternino's OneNote Notebook. 
 It is highly recommended to study with the EMC DELL slides provided under <<_Raccolta contenuto>> which will not be uploaded here for copyright reasons. Each heading correspond to a module. If you find any error please, fork and submit a pull request!*
 
+# Table of contents
 <details>
-  <summary>Table of contents</summary>
+  <summary>Click to show or hide</summary>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
 - [Introduction](#introduction)
-- [Cloud Computing Reference Model Module 2](#cloud-computing-reference-model-module-2)
+- [Cloud Computing Reference Model [Module 2]](#cloud-computing-reference-model-module-2)
 - [Data centers](#data-centers)
   - [Design and Architectures](#design-and-architectures)
     - [Cooling](#cooling)
+      - [CRAC: Computer Room Air Conditioner](#crac-computer-room-air-conditioner)
+      - [Hot/Cold aisles](#hotcold-aisles)
+      - [In-Row cooling](#in-row-cooling)
+      - [Liquid cooling](#liquid-cooling)
+      - [Other ideas](#other-ideas)
   - [Current](#current)
     - [Power Distribution](#power-distribution)
     - [PUE: Power Usage Effectiveness](#pue-power-usage-effectiveness)
@@ -35,6 +41,8 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
     - [Three-tier design](#three-tier-design)
     - [Network Chassis](#network-chassis)
     - [Stacking](#stacking)
+      - [Spine and leaf Architecture](#spine-and-leaf-architecture)
+      - [Oversubscription](#oversubscription)
   - [Full Fat Tree](#full-fat-tree)
     - [VLAN](#vlan)
     - [Switch Anatomy](#switch-anatomy)
@@ -58,29 +66,41 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
 - [Servers](#servers)
   - [Types of compute systems](#types-of-compute-systems)
   - [Form-factors](#form-factors)
+      - [Miscellaneous](#miscellaneous)
 - [Cloud](#cloud)
     - [Rapid Elasticity](#rapid-elasticity)
     - [High Avaialability](#high-avaialability)
   - [Cloud computering Layers](#cloud-computering-layers)
+      - [Cross functional layers](#cross-functional-layers)
   - [Phyisical Layer](#phyisical-layer)
   - [Virtual Layer](#virtual-layer)
     - [VM Network components](#vm-network-components)
     - [VM components](#vm-components)
+      - [About the virtual memory:](#about-the-virtual-memory)
+        - [Balooning](#balooning)
+      - [Other considerations about the Virtual Layer](#other-considerations-about-the-virtual-layer)
+      - [Docker](#docker)
   - [Control Layer](#control-layer)
   - [Service layer](#service-layer)
   - [Orchestration layer](#orchestration-layer)
     - [Service orchestration](#service-orchestration)
   - [Business Continuity layer](#business-continuity-layer)
     - [Redundancy (to avoid single point of failure)](#redundancy-to-avoid-single-point-of-failure)
+      - [Redundancy and service Zones](#redundancy-and-service-zones)
+      - [Service Availability Zones](#service-availability-zones)
+      - [Live Migration of a VM](#live-migration-of-a-vm)
+      - [Server Setup Checklist:](#server-setup-checklist)
     - [Backups](#backups)
+      - [Backup types](#backup-types)
   - [Security layer](#security-layer)
+      - [Firwall](#firwall)
   - [Service Managment layer](#service-managment-layer)
   - [GDPR General Data Protection Regulation](#gdpr-general-data-protection-regulation)
   - [Vendor Lock-in](#vendor-lock-in)
     - [Standardization-Portability](#standardization-portability)
 - [Orchestration](#orchestration)
 - [Fog Computing](#fog-computing)
-- [Miscellaneous](#miscellaneous)
+- [Miscellaneous](#miscellaneous-1)
 - [In class exercises](#in-class-exercises)
   - [1 - Discuss the difference between spine and leaf fabric and the more traditional fabric architecture based on larger chassis. How bandwidth and latency are affected?](#1---discuss-the-difference-between-spine-and-leaf-fabric-and-the-more-traditional-fabric-architecture-based-on-larger-chassis-how-bandwidth-and-latency-are-affected)
   - [Spine and Leaf](#spine-and-leaf)
@@ -91,6 +111,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
     - [SAN area network (recap)](#san-area-network-recap)
     - [NAS](#nas)
     - [HCI (hyperconvergent)](#hci-hyperconvergent)
+      - [Discussion](#discussion)
   - [What should I look for..](#what-should-i-look-for)
   - [5 - A service requires a sustained throughput towards the storage of 15 GB/s. How would you dimension an hyperconvergent system to ensure it works properly?](#5---a-service-requires-a-sustained-throughput-towards-the-storage-of-15-gbs-how-would-you-dimension-an-hyperconvergent-system-to-ensure-it-works-properly)
 - [About numbers](#about-numbers)
@@ -113,7 +134,7 @@ The ICT world is changing (and will keep changing beyond the last time these not
 <!-- The world is evolving faster than this summary. It so maybe some things written here are already obsolete, so we can not waste any more time on introduction to avoid to need to rewrite the introduction.  -->
 
 
-# Cloud Computing Reference Model [Module 2](#)
+# Cloud Computing Reference Model [Module 2]
 Since the course revolves around Cloud Computing architectures, it is important to keep the following reference model of the cloud stack in mind:
 <!-- Just a brief overview on the reference model of cloud computing: -->
 
@@ -121,18 +142,18 @@ Since the course revolves around Cloud Computing architectures, it is important 
   <img width="800" src="./assets/referenceModel.png">
 </p>
  
- 1. **Physical Layer [Module 3](#)**: Foundation layer of the cloud infrastructure.
+ 1. **Physical Layer [Module 3]**: Foundation layer of the cloud infrastructure.
 The physical infrastructure supporting the operation of the cloud
- 2. **Virtual Layer [Module 4](#)**: Abstracts physical resources and makes them appear as virtual resources. e.g. a physical server is partitioned into many virtual ones to use the hardware better.  The *High Performance Computing* model bypasses the virtual layer for performance reasons.
- 3. **Control Layer [Module 5](#)**: Dynamic Resource configuration and allocation.
- 4. **Orchestration Layer [Module 6](#)**: workflows for task automation.
- 5. **Service Layer [Module 6](#)**: self-service portal/interface and service catalog. Allows cloud users to obtain the resources they need without knowing where they are allocated.
- 6. **Service Managment [Module 9](#)**: on operational and business level
- 7. **Business Continuity [Module 7](#)**: Enables ensuring the availability of services in line with SLAs. 
+ 2. **Virtual Layer [Module 4]**: Abstracts physical resources and makes them appear as virtual resources. e.g. a physical server is partitioned into many virtual ones to use the hardware better.  The *High Performance Computing* model bypasses the virtual layer for performance reasons.
+ 3. **Control Layer [Module 5]**: Dynamic Resource configuration and allocation.
+ 4. **Orchestration Layer [Module 6]**: workflows for task automation.
+ 5. **Service Layer [Module 6]**: self-service portal/interface and service catalog. Allows cloud users to obtain the resources they need without knowing where they are allocated.
+ 6. **Service Management [Module 9]**: on operational and business level
+ 7. **Business Continuity [Module 7]**: Enables ensuring the availability of services in line with SLAs. 
  e.g. *Backups* vs *Replicas*: doing a backup of 1 PB may be a problem.  
   *Fault Tolerance*: I should be able to power off a server without anyone noticing it.
   *live migration*: upgrading the software or the firmware while the system is running.
-  8. **Security [Module 8](#)**: Governance, Risk and compliance. Also things like GDPR, phishing, antivirus, firewalls and DoS Attacks..
+  8. **Security [Module 8]**: Governance, Risk and compliance. Also things like GDPR, phishing, antivirus, firewalls and DoS Attacks..
 
 # Data centers
 
