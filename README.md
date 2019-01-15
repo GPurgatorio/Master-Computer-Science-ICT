@@ -49,10 +49,10 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
 - [Disks and Storage](#disks-and-storage)
   - [Interfaces](#interfaces)
   - [Redundancy](#redundancy)
-  - [IOPS](#iops)
   - [Functional programming](#functional-programming)
   - [Memory Hierarchy](#memory-hierarchy)
     - [NVMe](#nvme)
+    - [Misc](#misc)
     - [Storage aggregation](#storage-aggregation)
   - [Network Area Storage (NAS)](#network-area-storage-nas)
   - [Storage Area Network (SAN)](#storage-area-network-san)
@@ -66,7 +66,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
 - [Servers](#servers)
   - [Types of compute systems](#types-of-compute-systems)
   - [Form-factors](#form-factors)
-      - [Miscellaneous](#miscellaneous)
+      - [Misc](#misc-1)
 - [Cloud](#cloud)
     - [Rapid Elasticity](#rapid-elasticity)
     - [High Avaialability](#high-avaialability)
@@ -100,7 +100,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
     - [Standardization-Portability](#standardization-portability)
 - [Orchestration](#orchestration)
 - [Fog Computing](#fog-computing)
-- [Miscellaneous](#miscellaneous-1)
+- [Miscellaneous](#miscellaneous)
 - [In class exercises](#in-class-exercises)
   - [1 - Discuss the difference between spine and leaf fabric and the more traditional fabric architecture based on larger chassis. How bandwidth and latency are affected?](#1---discuss-the-difference-between-spine-and-leaf-fabric-and-the-more-traditional-fabric-architecture-based-on-larger-chassis-how-bandwidth-and-latency-are-affected)
   - [Spine and Leaf](#spine-and-leaf)
@@ -280,6 +280,10 @@ Pros:
 Access, a direct memory access (really!) from one computer into that of another without involving either one's OS, this permits high-throughput, low-latency networking performing.
 
 RDMA supports zero-copy networking by enabling the network adapter to transfer data directly to or from application memory, eliminating the need to copy data between application memory and the data buffers in the operating system, and by bypassing TCP/IP. Such transfers require no work to be done by CPUs, caches, or context switches, and transfers continue in parallel with other system operations. When an application performs an RDMA Read or Write request, the application data is delivered directly to the network, reducing latency and enabling fast message transfer. The main use case is distributed storage.
+
+<p align="center">
+  <img src="./assets/rdma.jpg" width="600">
+</p>
 
 ## Omni-Path
 Moreover, another communication architecture that exist and is interested to see is Omni-Path. This architecture is owned by Intel and performs high-performance communication. Production of Omni-Path products started in 2015 and a mass delivery of these products started in the first quarter of 2016 (you can insert here some more stuff written on [Wikipedia](https://en.wikipedia.org/wiki/Omni-Path)). 
@@ -530,10 +534,14 @@ The data plane is connected to a DC's VM which acts as a control plane.
 After the fabric, another fundamental component of a datacenter is the storage. The storage can be provided with various technologies. 
 The simplest one is that the disks are put inside each servers and are used as we use the disk on our laptop. Of course it is not useful if we have a bunch of data to manage, and some networking solution can be better to use.
 
+**IOPS**: Input/output operations per second is an input/output performance measurement used to characterize computer storage devices (associated with an access pattern: random or sequential).
+
 ## Interfaces
 
 - SATA (with controller, slow because it is the bottleneck)
+  - v3: 16 Gbps
 - SAS Serial Attached SCSI
+  - v4: 22.5 Gbps
 - NVMe (Non Volatile Memory express): controller-less, protocol used over PCI express bus
 - ...
 
@@ -547,47 +555,48 @@ The more common RAID configurations are:
 - RAID-5: block-level striping with distributed parity. It's xor based: the first bit goes in the first disk, the second bit in the second one and their xor in the third. If one disk crashes I can recompute its content ( for each two bits of info I need one extra bit, so one third more disk storage).
 - RAID-6: block-level striping with double distributed parity. Similar to RAID1 but with more disks.
 
-## IOPS
-
-Input/output operations per second is an input/output performance measurement used to characterize computer storage devices (associated with an access pattern: random or sequential).
-
 ## Functional programming
 
-Has become so popular also because of its nature: its pure functions can easily computed in a parallel system (no storage so no necessity of locks). It's an event based programming: pass a function when something appens. In Object Oriented languages it's more complicated cause we have interfaces, event listeners...  
+Has become so popular also because of its nature: its pure functions can easily computed in a parallel system (no storage so no necessity of locks). It's an event based programming: pass a function when something happens. In Object Oriented languages it's more complicated cause we have interfaces, event listeners...  
 
 ## Memory Hierarchy
 
+**Caches**:
 - CPU Registries
-- CPU Cache &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Caching
+- CPU Cache
+
+**Memory tiering**:
 - RAM
-- nvRAM  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Memory tiering
+- nvRAM: uses [nvDIMM](https://en.wikipedia.org/wiki/NVDIMM) (non volatalie Dual Inline Memory Module) to save energy because you can change the amount of current given to each pin; moreover the data doesn't need to be refreshed periodically to avoid data loss.
 - SS Memory
 - Hard drive
-- Tape &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Storage tiering
 
-As technology evolves, the harder is to maintain a model that lasts. Memory tiering a new term introduced nowadays with the Intel Sky Lake processors family (XEON). 
+**Storage tiering**:
+- Tape
 
-nvRAM uses [nvDIMM](https://en.wikipedia.org/wiki/NVDIMM) (non volatalie Dual Inline Memory Module) to save energy because you can change the amount of current given to each pin; moreover the data doesn't need to be refreshed periodically to avoid data loss. 
+<!-- As technology evolves, the harder is to maintain a model that lasts. Memory tiering a new term introduced nowadays with the Intel Sky Lake processors family (XEON). 
 
 In-memory database, like Redis. If you loose power there are still mechanisms to avoid data loss.
 
 Processes can share memory through the memory mapping technique (the memory is seen as a file).
-
+ -->
 ### NVMe
 
 <p align="center">
   <img src="./assets/3d-xpoint-performance.jpg" width="600">
 </p>
 
-It's a protocol on the PCI express bus and it's totally controller-less. From the software side it's simpler in this way to talk with the disk because the driver is directly attached to the PCI, there is no controller and minor latency.
+It's a protocol on the PCI-express bus and it's totally controller-less. From the software side it's simpler in this way to talk with the disk because the driver is directly attached to the PCI, there is no controller and minor latency.
 
-A bus is a component where I can attach different devices. It has a clock and some lanes (16 in PCI,  ~ 15 GB per second because each lane is slightly less then 1 GB). Four drives are enought to exhaust a full PCI III gen bus. They are also capable of saturating a 100 Gbps link.
+A bus is a component where I can attach different devices. It has a clock and some lanes (16 in PCI,  ~15 GBps because each lane is slightly less then 1 GB). **Four drives are enough to exhaust a full PCI v3 bus**. They are also capable of saturating a 100 Gbps link.
 
-NAND is a standard Solid State Technology.
+With the NVMe drives we can reach 11GBps, aka 88 Gbps. Since the software latency is 5 microseconds more or less, TCP/IP software introduces also a latency, 70-80 microseconds, the disk is no more a problem.
 
-Beside Volatile RAM it's now possible to have Persistent State RAM.
+### Misc
 
-With this kind of technology the non volatile tier is only 35% slower then the RAM, so there is the need for supporting large non volatile memory tier with super fast access.
+ - Processes can share memory through the **memory mapping** technique (the memory is seen as a file).
+ - Beside Volatile RAM it's now possible to have **persistent state RAM**.
+- With this kind of technology the **non volatile tier is only 35% slower then the RAM**, so there is the need for supporting large non volatile memory tier with super fast access.
 
 ### Storage aggregation
 
@@ -597,104 +606,94 @@ Fiber channel is the kind of fabric dedicated for the storage. The link coming f
 
 ## Network Area Storage (NAS)
 
-NAS is a file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients. NAS systems are networked appliances which contain one or more storage drives, often arranged into logical, redundant storage containers or RAID. They typically provide access to files using network file sharing protocols such as NFS, SMB/CIFS, or AFP over a optical fiber.
+NAS is a **file-level** computer data storage server connected to a computer network providing data access to a heterogeneous group of clients. NAS systems are networked appliances which contain one or more storage drives, often arranged into logical, redundant storage containers or RAID. They typically provide access to files using network file sharing protocols such as **NFS**, **SMB/CIFS**, or AFP over a optical fiber.
 
-Basically the whole storage is exposed as a file system. When using a network file system protocol, you are using a NAS.
+Basically **the whole storage is exposed as a file system**. When using a network file system protocol, you are using a NAS.
 
 Storage system architectures are based on data access methods whose common variants are:
-
-- **block-based**: a block-based storage system enables the creation and assignment of storage volumes to compute systems. The compute OS (or hypervisor) discovers these storage volumes as local drives. A file system can be created on these storage volumes, for example NTFS in a Windows environment, which can then be formatted and used by applications.
+- **block-based**: a block-based storage system enables the creation and assignment of storage volumes to compute systems. The compute OS (or hypervisor) discovers these **storage volumes as local drives**. A file system can be created on these storage volumes, for example NTFS in a Windows environment, which can then be formatted and used by applications.
 
 <p align="center">
   <img src="./assets/block-based-storage-access.png" width="600">
 </p>
 
-- **file-based**: a file-based storage system, also known as Network-Attached Storage (NAS), is a dedicated, high-performance file server having either integrated storage or connected to external storage. NAS enables clients to share files over an IP network. NAS supports NFS and CIFS protocols to give both UNIX and Windows clients the ability to share the same files using appropriate access and locking mechanisms. NAS systems have integrated hardware and software components, including a processor, memory, NICs, ports to connect and manage physical disk resources, an OS optimized for file serving, and file sharing protocols. 
+- **file-based**: a file-based storage system, also known as Network-Attached Storage (NAS), is a dedicated, high-performance file server having either integrated storage or connected to external storage. NAS enables clients to share files over an IP network. NAS supports **NFS** and **CIFS** protocols to give both UNIX and Windows clients the ability to share the same files using appropriate access and locking mechanisms. NAS systems have integrated hardware and software components, including a processor, memory, NICs, ports to connect and manage physical disk resources, an OS optimized for file serving, and file sharing protocols. 
 
 <p align="center">
   <img src="./assets/file-based-storage-access.png" width="600">
 </p>
 
-- **object-based**: object-based storage is a way to store file data in the form of objects based on the content and other attributes of the data rather than the name and location of the file. An object contains user data, related metadata (size, date, ownership, etc.), and user defined attributes of data (retention, access pattern, and other business-relevant attributes). The additional metadata or attributes enable optimized search, retention and deletion of objects. The object-based storage system uses a flat, non-hierarchical address space to store data, providing the flexibility to scale massively. Cloud service providers leverage object-based storage systems to offer Storage as a Service because of its inherent security, scalability, and automated data management capabilities. Object-based storage systems support web service access via REST and SOAP.
+- **object-based**: object-based storage is a way to **store file data in the form of objects based on the content and other attributes** of the data rather than the name and location of the file. An object contains user data, related metadata (size, date, ownership, etc.), and user defined attributes of data (retention, access pattern, and other business-relevant attributes). The additional **metadata or attributes enable optimized search**, retention and deletion of objects. The object-based storage system uses a flat, non-hierarchical address space to store data, providing the flexibility to scale massively. Cloud service providers leverage object-based storage systems to offer Storage as a Service because of its inherent security, scalability, and automated data management capabilities. Object-based storage systems support web service access via REST and SOAP. Eg. AWS S3.
 
 <p align="center">
   <img src="./assets/object-based-storage-access.png" width="600">
 </p>
 
-- **unified**: unified storage or multiprotocol storage has emerged as a solution that consolidates block, file, and object-based access within one storage platform. It supports multiple protocols such as CIFS, NFS, iSCSI, FC, FCoE, REST, and SOAP for data access
+- **unified**: unified storage or multi-protocol storage has emerged as a solution that consolidates block, file, and object-based access within one storage platform. It **supports multiple protocols** such as CIFS, NFS, iSCSI, FC, FCoE, REST, and SOAP for data access
 
 <p align="center">
   <img src="./assets/unified-storage-access.png" width="600">
 </p>
 
-**iSCASI**: Internet Small Computer Systems Interface, an IP-based storage networking standard for linking data storage facilities. It provides block-level access to storage devices by carrying SCSI commands over a TCP/IP network.
+**iSCASI**: Internet Small Computer Systems Interface, an IP-based storage networking standard for linking data storage facilities. It provides **block-level access to storage** devices by carrying SCSI commands over a TCP/IP network.
 
 ## Storage Area Network (SAN)
 
-A network of compute systems and storage systems is called a storage area network (SAN). A SAN enables the compute systems to access and share storage systems. Sharing improves the utilization of the storage systems. Using a SAN facilitates centralizing storage management, which in turn simplifies and potentially standardizes the management effort.
-SANs are classified based on protocols they support. Common SAN deployments types are Fibre Channel SAN (FC SAN), Internet Protocol SAN (IP SAN), and Fibre Channel over Ethernet SAN (FCoE SAN).
+A network of compute systems and storage systems is called a storage area network (SAN). A SAN enables the compute systems to **access and share storage systems**. Sharing improves the utilization of the storage systems. Using a SAN facilitates centralizing storage management, which in turn simplifies and potentially standardizes the management effort.
+**SANs are classified based on protocols they support**. Common SAN deployments types are Fibre Channel SAN (FC SAN), Internet Protocol SAN (IP SAN), and Fibre Channel over Ethernet SAN (FCoE SAN), ATA over Ethernet (AoE) adn HyperSCSI. It can be implemented as some controllers attached to some JBoDS (Just a Bunch of Disks).  
 
-While NAS provides both storage and a file system, SAN provides only block-based storage and leaves file system concerns on the "client" side. SAN protocols include Fibre Channel, iSCSI (SCSI over the fiber), ATA over Ethernet (AoE) and HyperSCSI. It can be implemented as some controllers attached to some JBoDS (Just a Bunch of Disks).  
+While NAS provides both storage and a file system, **SAN provides only block-based storage** and leaves file system concerns on the "client" side. 
 
-The SAN can be divided in different Logical Unit Numbers (LUNs). The LUN abstracts the identity and internal functions of storage system(s) and appear as physical storage to the compute system.
+The SAN **can be divided in different Logical Unit Numbers** (LUNs). The LUN abstracts the identity and internal functions of storage systems and **appear as physical storage** to the compute system.
 
 - Storage capacity of a LUN can be dynamically expanded or reduced (**virtual storage provisioning:** It enables to present a LUN to an application with more capacity than is physically allocated to it on the storage system.)
 - LUN can be created from
-  - RAID set (traditional approach): suited for applications that require predictable performance
-  - Storage pool: LUNs can be created from the storage pool that comprises a set of physical drives that provide the actual physical storage used by the volumes. Appropriate for applications that can tolerate performance variations.
+  - RAID set (traditional approach): suited for applications that require **predictable performance**
+  - Storage pool: LUNs can be **created from the storage pool** that comprises a set of physical drives that provide the actual physical storage used by the volumes. Appropriate for applications that can tolerate performance variations.
 
 If the drive is seen as physically attached to the machine, and a block transmission protocol is adopted that means that you are using a SAN. The optical fiber has become the bottleneck (just four drives to saturate a link).
 
 With SAN the server has the impression that the LUN is attached directly to him, locally; with NAS there isn't this kind of abstraction.
 
-Some latency can be reduced if we stripe data in a correct way and we exploit the multiple seeks.
+<!-- Some latency can be reduced if we stripe data in a correct way and we exploit the multiple seeks. -->
 
 ### Benefits
 The main features that are provided by a storage system are the following:
- - Thin provisioning
-	- This is a virtualization technology that gives the appearance of having more physical resources than are actually avaiable. Thin provisioning allows space to be easily allocated to servers, on a just-enough and just-in-time basis. Thin provisioning is called "sparse volumes" in some contexts.
- - Deduplication
+ - **Thin provisioning**
+	- This is a virtualization technology that gives the appearance of having more physical resources than are actually available. Thin provisioning allows space to be easily allocated to servers, on a just-enough and just-in-time basis. Thin provisioning is called "sparse volumes" in some contexts.
+ - **Deduplication**
 	- If the same file is required in two context, it is saved one time and is served to different context.
- - Compression
- - Authentication
- - RTO/RPO "support" DR
- 	- The Recovery Point Objective is defined by business continuity planning. It is the maximum targeted period in which data might be lost from an IT service due to a major incident. 
- - Network Interface (iSCSI, Fibre Channel...)
- - RAID
- - Tiering
+ - **Compression**
+ - **Authentication**
+ - **RTO**/**RPO** "support" DR
+ 	- The Recovery Point Objective is defined by business continuity planning. It is the maximum targeted period in which data might be lost from an IT service due to a major incident (DR - Disaster Recovery). 
+ - **RAID**
+ - **Tiering**
  	- Tiering is a technology that categorizes data to choose different type of storage media to reduce the total storage cost. Tiered storage policies place the most frequently accessed data on the highest performing storage. Rarely accessed data goes on low-performance, cheaper storage.
  - NAS Protocols
+ - Network Interface (iSCSI, Fibre Channel...)
  - Snapshot
 
 ## HCI - Hyperconvergent Systems
 
-- Nutanix: is the current leader of this technoogy
+- Nutanix: is the current leader of this technology
 - Ceph: is a different architecture/approach
 - vSAN
 - SSD - Storage Spaces Direct
 
-This kind of software is expensive (Nutanix HCI is fully software defined so you do not depend on the vendors hardware).
+This kind of software is expensive (Nutanix HCI is fully software defined so you **do not depend on the vendors hardware**).
 
-The main idea is not to design three different systems (compute, networking, storage) and then connect them, but it's better to have a bit of them in each server I deploy. "Adding servers adds capacity".
+The main idea is not to design three different systems (compute, networking, storage) and then connect them, but it's better to have a bit of them in each server I deploy. "**Adding servers adds capacity**".
 
 <p align="center">
   <img src="./assets/nutanix-hci.png" width="600">
 </p>
 
-The software works with the cooperations of different controller (VMs) in each node (server). The controller (VM) implements the storage abstraction through the node and it implements also the logical mooving of data. Every write keeps a copy on the local server storage exploiting the PCI bus and avoiding the network cap; a copy of the data is given to the controller of another node. The read is performed locally gaining high performances. The VM is aware that there are two copies of the data so it can exploit this fact. Once a drive fails its copy is used to make another copy of the data. The write operation is a little bit slower since I need to wait for the 'ack' of the controller in order to keep replicas of the written data on other nodes.
+The software works with the cooperations of different controller (VMs) in each node (server). **The controller (VM) implements the storage abstraction through the node and it implements also the logical moving of data**. Every write keeps a copy on the local server storage exploiting the PCI bus and avoiding the network cap; a copy of the data is given to the controller of another node. The read is performed locally gaining high performances. The VM is aware that there are two copies of the data so it can exploit this fact. Once a drive fails its copy is used to make another copy of the data. The write operation is a little bit slower since I need to wait for the 'ack' of the controller in order to keep replicas of the written data on other nodes.
 
 ## SDS - Software Defined Storage
-Software-defined Storage is a term for computer data storage software for policy-based provisioning and management of data storage independent of the underlying hardware. This type of software includes a storage virtualization to separate storage hardware from the software that manages it.  
-It's used to build a distributed system that provides storage services.
-
-**object storage** (i.e. S3 by Amazon)  
-Write, read, rewrite, version delete an object using HTTP.  
-An object has:
-- object ID
-- metadata
-- binary data
-
-
+Software-defined Storage is a term for computer data storage software for **policy-based provisioning and management of data storage** independent of the underlying hardware. This type of software includes a storage virtualization to separate storage hardware from the software that manages it.  
+It's used to build a distributed system that provides storage services. Uses **object-based storage architecture** (objectID, metadata, binary data).
 
 ## Non-RAID drive architectures
 Also other architectures exist and are used when RAID is too expensive or not required.
@@ -703,57 +702,56 @@ Also other architectures exist and are used when RAID is too expensive or not re
  - DAS (Direct-attached storage): a digital storage directly attached to the computer accessing it.
 
 ## Some consideration about Flash Drives
-The bottleneck in new drives is the connector. The SATA connector is too slow to use SSD at the maximum speed. Some results can be see [here](http://www.itc.unipi.it/wp-content/uploads/2016/02/ITC-TR-01-16.pdf).
+The **bottleneck** in new drives is the **connector**. The SATA connector is too slow to use SSD at the maximum speed. Some results can be see [here](http://www.itc.unipi.it/wp-content/uploads/2016/02/ITC-TR-01-16.pdf).
 
 The solution? Delete the connector and attach it to PCIe. So new Specification is used, the NVMe, an open logical device interface specification for accessing non-volatile storage media attached via a PCI Express bus.
 
 ## Storage in the future
+<details>
+  <summary>
+    Click to show or hide
+  </summary>
 
-<p align="center">
+  <p align="center">
   <img src="./assets/memory-history.jpg" width="600">
-</p>
+  </p>
 
 
-As we can see in the image, it's been decades since the last mainstream memory update is done. In fact, the SSD became popular in the last years due the cost but they exists since 1989. 
+  As we can see in the image, it's been decades since the last mainstream memory update is done. In fact, the SSD became popular in the last years due the cost but they exists since 1989. 
 
-<p align="center">
+  <p align="center">
   <img src="./assets/3d-xpoint.jpg" width="600">
-</p>
+  </p>
 
-New technology was introduced in 2015, the 3D XPoint. This improvement takes ICT world in a new phase? If yesterday our problem was the disk latency, so we design all algorithm to reduce IOs operation, now the disk is almost fast as the DRAM, as shown the following image:
+  New technology was introduced in 2015, the 3D XPoint. This improvement takes ICT world in a new phase? If yesterday our problem was the disk latency, so we design all algorithm to reduce IOs operation, now the disk is almost fast as the DRAM, as shown the following image:
 
 
-<p align="center">
+  <p align="center">
   <img src="./assets/storages-latency.png" width="600">
-</p>
-
-With the NVMe drives we can reach 11GBps, aka 88 Gbps. Since the software latency is 5 microseconds more or less, TCP/IP software introduces also a latency, 70-80 microseconds, the disk is no more a problem.
-
-<p align="center">
-  <img src="./assets/rdma.jpg" width="600">
-</p>
+  </p>
+</details>
 
 # Hypervisors
-A hypervisor is a software, firmware or hardware that creates and runs virtual machines. 
-It can be bare-metal hypervisor or hosted hypervisor. A bare-metal is where the hypervisor is the OS itself, often requires certified hardware. Hosted hypervisor is VirtualBox.
+A hypervisor is a software, firmware or hardware that creates and **runs virtual machines**. 
+It can be **bare-metal** hypervisor or **hosted** hypervisor. A bare-metal is where the hypervisor is the OS itself, often requires certified hardware. Hosted hypervisor is VirtualBox.
 
-An hypervisor permits to overbook physical resources to allocate more resources than exist.
+An hypervisor **permits to overbook physical resources** to allocate more resources than exist.
 
 It create also a virtual switch to distribute the networking over all VMs. 
 
 # Servers
-They are really different from desktops, the only common part is the CPU istruction set.
-For istance, servers have an ECC memory with Error Correction Code built in.
+They are really different from desktops, the only common part is the CPU instruction set.
+For instance, servers have an ECC memory with Error Correction Code built in.
 
-Racks are divided in Units: 1 U is the minimal size you can allocate on a rack. Generraly 2 meters rack has 42 Units. 
+Racks are divided in Units: 1 U is the minimal size you can allocate on a rack. Generally 2 meters rack has 42 Units. 
 
 ## Types of compute systems
 
-- **Tower**: a tower compute system, also known as a tower server, is a compute system built in an upright enclosure called a “tower”, which is similar to a desktop cabinet. Tower servers have a robust build, and have integrated power supply and cooling. They typically have individual monitors, keyboards, and mice. Tower servers occupy significant floor space and require complex cabling when deployed in a data center. Tower servers are typically used in smaller environments. Deploying a large number of tower servers in large environments may involve substantial expenditure.
+- **Tower**: a tower compute system, also known as a tower server, is a compute system built in an upright enclosure called a “tower”, which is **similar to a desktop cabinet**. Tower servers have a robust build, and have integrated power supply and cooling. They typically have individual monitors, keyboards, and mice. Tower servers **occupy significant floor space** and require **complex cabling** when deployed in a data center. Tower servers are typically used in smaller environments. Deploying a large number of tower servers in large environments may involve substantial expenditure.
 
-- **Rack-mounted**: a rack-mounted compute system is a compute system designed to be fixed on a frame called a “rack”. A rack is a standardized enclosure containing multiple mounting slots, each of which holds a server. A single rack contains multiple servers stacked vertically, thereby simplifying network cabling, consolidating network equipment, and reducing floor space use. Each rack server has its own power supply and cooling unit. A “rack unit” (denoted by U or RU) is a unit of measure of the height of a server designed to be mounted on a rack. One rack unit is 1.75 inches (~4.5cm). A rack server is typically 19 inches (~50cm) in width and 1.75 inches (~45cm) in height. This is called a 1U rack server. Other common sizes of rack servers are 2U and 4U. Some common rack cabinet sizes are 27U, 37U, and 42U. Typically, a console with a video screen, keyboard, and mouse is mounted on a rack to enable administrators to manage the servers in the rack. Some concerns with rack servers are that they are cumbersome to work with, and they generate a lot of heat because of which more cooling is required, which in turn increases power costs.
+- **Rack-mounted**: a rack-mounted compute system is a compute system designed to be **fixed on a frame called a “rack”**. A rack is a standardized enclosure containing multiple mounting slots, each of which holds a server. A single rack **contains multiple servers stacked vertically**, thereby **simplifying network cabling**, consolidating network equipment, and reducing floor space use. Each rack server has its own power supply and cooling unit. A “rack unit” (denoted by U or RU) is a unit of measure of the height of a server designed to be mounted on a rack. One rack unit is 1.75 inches (~4.5cm). A rack server is typically 19 inches (~50cm) in width and 1.75 inches (~45cm) in height. This is called a **1U rack** server. Other common sizes of rack servers are 2U and 4U. Some common rack cabinet sizes are 27U, 37U, and 42U. Typically, a console with a video screen, keyboard, and mouse is mounted on a rack to enable administrators to **manage the servers in the rack**. Some concerns with rack servers are that they are cumbersome to work with, and they generate a lot of heat because of which more cooling is required, which in turn increases power costs.
 
-- **Blade**: a blade compute system, also known as a blade server, contains only core processing components, such as processor(s), memory, integrated network controllers, storage drive, and essential I/O cards and ports. Each blade server is a self-contained compute system and is typically dedicated to a single application. A blade server is housed in a slot inside a chassis, which holds multiple blades and provides integrated power supply, cooling, networking, and management functions. The blade enclosure enables interconnection of the blades through a high speed bus and also provides connectivity to external storage systems. The modular design of blade servers makes them smaller, which minimizes floor space requirements, increases compute system density and scalability, and provides better energy efficiency as compared to tower and rack servers. 
+- **Blade**: a blade compute system, also known as a blade server, **contains only core processing components**, such as processor(s), memory, integrated network controllers, storage drive, and essential I/O cards and ports. Each blade server is a **self-contained compute system** and is typically dedicated to a single application. A blade server is housed in a slot **inside a chassis**, which holds multiple blades and provides **integrated power supply**, **cooling**, **networking**, and **management** functions. The blade enclosure enables interconnection of the blades through a high speed bus and also provides connectivity to external storage systems. The modular design of blade servers makes them smaller, which **minimizes floor space** requirements, **increases** compute **system density and scalability**, and provides **better energy efficiency** as compared to tower and rack servers. 
 
 ## Form-factors
 
@@ -780,14 +778,14 @@ Differs from desktop systems.
 - Intel [AVX](https://en.wikipedia.org/wiki/Advanced_Vector_Extensions) CPU architecture
 - MCDRAM (multi channel RAM) with less latency
 
-#### Miscellaneous
+#### Misc
 Trade-off in CPU design: high frequency, low cores. All dipends on the application running: it can benefit from high frequency or not (big data systems are more about capacity than latency).
 
 Latency is slightly higher when I access a RAM bank of another socket because I have to ask for it via a bus that interconnects them (UPI in an Intel CPU).
 
 Crossbar interconnection (each CPU at the vertex of a square connected by the edges and the diagonals too) between CPU's to reduce 1 hop.
 
-**NUMA** Non Uniform Memory Architecture  
+**NUMA**: Non Uniform Memory Architecture  
 Drop the assumption that all the RAMs are equal. NUMA is supported in the most used servers and virtualizer. Create threads and process that are NUMA aware: split data in an array and each thread works on a part of it. APIs are provided in order to access specific memory zones in a NUMA architecture. 
 
 **Inter socket** and **Intra Socket** connection: initially cores used a token ring or two token rings, now they use a mash. 
