@@ -31,19 +31,19 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [Some consideration about numbers](#some-consideration-about-numbers)
   - [Real use case](#real-use-case)
   - [Connectors & plugs](#connectors--plugs)
-  - [Software Defined Approach and Open Network](#software-defined-approach-and-open-network)
-    - [Open Flow](#open-flow)
+  - [Software Defined Approach](#software-defined-approach)
     - [SDN: Software Defined Networking](#sdn-software-defined-networking)
     - [Software-defined data center](#software-defined-data-center)
     - [Hyper-convergence](#hyper-convergence)
   - [Network topologies](#network-topologies)
-    - [Spanning Tree Protocol (STP)](#spanning-tree-protocol-stp)
+    - [Introduction](#introduction-1)
+      - [Spanning Tree Protocol (STP)](#spanning-tree-protocol-stp)
+      - [Network Chassis](#network-chassis)
+      - [Stacking](#stacking)
     - [Three-tier design](#three-tier-design)
-    - [Network Chassis](#network-chassis)
-    - [Stacking](#stacking)
-      - [Spine and leaf Architecture](#spine-and-leaf-architecture)
-      - [Oversubscription](#oversubscription)
-  - [Full Fat Tree](#full-fat-tree)
+    - [Spine and leaf Architecture](#spine-and-leaf-architecture)
+    - [Oversubscription](#oversubscription)
+    - [Full Fat Tree](#full-fat-tree)
     - [VLAN](#vlan)
     - [Switch Anatomy](#switch-anatomy)
 - [Disks and Storage](#disks-and-storage)
@@ -338,9 +338,9 @@ Nowadays we have:
 
 The **transceiver module** can serve copper or optical fiber; it has a microchip inside and is not cheap.
 
-## Software Defined Approach and Open Network
+## Software Defined Approach
 
-The Software Defined Approach, where approach is Networking (**SDN**) or Storage (**SDS**), is a novel approach to cloud computing. 
+The Software Defined Approach, where approach is Networking ([**SDN**](#sdn-software-defined-networking)) or Storage ([**SDS**](#sds---software-defined-storage)), is a novel approach to cloud computing. 
 
 Software-defined approach abstracts all the infrastructure components (compute, storage, and network), and pools them into aggregated capacity. It separates the control or management functions from the underlying components to the external software, which takes over the control operations to manage the multi-vendor infrastructure components centrally. 
 This decoupling enable to centralize all data provisioning and management tasks through software, external to the infrastructure components.
@@ -354,12 +354,14 @@ Benefits of software-defined approach:
 - Allows to create new innovative services using the underlying resources
 
 
+<!---
 ### Open Flow
 
 [OpenFlow](https://en.wikipedia.org/wiki/OpenFlow) is a communications protocol that gives access to the forwarding plane of a network switch or router over the network.
 The switch, once approved the initial connection with a firewall, redirect the allowed traffic to another port, bypassing the firewall since it is not able to handle the entire data flow bandwidth ([Open daylight](https://www.opendaylight.org/)).
 
 - copy/redirect/ close the flow to optimize and control the behavior of the network.
+-->
 
 ### SDN: Software Defined Networking
 SDN is an architecture purposing to be dynamic, manageable, cost-effective and some more nice attribute readable [here](https://en.wikipedia.org/wiki/Software-defined_networking#Concept). This type of software create a virtual network to manage the network with more simplicity.
@@ -371,34 +373,44 @@ The main concept are the following:
  - It is Open Standard-based and Vendor-neutral
 
 There is a **flow table** in the switches that remembers the connection. The routing policies are adopted according to this table.  
-Deep pkt inspection made by a level 7 firewall. The firewall validates the flow and if it's aware that the flow needs bandwidth, the firewall allows it to bypass the redirection (of the firewall). 
-The new wave of network switch strongly revolves around the concept of "programming" and "monitoring" the switch. Dell and also Onie (open source on github) provides a way to install any OS and use third party tools to monitor the switching. The switch
+Deep packet inspection made by a level 7 firewall. The firewall validates the flow and if it's aware that the flow needs bandwidth, the firewall allows it to bypass the redirection (of the firewall). 
+<!-- 
+The new wave of network switch strongly revolves around the concept of "programming" and "monitoring" the switch. Dell and also Onie (open source on github) provides a way to install any OS and use third party tools to monitor the switching.
+-->
 
 ### Software-defined data center
 Software-defined data center is a sort of upgrade of the previous term and indicate a series of virtualization concepts such as abstraction, pooling and automation to all data center resources and services to achieve IT as a service.
 
 ### Hyper-convergence
-So we virtualize the networking, the storage, the data center... and the cloud! Some tools, as [Nutanix](https://www.nutanix.com/hyperconverged-infrastructure/) build the [hyperconverged infrastructure HCI](https://en.wikipedia.org/wiki/Hyper-converged_infrastructure) technology.
+So we virtualize the networking, the storage, the data center... and the cloud! Some tools, as [Nutanix](https://www.nutanix.com/hyperconverged-infrastructure/) build the [hyper-converged infrastructure HCI](https://en.wikipedia.org/wiki/Hyper-converged_infrastructure) technology.
+
+Hyper-converged infrastructure combines common datacenter hardware using locally attached storage resources with intelligent software to create flexible building blocks that replace legacy infrastructure consisting of separate servers, storage networks, and storage arrays.
 
 ## Network topologies
 
 A way of cabling allowing multiple computers to communicate. It's not necessary a graph,but for the reliability purpose it often realized as a set of connected  nodes. At least 10% of nodes should be connected in order to guarantee a sufficient reliability ([Small World Theory](https://en.wikipedia.org/wiki/Small-world_network)).
 
- At layer 2 there is no routing table (*broadcast domain*), even if there are some cache mechanism. The topology is more like a tree than a graph because some edges can be cutted preserving reachability and lowering the costs.
+<!--  
+At layer 2 there is no routing table (*broadcast domain*), even if there are some cache mechanism. The topology is more like a tree than a graph because some edges can be cutted preserving reachability and lowering the costs. 
+-->
 
-### Spanning Tree Protocol (STP) 
+### Introduction
+
+#### Spanning Tree Protocol (STP) 
 
 First of all it is necessary to understand the loop problem. A loop is a cycle of the links between various nodes which creates a "DDoS-like" situation by flooding the network. 
-The spanning Tree Protocol is a network protocol that builds a logical loop-free topology for Ethernet networks. It builds a spanning tree from the existing topology graph, and disabilitates the remaining links. The spanning tree is built using some Bridge Protocol Data Units (BPDUs) frames. In 2001 the IEEE introduced Rapid Spanning Tree Protocol (RSTP) that provides significantly faster spanning tree convergence after a topology change.
+The spanning Tree Protocol is a network protocol that builds a logical loop-free topology for Ethernet networks. It builds a spanning tree from the existing topology graph, and disabilitates the remaining links. <!-- The spanning tree is built using some Bridge Protocol Data Units (BPDUs) frames. --> In 2001 the IEEE introduced Rapid Spanning Tree Protocol (RSTP) that provides significantly faster spanning tree convergence after a topology change.
 
 Nowadays this protocol is used only in campus and not in datacenters, due to its hight latency of convergence (up to 10-15 seconds to activate a backup line).
 
-### Three-tier design
-
-This architecture is simple architecture where each component has a redundant unit to replace it in case of failure.
-
-### Network Chassis
+#### Network Chassis
 The Network Chassis is a sort of big  modular and resilient switch. At the bottom it has a pair of power plugs and then it's made of modular **line cards** (with some kind of ports) and a pair of **RPM** Routing Processing Modules to ensure that the line cards work. The chassis can be over provisioned to resist to aging but it has a limit.  
+
+
+<p align="center">
+  <img width="300" src="./assets/cisco-chassis.png">
+</p>
+
 Pros
 - resilient
 - 1 CLI per switch
@@ -411,10 +423,18 @@ Cons
 
 The chassis is connected with the rack's **tor** and **bor** (top/bottom of rack) switches via a double link. 
 
-### Stacking
-Independent switches stacked with dedicated links. It's cheaper than the chassis but there is less redundancy and it is not upgradable without connettivity.
+#### Stacking
 
-#### Spine and leaf Architecture
+Some network switches have the ability to be connected to other switches and operate together as a single unit. These configurations are called stacks, and are useful for quickly increasing the capacity of a network.
+
+It's cheaper than the chassis but there is less redundancy and it is not upgradable without connectivity.
+
+
+### Three-tier design
+
+This architecture is simple architecture where each component has a redundant unit to replace it in case of failure.
+
+### Spine and leaf Architecture
 
 <p align="center">
   <img width="800" src="./assets/spine-leaf-vs-3-tier.png">
@@ -439,22 +459,26 @@ A typical configuration of the ports and bandwidth of the leaves is:
 
 Just a small remark: with spine and leaf we introduce more hops, so more latency, than the chassis approach. The solution for this problem is using as a base of the spine a huge switch (256 ports) which actually acts as a chassis, in order to reduce the number of hops and latency.
 
-#### Oversubscription
-Just a little note about oversubscription. Given two linked switches with a 100 Gbps link and 48 ports with 10 Gbps per port. Then: 
+### Oversubscription
 
-*oversubscription* = 48*10 / 100 = 4.8
+Fabric switch **port oversubscription** occurs when the **amount of internal switching fabric bandwidth allocated to a given switch port is less than the device connection speed at that port**. For example, if a port on a Fibre Channel switch has a connection speed of 2 Gbps but is unable to achieve wire-rate 2 Gbps of performance, then the port is said to be oversubscribed. 
+
+Fabric **switch oversubscription** occurs when the **overall switching bandwidth of the switch is less than the aggregate bandwidth** of all ingress switch ports. This means that a subset of the total number of ports can run at full wire-rate simultaneously, but not all ports can.
+
+Given two linked switches with a 100 Gbps link and 48 ports with 10 Gbps per port. Then: 
+  - *oversubscription* = 48*10 / 100 = 4.8
 
 A degree that is considered acceptable is 2.5. But is it possible to achieve a degree of oversubscription equal to 1?
-Yes, and it is possibile by just linking half the ports upwards and half down. This is the basis of the full fat tree.
+Yes, and it is possible by just linking half the ports upwards and half down. This is the basis of the full fat tree.
 
-## Full Fat Tree
+### Full Fat Tree
 
 In this network topology, the link that are nearer the top of the hierarchy are "fatter" (thicker) than the link further down the hierarchy. Used only in high performance computing where performances have priority over budgets.
 
-The full fat tree resolves the problem of over-subscription. Adopting the spine and leaf there is the risk that the links closer to the spines can't sustain the traffic coming from all the links going from the servers to the leaves. The full fat tree is a way to build a tree so that the capacity is never less than the incoming trafic. It's quite expensive and because of this reason some over suscription can be accepted.
+The full fat tree resolves the problem of over-subscription. Adopting the spine and leaf there is the risk that the links closer to the spines can't sustain the traffic coming from all the links going from the servers to the leaves. The full fat tree is a way to build a tree so that the capacity is never less than the incoming traffic. It's quite expensive and because of this reason some over subscription can be accepted.
 
 <p align="center">
-  <img width="200" src="./assets/full-fat-tree-network.png">
+  <img width="600" src="./assets/full-fat-tree-network.png">
 </p>
 
 ### VLAN
@@ -474,7 +498,7 @@ A switch can be configured to accept some tags on some ports and some other tags
 VLAN are useful to manage the access control to some resources (and avoid to access to some subnetwork from other subnetwork). Different VLANs are usually used for different purposes.
 
 ### Switch Anatomy
-A switch is an ASIC (application-specific integrated circuit). It can be proprietary architecture or non-proprietary. Layer two switches receive packets and implements the equivalent of a bus: store and forward (there is a special address allowing broadcast). At layer 3 there is no loop problem, as in layer 2, because of the Internet Table.
+A switch is an ASIC (application-specific integrated circuit). It can be proprietary architecture or non-proprietary. Layer 2 switches receive packets and implements the equivalent of a bus: store and forward (there is a special address allowing broadcast). At layer 3 there is no loop problem, as in layer 2, because of the Internet Table.
 
 Datacenter's switches are usually non-blocking. It basically means that this switches have the forwarding capacity that supports concurrently all ports at full port capacity.
 
@@ -652,6 +676,10 @@ The main features that are provided by a storage system are the following:
 This kind of software is expensive (Nutanix HCI is fully software defined so you do not depend on the vendors hardware).
 
 The main idea is not to design three different systems (compute, networking, storage) and then connect them, but it's better to have a bit of them in each server I deploy. "Adding servers adds capacity".
+
+<p align="center">
+  <img src="./assets/nutanix-hci.png" width="600">
+</p>
 
 The software works with the cooperations of different controller (VMs) in each node (server). The controller (VM) implements the storage abstraction through the node and it implements also the logical mooving of data. Every write keeps a copy on the local server storage exploiting the PCI bus and avoiding the network cap; a copy of the data is given to the controller of another node. The read is performed locally gaining high performances. The VM is aware that there are two copies of the data so it can exploit this fact. Once a drive fails its copy is used to make another copy of the data. The write operation is a little bit slower since I need to wait for the 'ack' of the controller in order to keep replicas of the written data on other nodes.
 
