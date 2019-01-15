@@ -101,7 +101,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [Spine and Leaf](#spine-and-leaf)
   - [Traditional Chassis](#traditional-chassis)
   - [2 - What actions can take the orchestration layer of a cloud system, and based on what information, in order to decide how many web server istances should be used to serve a Web system?](#2---what-actions-can-take-the-orchestration-layer-of-a-cloud-system-and-based-on-what-information-in-order-to-decide-how-many-web-server-istances-should-be-used-to-serve-a-web-system)
-  - [3 - Discuss a datacenter architecture made of 10 racks. Assuming a power distribution of 15 W/ rack.](#3---discuss-a-datacenter-architecture-made-of-10-racks-assuming-a-power-distribution-of-15-w-rack)
+  - [3 - Discuss a datacenter architecture made of 10 racks. Assuming a power distribution of 15 KW/ rack.](#3---discuss-a-datacenter-architecture-made-of-10-racks-assuming-a-power-distribution-of-15-kw-rack)
   - [4 - A service requires a sustained throughput towards the storage of 15 GB/s. Would you recomment using a SAN architecture or an hyperconvergent one.](#4---a-service-requires-a-sustained-throughput-towards-the-storage-of-15-gbs-would-you-recomment-using-a-san-architecture-or-an-hyperconvergent-one)
     - [SAN area network (recap)](#san-area-network-recap)
     - [NAS](#nas)
@@ -109,6 +109,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
       - [Discussion](#discussion)
   - [What should I look for..](#what-should-i-look-for)
   - [5 - A service requires a sustained throughput towards the storage of 15 GB/s. How would you dimension an hyperconvergent system to ensure it works properly?](#5---a-service-requires-a-sustained-throughput-towards-the-storage-of-15-gbs-how-would-you-dimension-an-hyperconvergent-system-to-ensure-it-works-properly)
+  - [Solution](#solution)
 - [About numbers](#about-numbers)
   - [Current](#current-1)
   - [Fabric](#fabric-1)
@@ -1339,7 +1340,7 @@ Pros:
 - protection on the investment
 - share power
 - pay only once and just add line cards
-- ~ simplifying the cabling 
+- simplifying the power supply cabling 
 
 Today is not so much used because it's difficult to design a backplane offering terabits.  
 - **Capex and Opex reasons**: in active-passive I use only half of the bandwidth I'm paying for.  
@@ -1368,7 +1369,7 @@ Based on:
 - number of connections (requests)
 - CPU usage
 
-## 3 - Discuss a datacenter architecture made of 10 racks. Assuming a power distribution of 15 W/ rack.
+## 3 - Discuss a datacenter architecture made of 10 racks. Assuming a power distribution of 15 KW/ rack.
 Use an in row cooling approach trying to reduce the rows to be cooled. Do not forget to mention the PDU and the UPS. (2 plugs per rack 32A each).
 
 ## 4 - A service requires a sustained throughput towards the storage of 15 GB/s. Would you recomment using a SAN architecture or an hyperconvergent one.
@@ -1390,9 +1391,9 @@ LUN (Logical UNits), can be replicated, compression can be used, it can be overb
 Servers and drives are separated, drives are pooled togheter.
 
 SAN today is failing because the bandwidth of the drives saturates the links, making it impossible to pool a lot of drives.
-
+<!--
 - **Capex and Opex reasons**: When I first buy the SAN I need to pay extra room for growing (Capex cost). The risk is to be surpasses by technology changes (not good investment, bad ROI). Overprovision sometimes could be bad: suboptimal allocation of resources.
-
+-->
 ### NAS
 It uses istead a network file system protocol to access the pooled resources (SIFS, NFS). We access files not blocks.   
 NAS gives the file system, with SAN I decide the FS.  
@@ -1435,14 +1436,32 @@ Not good to have 100Gbps for each node cause I'm overloading that single node wh
 
 Well first I have to choose the Ethernet bandwidth between (10-25-50-100-400), considering that 400 Gbps is achievable only on the spine, and not ont the leaves.
 
-Better 10 GBps or 25GBps depending on Capex.  
+Better 10 Gbps or 25Gbps depending on Capex.  
 With spine and leaf I have 50 Gbps  cause I double (active-active).
 
-Consider at leat 5 full used nodes with 25 Gbps network. Since I want to have some redundancy and efficiency I can use 8 to 10 nodes. I'm overprovisioning but it's good.
+Consider at least 5 full used nodes with 25 Gbps network. Since I want to have some redundancy and efficiency I can use 8 to 10 nodes. I'm overprovisioning but it's good.
 
 Every HCI node will have some SSD (at leat 2, 1 GB/sec writing) and some mechanical drives.  If I use SATA drives I need al leat 6 for each node because the bottle neck is in their bandwidth. I can use NVMe drives: lower number but I pay more.
 
 - **Consider SLA**: how much I gonna pay for the missed target/data? If it's a lot it's better to overprovision.
+
+## Solution
+We have 15 GB/s incoming bandwidth -->  15 * 8 = 120 Gbps   
+We first dimension a spine and leaf architecture to sustain this bandwidth value.
+We have a couple of options:
+  - 10 Gbps per server (hyperconvergent node)
+  - 25 Gbps per server (we choose this)
+
+To cover 120 Gbps we need at least 5 nodes --> 5*25 = 125 Gbps  
+(We could also add more node to have redundancy and efficiency, but we will consider 5 in the calculations)
+
+Since we have 120 Gbps totally each node will recive 24 Gbps = 120 /5  
+This is ok since the link to the node is 25Gbps (even if we have active-active configuration so the actual bandwidth is 50 Gbps)  
+
+Now we must consider the number of drives in each node. The drive throughput must sustain the incoming bandwidth  of 24Gbps to avoid data loss. We know that SSD drives have a bandwidth of 500 MBps, so half a GB.  
+ So 24 Gbps / 8 = 3 GBps  
+ \#disks * (1/2 GBps) = 3 GBps --> \#disks = 6
+
 
 Remember that bandwidth are not fully used because of some overhead..(e.g. to connect two spine nodes together)
 
@@ -1468,6 +1487,7 @@ Remember that bandwidth are not fully used because of some overhead..(e.g. to co
 - The Industrial current il 380 Volts, 3 phases
 - 32 KW (consume of 10 appartments) datacenter is a small one
 - 2 idle CPUs (14 cores each) consume 140 Watts 
+- Intel XEON (28 cores) 165 W on avarage
 - lines coming from the generator to the UPS: 80 KW each, ~ 200 A; can be used for 6 racks each 32 A (I will not use the whole 32 A so I'll put more racks) 
 - rack PDU: 2 banks, 12 plugs each
   - 16 A each bank
@@ -1498,10 +1518,14 @@ Remember that bandwidth are not fully used because of some overhead..(e.g. to co
 ## Disk and Storage
 - PCI express bus 15 GB/s = 120 Gbps
 - 4 drives can saturate a full PCIe bus and also a 100 Gbps link
-- NVMe drives up to 11 GBps (to be verified)
+- NVMe drives up to 11 GBps 
 - Intel Ruler up to 1 PB capacity
 - SATA SSD 500 MB bandwidth
+- SATA HDD 130 MB bandwidth
 - 4 fiber channel are enought with 15 GB/s
+- SATA interface 16 Gbps
+- SCSI interface 22.5 Gbps
+- nVME 24 Gbps, 3 GBps
 
 # References
  - https://tools.ietf.org/html/rfc4391
