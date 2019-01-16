@@ -439,6 +439,7 @@ This architecture is simple architecture where each component has a redundant un
 
 <p align="center">
   <img width="800" src="./assets/spine-leaf-vs-3-tier.png">
+  <img width="800" src="./assets/spine-and-leaves.jpg">
 </p>
 
 With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are divided into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric. 
@@ -458,6 +459,10 @@ A typical configuration of the ports and bandwidth of the leaves is:
     - plus 6 ports 40 Gbps each (upward - from leaves to spines)
 - or 48 ports 25 each (downward)
     - plus 6 ports 100 each (upward)
+
+<p align="center">
+  <img width="400" src="./assets/sal-switch.png">
+</p>
 
 Just a small remark: with spine and leaf we introduce **more hops**, so more latency, than the chassis approach. The solution for this problem is using as a base of the spine a **huge switch (256 ports)** which actually acts as a chassis, in order to reduce the number of hops and latency.
 
@@ -1351,6 +1356,13 @@ Pros:
 Today is not so much used because it's difficult to design a backplane offering terabits.  
 - **Capex and Opex reasons**: in active-passive I use only half of the bandwidth I'm paying for.  
 - **latency issues**: with STP when a link goes down it can take up to seconds to activate the other link.
+
+**Latency**   
+With spine and leaf we introduce more hops, so more latency, than the chassis approach. The solution for this problem is using as a base of the spine a huge switch (256 ports) which actually acts as a chassis, in order to reduce the number of hops and latency.
+
+**Bandwidth**   
+To enlarge the bandwidth in a spine and leaves architecture we need only to add a new spine and to connect to all leaves. With the chassis approach we can add bandwidth adding new line cards (new switches) to the chassis, provided that there are free slots in the chassis.   
+In the spine and leaves arch we can upgrade a spine reducing the bandwidth, but still without disrupting the connectivity. In the traditional chassis an upgrade degrades the bandwidth => TODO: verify.
 
 ## 2) Orchestration layer
 
