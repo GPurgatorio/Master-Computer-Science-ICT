@@ -1593,3 +1593,4 @@ Remember that bandwidth are not fully used because of some overhead..(e.g. to co
  -http://www.itc.unipi.it/index.php/2016/02/23/comparison-of-solid-state-drives-ssds-on-different-bus-interfaces/
 - http://www.itc.unipi.it/wp-content/uploads/2016/05/ITC-TR-02-16.pdf
 - https://www.nutanix.com/hyperconverged-infrastructure/
+- Spine and leaves - https://community.fs.com/blog/leaf-spine-with-fs-com-switches.html
