@@ -37,9 +37,9 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
     - [Introduction](#introduction-1)
       - [Spanning Tree Protocol (STP)](#spanning-tree-protocol-stp)
       - [Network Chassis](#network-chassis)
-    - [Stacking](#stacking)
+      - [Stacking](#stacking)
     - [Three-tier design](#three-tier-design)
-  - [Spine and leaf Architecture](#spine-and-leaf-architecture)
+    - [Spine and leaf Architecture](#spine-and-leaf-architecture)
     - [Oversubscription](#oversubscription)
     - [Some consideation about numbers](#some-consideation-about-numbers)
     - [Full Fat Tree](#full-fat-tree)
@@ -53,7 +53,6 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
     - [Misc](#misc)
   - [Storage aggregation](#storage-aggregation)
   - [Network Area Storage (NAS)](#network-area-storage-nas)
-  - [Storage system architectures are based on data access methods whose common variants are:](#storage-system-architectures-are-based-on-data-access-methods-whose-common-variants-are)
   - [Storage Area Network (SAN)](#storage-area-network-san)
   - [HCI - Hyperconvergent Systems](#hci---hyperconvergent-systems)
   - [SDS - Software Defined Storage](#sds---software-defined-storage)
@@ -250,24 +249,26 @@ The UPS is attached to the *PDU* (Power Distribution Unit) which is linked to th
 Example of rack PDU: 2 banks, 12 plugs each, 16 A each bank, 15 KW per rack, 42 servers per rack.
 
 ```
-"Alternating current (AC) supplies our buildings and equipment. AC is more efficient for power companies to deliver, but when it hits the equipment's transformers, it exhibits a characteristic known as reactance.
+Alternating current (AC) supplies our buildings and equipment. AC is more efficient for power companies to deliver, but when it hits the equipment's transformers, it exhibits a characteristic known as reactance.
 
 Reactance reduces the useful power (watts) available from the apparent power (volt-amperes). The ratio of these two numbers is called the power factor (PF). Therefore, the actual power formula for AC circuits is watts = volts x amps x power factor. Unfortunately, the PF is rarely stated for most equipment, but it is always a number of 1.0 or less, and about the only thing with a 1.0 PF is a light bulb.
 
 For years, large UPS systems were designed based on a PF of 0.8, which meant that a 100 kVA UPS would only support 80 kW of real power load.
 
-The majority of large, commercial UPS systems are now designed with a PF of 0.9. This recognizes that most of today's computing technology presents a PF of between 0.95 and 0.98 to the UPS. Some UPS systems are even designed with PFs of 1.0, which means the kVA and kW ratings are identical (100 kVA = 100 kW). However, since the IT load never presents a 1.0 PF, for these UPS systems, the actual load limit will be the kVA rating."
+The majority of large, commercial UPS systems are now designed with a PF of 0.9. This recognizes that most of today's computing technology presents a PF of between 0.95 and 0.98 to the UPS. Some UPS systems are even designed with PFs of 1.0, which means the kVA and kW ratings are identical (100 kVA = 100 kW). However, since the IT load never presents a 1.0 PF, for these UPS systems, the actual load limit will be the kVA rating.
 ```
 ```
-How do I estimate server power consumption per rack?
-
-"Use the hardware manufacturers' online configurators if possible. As a last resort, use the server's power supply rating -- a server with a 300-Watt power supply can never draw 800 Watts. Size the power systems based on real demand loads.
+ Use the hardware manufacturers' online configurators if possible. As a last resort, use the server's power supply rating -- a server with a 300-Watt power supply can never draw 800 Watts. Size the power systems based on real demand loads.
 
 Dual-corded equipment adds redundancy to IT hardware, and the lines share power load. If a dual-corded server has two 300-Watt power supplies, it can still draw no more than 300 Watts in your power design, because each power supply has to be able to handle the server's full load (not including power supply efficiency calculations).
 
 The other way to estimate total server power consumption is to use industry norms. Unless you're hosting high performance computing, you can probably figure groupings in three levels of density: Low density cabinets run 3.5 to 5 kW; medium density run 5 to 10 kW; high density run 10 to 15 kW. The amount of each rack type to allocate depends on your operation. Generally, data centers operate with about 50% low density cabinets, 35% medium and 15% high density.
 
-If your projected average is more than 1.5 times your existing average, take a closer look at the numbers. This result is fine if you expect a significant density increase, due to new business requirements or increased virtualization onto blade servers. But if there's no apparent reason for such a density growth, re-examine your assumptions."
+Download this form to estimate your server power consumption in capacity units.
+
+When you've used either of these methods, do a sanity check by dividing the existing uninterruptible power supply reading by the existing cabinet count to get an average. Do the same for your projected cabinet count and total estimated server power load in the deployment. Be aware that very few server deployments actually operate anywhere near the designer's initial load estimate maximums.
+
+If your projected average is more than 1.5 times your existing average, take a closer look at the numbers. This result is fine if you expect a significant density increase, due to new business requirements or increased virtualization onto blade servers. But if there's no apparent reason for such a density growth, re-examine your assumptions.
 ```
 
 ### PUE: Power Usage Effectiveness
@@ -336,12 +337,11 @@ Now we try to analyse the problem from the connector point of view. The fastest 
     - 1 Gbps
   - **SFP+**, can be combined with some other SFP
     - 10 Gbps
-  - **SFP28**, where the number 28 is the number of pins
+  - **QSFP28**, where the number 28 is the number of pins
     - 25 GBps
-  - **QSFP+** (Quad SPF+)
+  - **QSFP** (Quad SPF)
     - 4x10 Gbps (if combined with SPF+)
-  - **QSFP28** (Quad SFP28)
-    - 4x25 Gbps (if combined with SFP28)
+    - 4x25 Gbps (if combined with QSFP28)
   - **RJ45**, in datacenters there are almost no installations of it 
     - 10/100 Mbps, 1/2.5/5 Gbps.
     - Different cables have categories (cat4, cat5, cat6) 
@@ -364,6 +364,7 @@ The Software Defined Approach, where approach is Networking ([**SDN**](#sdn-soft
 
 Software-defined approach abstracts all the infrastructure components (compute, storage, and network), and pools them into aggregated capacity. It separates the control or management functions from the underlying components to the external software, which takes over the control operations to manage the multi-vendor infrastructure components centrally. 
 This decoupling enable to centralize all data provisioning and management tasks through software, external to the infrastructure components.
+The software runs on a centralized compute system or a standalone device, called the software-defined controller.
 
 Benefits of software-defined approach:
 - Improves business agility: minimizes resource provisioning time to get new services up and running
@@ -382,7 +383,7 @@ The switch, once approved the initial connection with a firewall, redirect the a
 -->
 
 ### SDN: Software Defined Networking
-SDN is an architecture purposing to be dynamic, manageable and cost-effective ([SDN Wikipedia](https://en.wikipedia.org/wiki/Software-defined_networking#Concept)). This type of software create a virtual network to manage the network with more simplicity.
+SDN is an architecture purposing to be dynamic, manageablea and cost-effective ([SDN Wikipedia](https://en.wikipedia.org/wiki/Software-defined_networking#Concept)). This type of software create a virtual network to manage the network with more simplicity.
 
 The main concept are the following:
  - Network control is directly programmable (also from remote)
@@ -441,7 +442,7 @@ Cons
 
 The chassis is connected with the rack's **tor** and **bor** (top/bottom of rack) switches via a double link. 
 
-### Stacking
+#### Stacking
 
 Some network switches have the ability to be connected to other switches and operate together as a single unit. These configurations are called stacks, and are useful for quickly increasing the capacity of a network.
 
@@ -452,7 +453,7 @@ It's cheaper than the chassis but there is less redundancy and it is not upgrada
 
 This architecture is simple architecture where each component has a redundant unit to replace it in case of failure.
 
-## Spine and leaf Architecture
+### Spine and leaf Architecture
 
 <p align="center">
   <img width="800" src="./assets/spine-leaf-vs-3-tier.png">
@@ -460,7 +461,7 @@ This architecture is simple architecture where each component has a redundant un
 </p>
 
 ```
-"Every leaf switch is connected to every spine. Therefore, the number of connections used for uplinks from each leaf determines the number of spine switches we can have (4 ports here for four spine switches). And the number of ports on each spine switch determines the number of leaf switches we can have (20 leaf switches here)."
+Every leaf switch is connected to every spine. Therefore, the number of connections used for uplinks from each leaf determines the number of spine switches we can have (4 ports here for four spine switches). And the number of ports on each spine switch determines the number of leaf switches we can have (20 leaf switches here).
 ```
 
 With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are divided into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric. 
@@ -637,7 +638,6 @@ NAS is a **file-level** computer data storage server connected to a computer net
 Basically **the whole storage is exposed as a file system**. When using a network file system protocol, you are using a NAS.
 
 Storage system architectures are based on data access methods whose common variants are:
----
 - **block-based (SAN)**: a block-based storage system enables the creation and assignment of storage volumes to compute systems. The compute OS (or hypervisor) discovers these **storage volumes as local drives**. A file system can be created on these storage volumes, for example NTFS in a Windows environment, which can then be formatted and used by applications.
 
 <p align="center">
@@ -710,9 +710,9 @@ Also other architectures exist and are used when RAID is too expensive or not re
  - DAS (Direct-attached storage): a digital storage directly attached to the computer accessing it.
 
 ## Some consideration about Flash Drives
-The **bottleneck** in new drives is the **connector** (controller). The SATA connector is too slow to use SSD at the maximum speed. Some results can be see [here](http://www.itc.unipi.it/wp-content/uploads/2016/02/ITC-TR-01-16.pdf).
+The **bottleneck** in new drives is the **connector**. The SATA connector is too slow to use SSD at the maximum speed. Some results can be see [here](http://www.itc.unipi.it/wp-content/uploads/2016/02/ITC-TR-01-16.pdf).
 
-The solution? Delete the connector (controller) and attach it to PCIe. So new Specification is used, the NVMe, an open logical device interface specification for accessing non-volatile storage media attached via a PCI Express bus.
+The solution? Delete the connector and attach it to PCIe. So new Specification is used, the NVMe, an open logical device interface specification for accessing non-volatile storage media attached via a PCI Express bus.
 
 ## Storage in the future
 <details>
