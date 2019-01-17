@@ -131,7 +131,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [Fabric](#fabric-1)
   - [Disk and Storage](#disk-and-storage)
 - [References](#references)
-  - [Contributors](#contributors)
+- [Contributors](#contributors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 </details>
@@ -1670,7 +1670,7 @@ Remember that bandwidth are not fully used because of some overhead..(e.g. to co
 - Power consumption - https://searchdatacenter.techtarget.com/answer/How-do-I-estimate-server-power-consumption-per-rack
 - UPS dimension - https://searchdatacenter.techtarget.com/feature/How-do-I-figure-size-requirements-for-new-UPS-unit
 
-## Contributors
+# Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
