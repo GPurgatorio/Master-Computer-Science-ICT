@@ -22,6 +22,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
       - [Other ideas](#other-ideas)
   - [Current](#current)
     - [Power Distribution](#power-distribution)
+      - [Power factor](#power-factor)
     - [PUE: Power Usage Effectiveness](#pue-power-usage-effectiveness)
 - [Fabric](#fabric)
   - [Ethernet](#ethernet)
@@ -41,7 +42,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
     - [Three-tier design](#three-tier-design)
     - [Spine and leaf Architecture](#spine-and-leaf-architecture)
     - [Oversubscription](#oversubscription)
-    - [Some consideation about numbers](#some-consideation-about-numbers)
+    - [Some considerations about numbers](#some-considerations-about-numbers)
     - [Full Fat Tree](#full-fat-tree)
     - [VLAN](#vlan)
     - [Switch Anatomy](#switch-anatomy)
@@ -68,6 +69,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
     - [Cross functional layers](#cross-functional-layers)
     - [Phyisical Layer](#phyisical-layer)
     - [Virtual Layer](#virtual-layer)
+    - [VM Network components](#vm-network-components)
     - [VM components](#vm-components)
       - [Types of virtualization](#types-of-virtualization)
       - [Virtual Machine (VM)](#virtual-machine-vm)
@@ -105,7 +107,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
       - [Standardization-Portability](#standardization-portability)
   - [Miscellaneous](#miscellaneous)
 - [In class exercises](#in-class-exercises)
-  - [1) Spine and leaves VS traditional architecture](#1-spine-and-leaves-vs-traditional-architecture)
+  - [1) Spine and leaf VS traditional architecture](#1-spine-and-leaf-vs-traditional-architecture)
     - [Question](#question)
     - [Solution](#solution)
   - [Spine and Leaf](#spine-and-leaf)
@@ -121,7 +123,6 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [5) Dimension a hyperconvergent system](#5-dimension-a-hyperconvergent-system)
     - [Question](#question-4)
     - [Solution](#solution-4)
-    - [Solution summary](#solution-summary)
 - [Other questions](#other-questions)
 - [About numbers](#about-numbers)
   - [Current](#current-1)
@@ -225,7 +226,7 @@ Usually every 2 racks (each 70 cm) there should be a cooling row (30 cm).
 Having water in a data center is a risky business (even if there are different ways to handle a fire). Make the water flow onto the CPUs lowers the temperature for ~40%. One way of chilling the water could be pushing it down to the ground. Water Distribution System, like the Power Distribution System.
 
 #### Other ideas
-A lot of research has been lately invested towards oil cooling computers (particularly in the contest of High Performance Computing). Both this approach and liquid cooling provide water circuits that flow straight over the CPU in order to maximize the effectivness of the cooling. 
+A lot of research has been lately invested towards oil cooling computers (particularly in the contest of High Performance Computing). Both this approach and liquid cooling provide water circuits that flow straight over the CPU in order to maximize the effectiveness of the cooling. 
 A typical approach to cool the air is to place chillers outside the building, or by trying geocooling, which revolves around using the cold air in depth. The main idea is to make a deep hole in the ground, and make the cables pass through it. 
 
 ## Current
@@ -233,8 +234,11 @@ A 32KW datacenter is small (also if it consumes the same amount of current of 10
 
 *Direct Current Transformers* from AC to DC. Direct current is distributed inside the datacenter even if is more dangerous than Alternating current.
 
-Watt = cos fi * V * A  <!-- where on the left is DC and on the right (V) is AC  -->  
-**cos fi** gives the efficiency of the power supply and generally it changes according to the amount of current needed (idle vs under pressure). **cos fi** is the heat dissemination happening from conversion of AC into DC current
+<p align="center">
+  <img src="http://latex.codecogs.com/gif.latex?\text{Watt}%20=%20\cos\phi\cdot%20V\cdot%20A"/>
+</p>
+
+Where ![cosfi](http://latex.codecogs.com/gif.latex?\cos\phi) gives the efficiency of the power supply and generally it changes according to the amount of current needed (idle vs under pressure). ![cosfi](http://latex.codecogs.com/gif.latex?\cos\phi) is the heat dissemination happening from conversion of AC into DC current, and it is a number <= 1.
 For example an idle server with 2 CPUs (14 cores each) consumes 140 Watts.
 
 ### Power Distribution
@@ -248,7 +252,10 @@ The UPS is attached to the *PDU* (Power Distribution Unit) which is linked to th
 
 Example of rack PDU: 2 banks, 12 plugs each, 16 A each bank, 15 KW per rack, 42 servers per rack.
 
-```
+#### Power factor
+<details>
+  <summary>Click to expand</summary>
+
 Alternating current (AC) supplies our buildings and equipment. AC is more efficient for power companies to deliver, but when it hits the equipment's transformers, it exhibits a characteristic known as reactance.
 
 Reactance reduces the useful power (watts) available from the apparent power (volt-amperes). The ratio of these two numbers is called the power factor (PF). Therefore, the actual power formula for AC circuits is watts = volts x amps x power factor. Unfortunately, the PF is rarely stated for most equipment, but it is always a number of 1.0 or less, and about the only thing with a 1.0 PF is a light bulb.
@@ -256,9 +263,9 @@ Reactance reduces the useful power (watts) available from the apparent power (vo
 For years, large UPS systems were designed based on a PF of 0.8, which meant that a 100 kVA UPS would only support 80 kW of real power load.
 
 The majority of large, commercial UPS systems are now designed with a PF of 0.9. This recognizes that most of today's computing technology presents a PF of between 0.95 and 0.98 to the UPS. Some UPS systems are even designed with PFs of 1.0, which means the kVA and kW ratings are identical (100 kVA = 100 kW). However, since the IT load never presents a 1.0 PF, for these UPS systems, the actual load limit will be the kVA rating.
-```
-```
- Use the hardware manufacturers' online configurators if possible. As a last resort, use the server's power supply rating -- a server with a 300-Watt power supply can never draw 800 Watts. Size the power systems based on real demand loads.
+
+
+ Use the hardware manufacturers' online configurations if possible. As a last resort, use the server's power supply rating -- a server with a 300-Watt power supply can never draw 800 Watts. Size the power systems based on real demand loads.
 
 Dual-corded equipment adds redundancy to IT hardware, and the lines share power load. If a dual-corded server has two 300-Watt power supplies, it can still draw no more than 300 Watts in your power design, because each power supply has to be able to handle the server's full load (not including power supply efficiency calculations).
 
@@ -266,7 +273,7 @@ The other way to estimate total server power consumption is to use industry norm
 
 
 If your projected average is more than 1.5 times your existing average, take a closer look at the numbers. This result is fine if you expect a significant density increase, due to new business requirements or increased virtualization onto blade servers. But if there's no apparent reason for such a density growth, re-examine your assumptions.
-```
+</details>
 
 ### PUE: Power Usage Effectiveness
 
@@ -277,7 +284,10 @@ PUE is the ratio of total amount of energy used by a computer data center facili
 As example, consider that the PUE of the university's datacenter during 2018 is less 1.2, while the average italian data center's PUE are around 2-2.5.
 
 If the PUE is equal to 2 means that for each Watt used for computing, 1 Watt is used for cooling.
-The ratio is Total Current divided by Compute Current.
+
+<p align="center">
+  <img src="http://latex.codecogs.com/gif.latex?\text{PUE}%20=%20\dfrac{\text{total%20current}}{\text{compute%20current}}%20"/>
+</p>
 
 # Fabric
 The fabric is the interconnection between nodes inside a datacenter. We can think this level as a bunch of switch and wires. 
@@ -332,12 +342,12 @@ Now we try to analyse the problem from the connector point of view. The fastest 
  Of course, a wire is a wire, and we need something to connect it to somewhere (transceiver):
   - **SPF** (Small form-factor pluggable), a compact, hot-pluggable optical module transceiver
     - 1 Gbps
-  - **SFP+**, can be combined with some other SFP
+  - **SFP+**, can be combined with some other SFP+
     - 10 Gbps
-  - **SFP28**, where the number 28 is the number of pins
-    - 25 GBps
   - **QSFP** (Quad SPF)
     - 4x10 Gbps (if combined with SPF+)
+  - **SFP28**, where the number 28 is the number of pins
+    - 25 GBps
   - **QSFP28** (Quad SPF28)
     - 4x25 Gbps (if combined with SFP28)
   - **RJ45**, in datacenters there are almost no installations of it 
@@ -458,9 +468,7 @@ This architecture is simple architecture where each component has a redundant un
   <img width="800" src="./assets/spine-and-leaves.jpg">
 </p>
 
-```
-Every leaf switch is connected to every spine. Therefore, the number of connections used for uplinks from each leaf determines the number of spine switches we can have (4 ports here for four spine switches). And the number of ports on each spine switch determines the number of leaf switches we can have (20 leaf switches here).
-```
+**Every leaf switch is connected to every spine**. Therefore, the **number of connections used for uplinks** from each leaf determines **the number of spine switches we can have** (4 ports here for four spine switches). And **the number of ports on each spine** switch determines **the number of leaf switches we can have** (20 leaf switches here).
 
 With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are divided into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric. 
 In that topology the **Link Aggregation Control Protocol (LACP) is used**. It provides a method to control the bundling of several physical ports together to form a single logical channel. The first two ports of every switch are reserved to create a link with a twin switch (a loop is created, but the OS is aware of that and it avoids it). Next ports are the ones used to create links with leaf nodes. The bandwidth is aggregated (i.e. 2*25 Gbps): a single flow will only use a single link, but you can use the full channel bandwidth in aggregate.
@@ -488,12 +496,12 @@ Just a small remark: with spine and leaf we introduce **more hops**, so more lat
 
 ### Oversubscription
 
-Another factor to keep in mind when designing your fabric is the oversubscription ratio. In a leaf-spine design, this oversubscription is measured as the ratio of downlink ports (to servers/storage) to uplink ports (to spine switches). If you have 20 servers each connected with 10Gbps links and 4 10Gbps uplinks to your spine switches, you have a 5:1 oversubscription ratio (200Gbps/40Gbps). Significant increases in the use of multi-core CPUs, server virtualization, flash storage, Big Data and cloud computing have driven the requirement for modern networks to have lower oversubscription. Current modern network designs have oversubscription ratios of 3:1 or less.
+Another factor to keep in mind when designing your fabric is the **oversubscription ratio**. In a leaf-spine design, this oversubscription is measured as the **ratio of downlink ports** (to servers/storage) **to uplink ports** (to spine switches). If you have 20 servers each connected with 10Gbps links and 4 10Gbps uplinks to your spine switches, you have a 5:1 oversubscription ratio (200Gbps/40Gbps). Significant increases in the use of multi-core CPUs, server virtualization, flash storage, Big Data and cloud computing have driven the requirement for modern networks to have lower oversubscription. Current **modern network designs** have oversubscription ratios of **3:1** or less.
 
-A degree that is considered acceptable is **2.5**. But is it possible to achieve a degree of oversubscription equal to 1?
+Is it possible to achieve a degree of oversubscription equal to 1?
 Yes, and it is possible by just linking half the ports upwards and half down. This is the basis of the full fat tree.
 
-### Some consideation about numbers
+### Some considerations about numbers
 <details>
   <summary>
     Click to show or hide
@@ -873,21 +881,25 @@ Benefits of virtualization:
 - increases flexibility
 
 This allows a **multi tenant environment** since I can run multiple organizations VMs on the same server.
-<!--
+
 ### VM Network components
 
 VM networks comprise virtual switches, virtual NICs, and uplink NICs that are created on a physical compute system running a hypervisor.
 
-- **vSwitch**: a virtual switch is a **logical OSI Layer 2 Ethernet switch** created within a compute system. A virtual switch is either internal or external. An internal virtual switch connects only the VMs on a compute system. It has no connection to any physical NIC and cannot forward traffic to a physical network. An external virtual switch connects the VMs on a compute system to each other and also to one or more physical NICs. A physical NIC already connected to a virtual switch cannot be attached to any other virtual switch.
+<details>
+  <summary>Click to expand</summary>
 
-- **vNIC**: A virtual NIC **connects a VM to a virtual switch** and functions similar to a physical NIC. Virtual NICs send and receive VM traffic to and from the VM network. A VM can have one or more virtual NICs. Each virtual NIC has unique MAC and IP addresses and uses the Ethernet protocol exactly as a physical NIC does. The hypervisor generates the MAC addresses and allocates them to virtual NICs. 
+  - **vSwitch**: a virtual switch is a **logical OSI Layer 2 Ethernet switch** created within a compute system. A virtual switch is either internal or external. An internal virtual switch connects only the VMs on a compute system. It has no connection to any physical NIC and cannot forward traffic to a physical network. An external virtual switch connects the VMs on a compute system to each other and also to one or more physical NICs. A physical NIC already connected to a virtual switch cannot be attached to any other virtual switch.
 
-- **Uplink NIC**: an uplink NIC is a physical NIC connected to the uplink port of a virtual switch and functions as an **Inter-Switch Link** between the virtual switch and a physical Ethernet switch. It is called uplink because it only provides a physical interface to connect a compute system to the network and **is not addressable from the network**. Uplink NICs are **neither assigned an IP address nor are their built-in MAC addresses** available to any compute system in the network. It simply forwards the VM traffic between the VM network and the external physical network without modification.
+  - **vNIC**: A virtual NIC **connects a VM to a virtual switch** and functions similar to a physical NIC. Virtual NICs send and receive VM traffic to and from the VM network. A VM can have one or more virtual NICs. Each virtual NIC has unique MAC and IP addresses and uses the Ethernet protocol exactly as a physical NIC does. The hypervisor generates the MAC addresses and allocates them to virtual NICs. 
 
-<p align="center">
-  <img width="600" src="./assets/virtual-network.png">
-</p>
--->
+  - **Uplink NIC**: an uplink NIC is a physical NIC connected to the uplink port of a virtual switch and functions as an **Inter-Switch Link** between the virtual switch and a physical Ethernet switch. It is called uplink because it only provides a physical interface to connect a compute system to the network and **is not addressable from the network**. Uplink NICs are **neither assigned an IP address nor are their built-in MAC addresses** available to any compute system in the network. It simply forwards the VM traffic between the VM network and the external physical network without modification.
+
+  <p align="center">
+    <img width="600" src="./assets/virtual-network.png">
+  </p>
+</details>
+
 ### VM components
 
 The **hypervisor** is responsible for running multiple VMs. Since I want to execute x86 ISA over an x86 server I don't need to translate the code. An hypervisor **permits to overbook physical resources** to allocate more resources than exist and it also create also a **virtual switch to distribute the networking** over all VMs. 
@@ -915,7 +927,7 @@ The disk is virtualized usign a file, while for the Network there is a VNIC (Net
 <p align="center">
   <img width="500" src="./assets/virtual-network.png">
 </p>
-The Virtual Disk is a file of fixed size or dynamically expanding. The vOS can be shared among the VMs and stored elsewhere than in the vdisk file. Each write goes on the vdisk (can undo all the write ops), instead each read first look in the "file" where the vOS is, than in the vdisk file if the previous check wasn't successful. I can also freeze the virtual disk, and extend the file with the software I want to add, making also rollback possible. This file abstraction for the disk makes also possible the application of a copy on write mechanism. I can use the same portion of file to save an operating system, and then create only one virtual disk file containing the differences between the various virtual machine and the original disk (more or less like docker layers*). 
+The Virtual Disk is a file of fixed size or dynamically expanding. The vOS can be shared among the VMs and stored elsewhere than in the vdisk file. Each write goes on the vdisk (can undo all the write ops), instead each read first look in the "file" where the vOS is, than in the vdisk file if the previous check wasn't successful. I can also freeze the virtual disk, and extend the file with the software I want to add, making also rollback possible. This file abstraction for the disk makes also possible the application of a copy on write mechanism. I can use the same portion of file to save an operating system, and then create only one virtual disk file containing the differences between the various virtual machine and the original disk (more or less like image layering in Docker*). 
 
 The Virtual CPU masks the feature of a CPU to a VM. The VCPU can be overbooked, up to twice the number of cores. The CPU has several rings of protection (user ... nested vos,vos,os).
 
@@ -1362,7 +1374,7 @@ It's acceptable that some users experiments performances issues while upgrading.
 
 # In class exercises
 
-## 1) Spine and leaves VS traditional architecture
+## 1) Spine and leaf VS traditional architecture
 
 ### Question
 Discuss the difference between spine and leaf fabric and the more traditional fabric architecture based on larger chassis. How bandwidth and latency are affected?
@@ -1397,8 +1409,8 @@ Today is not so much used because it's difficult to design a backplane offering 
 With spine and leaf we introduce more hops, so more latency, than the chassis approach. The solution for this problem is using as a base of the spine a huge switch (256 ports) which actually acts as a chassis, in order to reduce the number of hops and latency.
 
 **Bandwidth**   
-To enlarge the bandwidth in a spine and leaves architecture we need only to add a new spine and to connect to all leaves. With the chassis approach we can add bandwidth adding new line cards (new switches) to the chassis, provided that there are free slots in the chassis.   
-In the spine and leaves arch we can upgrade a spine reducing the bandwidth, but still without disrupting the connectivity. In the traditional chassis an upgrade degrades the bandwidth => TODO: verify.
+To enlarge the bandwidth in a spine and leaf architecture we need only to add a new spine and to connect to all leaves. With the chassis approach we can add bandwidth adding new line cards (new switches) to the chassis, provided that there are free slots in the chassis.   
+In the spine and leaf arch we can upgrade a spine reducing the bandwidth, but still without disrupting the connectivity. In the traditional chassis an upgrade degrades the bandwidth => TODO: verify.
 
 ## 2) Orchestration layer
 
@@ -1446,17 +1458,16 @@ Some claculations:
     - assuming a PUE of 1.2 and knowing that 
 
 <p align="center">
-  <img src="http://latex.codecogs.com/gif.latex?\text{PUE}%20=%20\dfrac{\text{total%20power}}{\text{compute%20power}}%20"/>
-  PUE = total current/compute current
+  <img src="http://latex.codecogs.com/gif.latex?\text{PUE}%20=%20\dfrac{\text{total%20current}}{\text{compute%20current}}%20"/>
 </p>
 
-- calculate the toal power
-  - total power = 1.2 * compute power = 1.2*400 = 480 A on the PDU, that must be spread between racks and cooling systems.
+- calculate the toal current
+  - total current = 1.2 * compute current = 1.2*400 = 480 A on the PDU, that must be spread between racks and cooling systems.
 4) Dimension the UPS:
     - Assume that in case of PDU issues you want to keep alive ony half racks, you can buy a UPS capable of generating 240A
 
 
-NB. We have not considered the [power factor](https://www.rapidtables.com/electric/Power_Factor.html), which is a number equal to 1.0 or less. Reactance, obtainied by converting AC in DC, reduces the useful power (watts) available from the apparent power. The ratio of these two numbers is called the power factor (PF).
+NB. We have not considered the [power factor](#power-factor), which is a number equal to 1.0 or less. Reactance, obtainied by converting AC in DC, reduces the useful power (watts) available from the apparent power. The ratio of these two numbers is called the power factor (PF).
 
 ## 4) SAN VS Hyperconvergent architecture
 
@@ -1508,12 +1519,12 @@ The choice depends also on the kind of data I assume to process (assume at least
 
 It's not enough to say: I take 5 big drives, because their bandwidth can be a bottleneck.
 
-SAN could be the good solution because it's cheaper. SAN can be used with **tiering**: in the first layer I keep SSD "buffers",  in the second layer mechanical drives. If I keep a buffer of 1TB I'll have a minute to copy down the buffered data to the mech drives.  
+SAN could be the good solution because it's cheaper. SAN can be used with **tiering**: in the first layer I keep SSD "buffers",  in the second layer mechanical drives. If I keep a buffer of 1TB I'll have 6 minutes to copy down the buffered data to the mech drives.  
 Assuming 24 Gbps of incoming bandwidth and 1 TB of SSD buffer.  
 24 Gbps = 3 GBps --> 1000 Gb /3 = 330 s to saturate the buffer.  
 Netxt to the buffer there are mech drives (130/150 MBps)  
 I write to the SSD 3000 MBps but I copy to the drive (assuming just 1) 150 MBps. So the incoming bandwidth in the buffer is 3000 -150 = 2850 MB/s.  
-With one mech drive I will saturate the disk in 1000 GB / 2.8 GBps = 360 s  
+With one mech drive I will saturate the disk in 1000 GB / 2.8 GBps = 360 s = 6 min
 
 If I consider the text of the exercise, in particular 'towards', as in the sense of "only writing", imagining to have to almost only archive data and read only from time to time, I can actually consider SAN, because if I go hyperconvergent I am paying also for the CPU which might be unused. If I instead have a balance between r/w and want a good throughput for both operations, or I have a peek and then a flatter period of time with few action, then I might choose better going hyperconvergent.
 
@@ -1531,41 +1542,35 @@ A service requires a sustained throughput towards the storage of 15 GB/s. How wo
 
 ### Solution
 
-Look first at the network (fabric is the glue of the infrastructure).  
-Can't have 100 GBps straight to the server because of spine and leaf, so I have to consider the idea of distribution.
+Look first at the network (fabric is the glue of the infrastructure). Can't have 100 GBps straight to the server because of spine and leaf, so I have to consider the idea of distribution (hyperconvergent). 
 
-Just 1 or 2 ports of 100Gbps are enough to saturate the PCIe. 
+Recap that:
+ - just 1 or 2 ports of 100Gbps are enough to saturate the PCIe. 
+ - not good to have 100Gbps for each node cause I'm overloading that single node while HCI is distributed
 
-Not good to have 100Gbps for each node cause I'm overloading that single node while HCI is distributed.
-
-Well first I have to choose the Ethernet bandwidth between (10-25-50-100-400), considering that 400 Gbps is achievable only on the spine, and not ont the leaves.
-
-Better 10 Gbps or 25Gbps depending on Capex.  
+First I have to choose the Ethernet bandwidth between (10-25-50-100-400), considering that 400 Gbps is achievable only on the spine, and not on the leaves. 
+Better 10 Gbps or 25Gbps depending on CAPEX.  
 With spine and leaf I have 50 Gbps  cause I double (active-active).
 
-Consider at least 5 full used nodes with 25 Gbps network. Since I want to have some redundancy and efficiency I can use 8 to 10 nodes. I'm overprovisioning but it's good.
-
-Every HCI node will have some SSD (at leat 2, 1 GB/sec writing) and some mechanical drives.  If I use SATA drives I need al leat 6 for each node because the bottle neck is in their bandwidth. I can use NVMe drives: lower number but I pay more.
-
-**Consider SLA**: how much I gonna pay for the missed target/data? If it's a lot it's better to overprovision.
-
-### Solution summary
+**Some calculations**   
 We have 15 GB/s incoming bandwidth -->  15 * 8 = 120 Gbps   
 We first dimension a spine and leaf architecture to sustain this bandwidth value.
 We have a couple of options:
   - 10 Gbps per server (hyperconvergent node)
   - 25 Gbps per server (we choose this)
 
-To cover 120 Gbps we need at least 5 nodes --> 5*25 = 125 Gbps  
-(We could also add more node to have redundancy and efficiency, but we will consider 5 in the calculations)
+To cover 120 Gbps we need at least 5 nodes --> 5*25 = 125 Gbps
 
-Since we have 120 Gbps totally each node will recive 24 Gbps = 120 /5  
+We could also add more (up to 8-10) nodes to have redundancy and efficiency, but we will consider 5 in the calculations
+
+Every HCI node will have some SSD (as buffer) and some mechanical drives.
+
+Since we have 120 Gbps totally each node will receive 120 / 5 = 24 Gbps storage bandwidth
 This is ok since the link to the node is 25Gbps (even if we have active-active configuration so the actual bandwidth is 50 Gbps)  
 
 Now we must consider the number of drives in each node. The drive throughput must sustain the incoming bandwidth  of 24Gbps to avoid data loss. We know that SSD drives have a bandwidth of 500 MBps, so half a GB.  
- So 24 Gbps / 8 = 3 GBps  
- \#disks * (1/2 GBps) = 3 GBps --> \#disks = 6
-
+ So 24 Gbps / 8 = 3 GBps
+  - \#disks * (1/2 GBps) = 3 GBps --> \#disks = 6
 
 Remember that bandwidth are not fully used because of some overhead..(e.g. to connect two spine nodes together)
 
@@ -1646,7 +1651,6 @@ Remember that bandwidth are not fully used because of some overhead..(e.g. to co
  - https://en.wikipedia.org/wiki/Software-defined_data_center
  - https://en.wikipedia.org/wiki/Spanning_Tree_Protocol#Rapid_Spanning_Tree_Protocol
  - https://en.wikipedia.org/wiki/Multitier_architecture
- - https://blog.westmonroepartners.com/a-beginners-guide-to-understanding-the-leaf-spine-network-topology/
  - http://searchdatacenter.techtarget.com/definition/Leaf-spine
  - https://en.wikipedia.org/wiki/Network-attached_storage
  - https://en.wikipedia.org/wiki/Non-RAID_drive_architectures
@@ -1655,7 +1659,10 @@ Remember that bandwidth are not fully used because of some overhead..(e.g. to co
  - https://en.wikipedia.org/wiki/Power_usage_effectiveness
  - https://howdoesinternetwork.com/2015/what-is-a-non-blocking-switch
  - https://en.wikipedia.org/wiki/Network_function_virtualization
- -http://www.itc.unipi.it/index.php/2016/02/23/comparison-of-solid-state-drives-ssds-on-different-bus-interfaces/
-- http://www.itc.unipi.it/wp-content/uploads/2016/05/ITC-TR-02-16.pdf
-- https://www.nutanix.com/hyperconverged-infrastructure/
-- Spine and leaves - https://community.fs.com/blog/leaf-spine-with-fs-com-switches.html
+- Drives performances - http://www.itc.unipi.it/index.php/2016/02/23/comparison-of-solid-state-drives-ssds-on-different-bus-interfaces/
+- Drives performances - http://www.itc.unipi.it/wp-content/uploads/2016/05/ITC-TR-02-16.pdf
+- HCI - https://www.nutanix.com/hyperconverged-infrastructure/
+- Spine and leaf - https://community.fs.com/blog/leaf-spine-with-fs-com-switches.html
+- Spine and leaf - https://blog.westmonroepartners.com/a-beginners-guide-to-understanding-the-leaf-spine-network-topology/
+- Power consumption - https://searchdatacenter.techtarget.com/answer/How-do-I-estimate-server-power-consumption-per-rack
+- UPS dimension - https://searchdatacenter.techtarget.com/feature/How-do-I-figure-size-requirements-for-new-UPS-unit
