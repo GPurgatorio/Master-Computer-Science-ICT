@@ -87,13 +87,12 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
       - [Example of orchestration workflows](#example-of-orchestration-workflows)
       - [Service orchestration](#service-orchestration)
     - [Business Continuity layer](#business-continuity-layer)
-      - [Redundancy (to avoid single point of failure)](#redundancy-to-avoid-single-point-of-failure)
-      - [Redundancy and service Zones](#redundancy-and-service-zones)
+      - [Single point of failure](#single-point-of-failure)
+      - [Redundancy](#redundancy-1)
       - [Service Availability Zones](#service-availability-zones)
       - [Live Migration of a VM](#live-migration-of-a-vm)
-      - [Server Setup Checklist:](#server-setup-checklist)
+      - [Server Setup Checklist](#server-setup-checklist)
       - [Backups](#backups)
-      - [Backup types](#backup-types)
     - [Security layer](#security-layer)
       - [Firwall](#firwall)
     - [Service Managment layer](#service-managment-layer)
@@ -1026,9 +1025,9 @@ Cloud service providers typically deploy a purpose-designed **orchestration soft
   <img width="600" src="./assets/business-continuity-layer.png">
 </p>
 
-Business continuity is a set of processes that includes all activities that a business must perform to **mitigate the impact of service outage**. BC entails preparing for, responding to, and recovering from a system outage that adversely affects business operations. It describes the processes and procedures a service provider establishes to **ensure that essential functions can continue during and after a disaster**. Business continuity prevents interruption of mission-critical services, and reestablishes the impacted services as swiftly and smoothly as possible by using an automated process. BC involves **proactive measures**, such as business impact analysis, risk assessment, building resilient IT infrastructure, deploying data protection solutions (**backup and replication**). It also involves reactive countermeasures, such as disaster recovery, to be invoked in the event of a service failure. Disaster recovery (DR) is the coordinated process of restoring IT infrastructure, including data that is required to support ongoing cloud services, after a natural or human-induced disaster occurs. 
+Business continuity is a set of processes that includes **all activities** that a business must perform to **mitigate the impact of service outage**. Business continuity entails preparing for, responding to, and recovering from a system outage that adversely affects business operations. It describes the processes and procedures a service provider establishes to **ensure that essential functions can continue during and after a disaster**. Business continuity prevents interruption of mission-critical services, and reestablishes the impacted services as swiftly and smoothly as possible by using an automated process. Business continuity involves **proactive measures**, such as business impact analysis, risk assessment, building resilient IT infrastructure, deploying data protection solutions (**backup and replication**). It also involves **reactive countermeasures**, such as disaster recovery, to be invoked in the event of a service failure. Disaster recovery (DR) is the coordinated process of restoring IT infrastructure, including data that is required to support ongoing cloud services, after a natural or human-induced disaster occurs. 
 
-#### Redundancy (to avoid single point of failure)
+#### Single point of failure
 
 Single points of failure refers to any individual component or aspect of an infrastructure whose failure can make the entire system or service unavailable. Single points of failure may occur at infrastructure component level and site level (data center). 
 
@@ -1036,32 +1035,29 @@ Methods to avoid Singole Points of Failure:
 - Redundancy
 - Multiple service availablity zones
 
-#### Redundancy and service Zones
+#### Redundancy
 
-**N+1 redundancy** is a common form of fault tolerance mechanism that ensures service availability in the event of a component failure. A set of N components has at least one standby component. This is typically implemented as an **active/passive** arrangement, as the additional component does not actively participate in the service operations. The standby component is active only if any one of the active components fails. N+1 redundancy with **active/active** component configuration is also available. In such cases, the standby component remains active in the service operation even if all other components are fully functional. For example, if active/active configuration is implemented at the site level, then a cloud service is fully deployed in both the sites. The load for this cloud service is balanced between the sites. If one of the site is down, the available site would manage the service operations and manage the workload. 
+Redundancy is a technique used to **avoid single point of failure**. **N+1 redundancy** is a common form of fault tolerance mechanism that ensures service availability in the event of a component failure. A set of N components has at least one standby component. This is typically implemented as an **active/passive** arrangement, as the additional component does not actively participate in the service operations. The standby component is active only if any one of the active components fails. N+1 redundancy with **active/active** component configuration is also available. In such cases, the standby component remains active in the service operation even if all other components are fully functional. For example, if active/active configuration is implemented at the site level, then a cloud service is fully deployed in both the sites. The load for this cloud service is balanced between the sites. If one of the site is down, the available site would manage the service operations and manage the workload. 
 
-Be careful to **active/passive failure**, when a system fails but also the "passive" part fails immediatly because I haven't checked it.
-
+Be careful to **active/passive failure**, when a system fails but also the "passive" part fails immediatly because any checks have been executed.
 
 **Key techniques to protect compute**:
 - Clustering (Two common clustering implementations are: Active/active ; Active/passive)
-- VM live migration
+- [VM live migration](#live-migration-of-a-vm)
 
 **Key techniques to protect network connectivity**:
-- Link and switch aggregation (cross connection)
+- Link and switch **aggregation** (cross connection)
   - Link aggregation: **combines two or more parallel network links into a single logical link**, called port-channel, yielding higher bandwidth than a single link could provide. Link aggregation enables distribution of network traffic across the links and traffic failover in the event of a link failure. If a link in the aggregation is lost, all network traffic on that link is redistributed across the remaining links. 
   - Switch aggregation: **combines two physical switches and makes them appear as a single logical switch**. All network links from these physical switches appear as a single logical link. This enables a single node to use a port-channel across two switches and network traffic is distributed across all the links in the port-channel. 
-- NIC teaming: groups NICs so that they appear as a single, logical NIC to the OS or hypervisor
-- Multipathing: enables a compute system to use multiple paths for transferring data to a LUN on a storage system
-- In-service software upgrade: is a technique where the software (firmware) on a network device (switch and router) can be patched or upgraded without impacting the network availability
-- Configuring redundant hot swappable components
+- **NIC teaming**: groups NICs so that they appear as a single, logical NIC to the OS or hypervisor
+- **Multipathing**: enables a compute system to use multiple paths for transferring data to a LUN on a storage system
+- **In-service software upgrade**: is a technique where the software (firmware) on a network device (switch and router) can be patched or upgraded without impacting the network availability
+- Configuring **redundant hot swappable components**
 
 **Key techniques to protect storage**:  
 - RAID and erasure coding
 - Dynamic disk sparing
 - Configuring redundant storage system components
-
-**Networking redundancy**  
 
 <p align="center">
   <img src="./assets/redundancy.png" width="600">
@@ -1069,29 +1065,35 @@ Be careful to **active/passive failure**, when a system fails but also the "pass
 
 #### Service Availability Zones
 
-A service availability zone is a location with its own set of resources and isolated from other zones to avoid that a failure in one zone will not impact other zones. A zone can be a part of a data center or may even be comprised of the whole data center. This provides redundant cloud computing facilities on which applications or services can be deployed. 
+A service availability zone is a **location with its own set of resources and isolated from other zones** to avoid that a failure in one zone will not impact other zones. A zone can be a part of a data center or may even be comprised of the whole data center. This provides redundant cloud computing facilities on which applications or services can be deployed. 
 
-Service providers typically deploy multiple zones within a data center (to run multiple instances of a service), so that if one of the zone incurs outage due to some reasons, then the service can be failed over to the other zone. They also deploy multiple zones across geographically dispersed data centers (to run multiple instances of a service), so that the service can survive even if the failure is at the data center level. It is also important that there should be a mechanism that allows seamless (automated) failover of services running in one zone to another. 
+Service providers typically **deploy multiple zones within a data center** (to run multiple instances of a service), so that if one of the zone incurs outage due to some reasons, then the service can be failed over to the other zone. They also **deploy multiple zones across geographically dispersed data centers** (to run multiple instances of a service), so that the service can survive even if the failure is at the data center level. It is also important that there should be a mechanism that allows seamless (automated) failover of services running in one zone to another. 
+
+<p align="center">
+  <img src="./assets/service-zones.png" width="600">
+</p>
 
 #### Live Migration of a VM
+
 Moving a VM from server A to B (from hypervisor A to hypervisor B) while it's running. The user could experience a degradation of the service but not a disruption.
 
-In a VM live migration the entire active state of a VM is moved from one hypervisor to another. The state information includes memory contents and all other information that identifies the VM. This method involves copying the contents of VM memory from the source hypervisor to the target and then transferring the control of the VM’s disk files to the target hypervisor. Next, the VM is suspended on the source hypervisor, and the VM is resumed on the target hypervisor. Because the virtual disks of the VMs are not migrated, this technique requires that both source and target hypervisors have access to the same storage. Performing VM live migration requires a high speed network connection. It is important to ensure that even after the migration, the VM network identity and network connections are preserved. 
+In a VM live migration **the entire active state of a VM is moved from one hypervisor to another**. The state information includes memory contents and all other information that identifies the VM. This method involves copying the contents of VM memory from the source hypervisor to the target and then transferring the control of the VM’s disk files to the target hypervisor. Next, the VM is suspended on the source hypervisor, and the VM is resumed on the target hypervisor. Because the virtual disks of the VMs are not migrated, this technique requires that both source and target hypervisors have access to the same storage. Performing VM live migration requires a high speed network connection. It is important to ensure that even after the migration, the VM network identity and network connections are preserved. 
 
-Live migration summary:
-- copy the RAM and at the end, copy the pages writed during this phase.
+**Live migration** summary:
+- copy the **RAM** and at the end, copy the **pages** writed during this phase.
 - create an empty drive on B
-- copy the CPU registers (the VM is stopped for a really short period)
-- manage VSwitch and ARP protocol. The virtual switch must be aware of the migration: if the old vswitch receives a pkt for the just migrated VM it should send it to B.
+- copy the **CPU registers** (the VM is stopped for a really short period)
+- manage vSwitch and ARP protocol. The virtual switch must be aware of the migration: if the old vSwitch receives a packet for the just migrated VM it should forward it to B.
 - continue running the VM on B, only when it needs the disk you stop it and start copying the disk file. A jumboframe can be used to avoid storage traffic fragmentation.
 
 The whole process is a little bit easier if both the VMs use a shared storage. 
 
 <p align="center">
-  <img src="./assets/vm-migration.png" width="600">
+  <img src="./assets/vm-live-migration.png" width="600">
 </p>
 
-#### Server Setup Checklist:
+#### Server Setup Checklist
+
 - OS installation
 - HyperVisor installation
 - Creation of a virtual switch
@@ -1104,45 +1106,38 @@ The whole process is a little bit easier if both the VMs use a shared storage.
 
 The active directory allows for policy based management of the various servers.
 
-
 #### Backups 
 
-It' a data protection solution, and it should be automatized. It has become a crucial point in data center management to the extent in which cloud provider have started providing Backup-aaS and DisasterRecovery-aaS.
+It' a data **protection solution**, and it should be automatized. It has become a crucial point in data center management to the extent in which cloud provider have started providing Backup-aaS and DisasterRecovery-aaS.
 
-With Replicas are  data protection solutions. This task becomes more challenging with the growth of data, reduced IT budgets, and less time available for taking backups. Moreover, service providers need fast backup and recovery of data to meet their service level agreements. The amount of data loss and downtime that a business can endure in terms of RPO and RTO are the primary considerations in selecting and implementing a specific backup strategy. 
+With **replicas are  data protection solutions**. This task becomes more challenging with the growth of data, reduced IT budgets, and less time available for taking backups. Moreover, service providers need fast backup and recovery of data to meet their service level agreements. The amount of data loss and downtime that a business can endure in terms of **RPO and RTO are the primary considerations** in selecting and implementing a specific backup strategy. 
 
-**RTO**: Recovery Time Objective: time it will take to have a full recovery. Relates to the time taken to recover data from backup  
-**RPO**: Recovery Point Objective: what is the last consistent copy of the storage I will find. How many data points do you have to go back in time? specifies the time interval between two backups.
+- **RTO (Recovery Time Objective)**: time it will take to have a full recovery. Relates to the time taken to recover data from backup  
+- **RPO (Recovery Point Objective)**: what is the last consistent copy of the storage I will find. How many data points do you have to go back in time? specifies the time interval between two backups. Is defined by business continuity planning. It is the maximum targeted period in which data might be lost from an IT service due to a major incident (DR - Disaster Recovery).
 
-The Recovery Point Objective is defined by business continuity planning. It is the maximum targeted period in which data might be lost from an IT service due to a major incident (DR - Disaster Recovery).
+**Network** is the **first problem** when I want to make a backup, beacuse the **size of the backup** is bigger than the network bandwidth. Sometimes it's simply impossible to make a backup.
 
-Network it's the first problem when I want to make a backup, beacuse the size of the backup is bigger than the network bandwidth.  
-Sometimes it's simply impossible to make a backup.
+Backup types:
 
-#### Backup types
+- **Incremental backup**: backup **only the updated parts**. High RTO cause I have to reconstruct all the files hierarchy going back througth the back ups. Sometimes snapshots are needed.
 
-**Incremental backup**: backup only the updated parts. High RTO cause I have to reconstruct all the files hierarchy going back througth the back ups. Sometimes snapshots are needed.
+- **Guest level**: a VM is treated as if it is a physical compute system. A **backup agent is installed on the VM**, and it streams the backup data to the storage node. If multiple VMs on a compute system are backed up simultaneously, then the combined I/O and bandwidth demands placed on the compute system by the various guest-level backup operations can deplete the compute system resources. 
 
-**Guest level**: a VM is treated as if it is a physical compute system. A backup agent is installed on the VM, and it streams the backup data to the storage node. If multiple VMs on a compute system are backed up simultaneously, then the combined I/O and bandwidth demands placed on the compute system by the various guest-level backup operations can deplete the compute system resources. 
-
-**Image level:**  uses snapshots. It's agentless (agent == client who gathers the data that is to be backed up), the agent can't crash since there isn't one. The backup processing is performed by a proxy server that acts as the backup client. Backup is saved as a single entity called a VM image. Provides VM image-level and file-level recovery.
+- **Image level:**  uses **snapshots**. It's **agentless** (agent == client who gathers the data that is to be backed up), the agent can't crash since there isn't one. The backup processing is performed by a proxy server that acts as the backup client. Backup is saved as a single entity called a VM image. Provides VM image-level and file-level recovery.
 
 **Backup as a Service**: service providers offer backup as a service that enables an organization to reduce its backup management overhead. It also enables the individual consumer to perform backup and recovery anytime, from anywhere, using a network connection. 
 
 **Backup window**: the horizon effect: you decide a window but the stuff you need will be always in the deleted part.
 
-**Data Deduplication**: the process of detecting and identifying the unique data segments (chunk) within a given set of data to eliminate redundancy. The use of deduplication techniques significantly reduces the amount of data to be backed up in a cloud environment, where typically a large number of VMs are deployed. Take the hash of two identical files, store only one of the two files and both the hashes.  
- If the same file is required in two context, it is saved one time and is served to different context.
+**Data Deduplication**: the process of detecting and **identifying the unique data segments** (chunk) within a given set of data **to eliminate redundancy**. The use of deduplication techniques significantly reduces the amount of data to be backed up in a cloud environment, where typically a large number of VMs are deployed. **Take the hash of two identical files**, **store only one** of the two files **and both the hashes**. If the same file is required in two context, it is saved one time and is served to different context.
 
-**Replica**: the process of creating an exact copy (replica) of the data. The syncronous replica needs an acknowledgement before proceeding, and any additional writes on the source cannot occur until each preceding write has been completed and acknowledged.  DBs like Oracle, SQL Servers want syncronous replica. 
-- Local replication
-  - Snapshot and mirroring
-- Remote replication
+**Replica**: the process of creating an **exact copy** of the data. The syncronous replica needs an acknowledgement before proceeding, and any additional writes on the source cannot occur until each preceding write has been completed and acknowledged.  DBs like Oracle, SQL Servers want syncronous replica. 
+- **Local** replication
+  - Snapshot
+  - Mirroring
+- **Remote** replication
   - Synchronous: typically deployed for distances less than 200 KM between the two sites
   - Asynchronous: write from a compute system is committed to the source and immediately acknowledged
-
-With the **backup** you can choose the chunk of files to "backup".
-
 
 ### Security layer 
 
