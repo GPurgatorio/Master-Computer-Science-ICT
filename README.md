@@ -255,8 +255,9 @@ PUE is the ratio of total amount of energy used by a computer data center facili
 
 As example, consider that the PUE of the university's datacenter during 2018 is less 1.2, while the average italian data center's PUE are around 2-2.5.
 
-If the PUE is equal to 2 means that for each Watt used for computing, 2 Watts are used for cooling.
-The ratio is Total Current divided by Compute Current.
+<p align="center">
+  <img src="http://latex.codecogs.com/gif.latex?\text{PUE}%20=%20\dfrac{\text{total%20power}}{\text{compute%20power}}%20"/>
+</p>
 
 # Fabric
 The fabric is the interconnection between nodes inside a datacenter. We can think this level as a bunch of switch and wires. 
@@ -1426,8 +1427,14 @@ Some claculations:
     - 380V*(40A/42) = ~360W per server (slightly less than 300 are required for the sole CPUs)
 3) Calculate the amount of current on the PDU:
     - 40A*10 = 400A for the racks
-    - assuming a PUE of 1.2 and knowing that ![pue](http://latex.codecogs.com/gif.latex?\dfrac{\text{total%20power}}{\text{compute%20power}}%20=%20\text{PUE})
-      - total power = 1.2 * compute power = 1.2*400 = 480 A on the PDU, that must be spread between racks and cooling systems.
+    - assuming a PUE of 1.2 and knowing that 
+
+<p align="center">
+  <img src="http://latex.codecogs.com/gif.latex?\text{PUE}%20=%20\dfrac{\text{total%20power}}{\text{compute%20power}}%20"/>
+</p>
+
+- calculate the toal power
+  - total power = 1.2 * compute power = 1.2*400 = 480 A on the PDU, that must be spread between racks and cooling systems.
 4) Dimension the UPS:
     - Assume that in case of PDU issues you want to keep alive ony half racks, you can buy a UPS capable of generating 240A
 
