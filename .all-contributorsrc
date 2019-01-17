@@ -1,0 +1,24 @@
+{
+  "projectName": "ict-infrastructures",
+  "projectOwner": "giacomodeliberali",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "giacomodeliberali",
+      "name": "Giacomo De Liberali",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/4717227?v=4",
+      "profile": "http://giacomodeliberali.com",
+      "contributions": [
+        "doc",
+        "review",
+        "maintenance"
+      ]
+    }
+  ]
+}
