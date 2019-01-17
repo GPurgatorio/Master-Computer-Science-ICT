@@ -264,9 +264,6 @@ Dual-corded equipment adds redundancy to IT hardware, and the lines share power 
 
 The other way to estimate total server power consumption is to use industry norms. Unless you're hosting high performance computing, you can probably figure groupings in three levels of density: Low density cabinets run 3.5 to 5 kW; medium density run 5 to 10 kW; high density run 10 to 15 kW. The amount of each rack type to allocate depends on your operation. Generally, data centers operate with about 50% low density cabinets, 35% medium and 15% high density.
 
-Download this form to estimate your server power consumption in capacity units.
-
-When you've used either of these methods, do a sanity check by dividing the existing uninterruptible power supply reading by the existing cabinet count to get an average. Do the same for your projected cabinet count and total estimated server power load in the deployment. Be aware that very few server deployments actually operate anywhere near the designer's initial load estimate maximums.
 
 If your projected average is more than 1.5 times your existing average, take a closer look at the numbers. This result is fine if you expect a significant density increase, due to new business requirements or increased virtualization onto blade servers. But if there's no apparent reason for such a density growth, re-examine your assumptions.
 ```
@@ -1438,9 +1435,26 @@ Discuss a datacenter architecture made of 10 racks. Assuming a power distributio
 ### Solution
 Use an in row cooling approach trying to reduce the rows to be cooled. Do not forget to mention the PDU and the UPS. (2 plugs per rack 32A each).
 
+Some claculations:
+1) Calculate the amount of current per rack:
+    - 15000W/380V = ~40A per rack
+2) Each rack has 40A, so assuming that is contains 42 servers we have:
+    - 380V*(40A/42) = ~360W per server (slightly less than 300 are required for the sole CPUs)
+3) Calculate the amount of current on the PDU:
+    - 40A*10 = 400A for the racks
+    - assuming a PUE of 1.2 and knowing that 
 
-15000 W / 380 V = 40 A per rack. 40 * 10 = 400 A on the UPS for the whole DC.
+<p align="center">
+  <img src="http://latex.codecogs.com/gif.latex?\text{PUE}%20=%20\dfrac{\text{total%20power}}{\text{compute%20power}}%20"/>
+</p>
 
+- calculate the toal power
+  - total power = 1.2 * compute power = 1.2*400 = 480 A on the PDU, that must be spread between racks and cooling systems.
+4) Dimension the UPS:
+    - Assume that in case of PDU issues you want to keep alive ony half racks, you can buy a UPS capable of generating 240A
+
+
+NB. We have not considered the [power factor](https://www.rapidtables.com/electric/Power_Factor.html), which is a number equal to 1.0 or less. Reactance, obtainied by converting AC in DC, reduces the useful power (watts) available from the apparent power. The ratio of these two numbers is called the power factor (PF).
 
 ## 4) SAN VS Hyperconvergent architecture
 
