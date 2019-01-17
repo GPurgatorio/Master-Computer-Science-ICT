@@ -1419,6 +1419,20 @@ Discuss a datacenter architecture made of 10 racks. Assuming a power distributio
 ### Solution
 Use an in row cooling approach trying to reduce the rows to be cooled. Do not forget to mention the PDU and the UPS. (2 plugs per rack 32A each).
 
+Some claculations:
+1) Calculate the amount of current per rack:
+    - 15000W/380V = ~40A per rack
+2) Each rack has 40A, so assuming that is contains 42 servers we have:
+    - 380V*(40A/42) = ~360W per server (slightly less than 300 are required for the sole CPUs)
+3) Calculate the amount of current on the PDU:
+    - 40A*10 = 400A for the racks
+    - assuming a PUE of 1.2 and knowing that ![pue](http://latex.codecogs.com/gif.latex?\dfrac{\text{total%20power}}{\text{compute%20power}}%20=%20\text{PUE})
+      - total power = 1.2 * compute power = 1.2*400 = 480 A on the PDU, that must be spread between racks and cooling systems.
+4) Dimension the UPS:
+    - Assume that in case of PDU issues you want to keep alive ony half racks, you can buy a UPS capable of generating 240A
+
+
+NB. We have not considered the [power factor](https://www.rapidtables.com/electric/Power_Factor.html), which is a number equal to 1.0 or less. Reactance, obtainied by converting AC in DC, reduces the useful power (watts) available from the apparent power. The ratio of these two numbers is called the power factor (PF).
 ## 4) SAN VS Hyperconvergent architecture
 
 ### Question
