@@ -93,9 +93,14 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
       - [Live Migration of a VM](#live-migration-of-a-vm)
       - [Server Setup Checklist](#server-setup-checklist)
       - [Backups](#backups)
-    - [Security layer](#security-layer)
+    - [Security layer  (TODO: complete)](#security-layer--todo-complete)
+      - [Levels of security](#levels-of-security)
       - [Firwall](#firwall)
     - [Service Managment layer](#service-managment-layer)
+      - [Service Operation management](#service-operation-management)
+      - [Capacity Planning/ Management](#capacity-planning-management)
+      - [Incident/Problem Management](#incidentproblem-management)
+      - [Examples](#examples)
       - [GDPR General Data Protection Regulation](#gdpr-general-data-protection-regulation)
       - [Vendor Lock-in](#vendor-lock-in)
       - [Standardization-Portability](#standardization-portability)
@@ -1139,11 +1144,13 @@ Backup types:
   - Synchronous: typically deployed for distances less than 200 KM between the two sites
   - Asynchronous: write from a compute system is committed to the source and immediately acknowledged
 
-### Security layer 
+### Security layer  (TODO: complete)
 
 <p align="center">
   <img src="./assets/security-layer.png" width="600">
 </p>
+
+The fundamental requirements of information security and compliance pertain to both non-cloud and cloud infrastructure management. In both the environments, there are some common security requirements. However, in a cloud environment there are important additional factors, which a service provider must consider, that arise from information ownership, responsibility and accountability for information security, and the cloud infrastructure’s multi-tenancy characteristic. Therefore, **providing secure multi-tenancy is a key requirement** for building a cloud infrastructure. 
 
 Key security threats according:
 - Data leakage: occurs when an unauthorized entity (an attacker) gains access to a cloud consumer’s confidential data stored on the cloud infrastructure
@@ -1166,8 +1173,8 @@ Key security threats according:
 
 Firewall, Antivirus, Standard procedures to direct safe execution of operations.
 
-Three levels of security:
-- **Procedural**: phising, the weakest link is the human.
+#### Levels of security
+- **Procedural**: phising, the weakest link is the human
 - **Logical**: abstraction produced by the OS. **mandatory access** (classification of the infos); **discreptional access** (~ ACL)
 - **Physical**
 - Authentication
@@ -1214,12 +1221,14 @@ Disable the possibility of changing the MAC address at the hypervisor level.
 - **level 3 firwall**: looks at the envelope, source address, port ...
 - **level 7 firewall**: reconstruct the full pkt looking inside its content.
 
----
-
 Share the identities of the users to not replicate them in each server:
 - **lDAP** lightweight Directly Access Protocol: distributed database organized as a tree where we store the name of the users.
 
 - **active-directory**: uses a secure protocol to exchange credentials throught the network. It's a centralized data structure listing users.
+
+<p align="center">
+  <img src="./assets/securityArchitecture.png" width="600">
+</p>
 
 ### Service Managment layer
 
@@ -1227,19 +1236,17 @@ Share the identities of the users to not replicate them in each server:
   <img src="./assets/service-managment-layer.png" width="600">
 </p>
 
-Cloud service management has a service-based focus, meaning that the management functions are linked to the service requirements and service level agreement (SLA). Be aware of regulations and legal constraints that define how to run a system.
+Cloud service management has a service-based focus, meaning that the **management functions are linked to the service requirements and service level agreement** (SLA). Be **aware of regulations and legal constraints** that define how to run a system. Is this system behaving according to the regulations? Recap that information processors (cloud providers) are responsible of the data they process.
 
-Level of compliancy to the policy. Demonstrate compliancy. Is this system behaving according to the regulations?  
-Information processors (cloud providers) are responsible of the infos they process.
+**SLA** Service Level Agreement: legal contract that you sign as a customer to the provider defining what the user is paying for.
 
-**SLA** Service Level Agrrement: legal contract that you sign as a customer to the provider defining what the user is paying for.  
-**service availability** = 1 - (downtime/ agreed service time)  
+**Service availability** = 1 - (downtime/ agreed service time)  
 The uptime is difficult to define and to test because the reachability of the cloud depend also from the service providers.
 
-The lower the resources used, the higher the margin got. Low level magrgin business: very high numbers * low margins = big profits.
+#### Service Operation management
 
 **Service Operation management** is crucial, it keeps up the whole thing running. 
-Maintains cloud infrastructure and deployed services, ensuring that services and service levels are delivered as committed. Ideally, service operation management should be automated:
+Maintains cloud infrastructure and deployed services, ensuring that services and service levels are delivered as committed. Ideally, service operation management **should be automated**:
   - Service management tools automate many management activities
   - Orchestrated workflows integrate functions of management tools  
   - Activities
@@ -1248,47 +1255,53 @@ Maintains cloud infrastructure and deployed services, ensuring that services and
     - Problem resolution
     - Capacity planning
     - Availability and performance conformance
+    
 **Service Level** not only functional requirements.
 
 Ensure **charge-back** (pay per use), **show-back** (I exhausted the resources so I need more): make a good use of the money spent on hardware, people. Measure how much are you efficient in spending money.
 
-**TCO**: estimates the full lifecycle cost of owning service assets. The cost includes capital expenditure (CAPEX), such as procurement and deployment costs of hardware and on-going operational expenditure (OPEX), such as power, cooling, facility, and administration cost. 
+**TCO (Toal Cost of Ownership)**: estimates the **full lifecycle cost of owning service** assets. The cost includes capital expenditure (**CAPEX**), such as procurement and deployment costs of hardware and on-going operational expenditure (**OPEX**), such as power, cooling, facility, and administration cost. 
 
-Reducing risk is a kind of **ROI** Return On Investment.
+**ROI (Return On Investment)**: reducing risk is a kind of ROI
 
-**CAPEX** CAPital EXpenses: buy something. It's a one time cost e.g procurement and deployment costs of hardware .
+**CAPEX (CAPital EXpenses)**: buy something. It's a one time cost e.g procurement and deployment costs of hardware .
 
-**OPEX** OPerational EXpences: use something. It's a recurrent cost e.g power, cooling, facility, and administration costs.
+**OPEX (OPerational EXpences)**: use something. It's a recurrent cost e.g power, cooling, facility, and administration costs.
 
-**Capacity Planning/ Management**: make some forecast to find when we will exhaust the resources and how many resources we will really need.  Ensure that a cloud infrastructure is able to meet the required capacity demands for cloud services in a cost effective and timely manner.  
+#### Capacity Planning/ Management
+
+**Capacity Planning/ Management**: make some forecast to find when we will exhaust the resources and how many resources we will really need.  Ensure that a cloud infrastructure is able to **meet the required capacity demands** for cloud services in a cost effective and timely manner.  
+
 Common Methods to Maximize Capacity Utilization:
-- Resource pooling
-- Over-commitment of processor cycles and memory (it can bring to capacity issues.)
-- Automated VM load balancing across hypervisors
-- Dynamic scheduling of virtual processors across processing cores
-- Thin provisioning
-- Automated storage tiering
-- Dynamic VM load balancing across storage volumes
-- Converged network
-- WAN optimization
-- Automatic reclamation of capacity when a service is terminated
+- Resource **pooling**
+- **Over-commitment** of processor cycles and memory (it can bring to capacity issues)
+- Automated VM **load balancing** across hypervisors
+- **Dynamic scheduling** of virtual processors across processing cores
+- **Thin provisioning**
+- Automated **storage tiering**
+- Dynamic VM **load balancing across storage volumes**
+- **Converged network**
+- **Automatic reclamation** of capacity when a service is terminated
 
 
-**Monitoring**: collecting data (in a respectfull way). Availability Monitoring, Capacity Monitoring, Performance Monitoring, Security Monitoring ...   
-Monitoring benefits:
- - Helps to track the availability and performance status of infrastructure components and services 
- - Helps to analyze the utilization and consumption of resources by service instances
- - Helps to track events that may impact availability and performance
- - Helps in metering, reporting, and alerting
- - Helps to present information as service metrics to consumers
+**Monitoring**: collecting data (in a respectfull way). Availability Monitoring, Capacity Monitoring, Performance Monitoring, Security Monitoring.
 
- Examples of Performance-related Changes:
- - Allocating more memory to VMs running cloud management software
- - Migrating a service to a different availability zone
- - Moving application instances to a public cloud in a hybrid cloud environment
- - Changing policy for balancing client workload across servers
+Monitoring **benefits**:
+ - Helps to track the availability and **performance** status of infrastructure components and services 
+ - Helps to analyze the **utilization** and consumption of resources by service instances
+ - Helps to track **events** that **may impact availability** and performance
+ - Helps in **metering**, **reporting**, and **alerting**
+ - Helps to present information as service **metrics to consumers**
 
-Keep track of things, processes, servers, configurations so that you can roll back.
+ Examples of **Performance-related Changes**:
+ - Allocating **more memory to VMs** running cloud management software
+ - **Migrating** a service **to a different availability zone**
+ - **Moving** application instances **to a public cloud** in a hybrid cloud environment
+ - Changing policy for **balancing client workload** across servers
+
+**Keep track** of things, processes, servers, configurations **so that you can roll back**.
+
+#### Incident/Problem Management
 
 **Incident/Problem Management**  
 Indentify the impact of a failure to all the other services.  
@@ -1297,15 +1310,13 @@ Return cloud services to consumers as quickly as possible when unplanned events,
 
 Prevent incidents that share common symptoms or—more importantly—root causes from reoccurring, and to minimize the adverse impact of incidents that cannot be prevented.
 
-Examples of Business Continuity Solutions
- - Clustering of compute systems to provide automated service failover
- - Replicating a database and hypervisor’s native file system continuously
- - Deploying multiple availability zones, enabling automated service failover globally
- - Creating redundant network links between devices, sites, and clouds in a hybrid cloud
+#### Examples
 
-<p align="center">
-  <img src="./assets/securityArchitecture.png" width="600">
-</p>
+Examples of Business Continuity Solutions
+ - **Clustering** of compute systems to provide automated service failover
+ - **Replicating** a database and hypervisor’s native file system continuously
+ - Deploying **multiple availability zones**, enabling automated service failover globally
+ - Creating **redundant** network links between devices, sites, and clouds in a hybrid cloud
 
 
 #### GDPR General Data Protection Regulation
@@ -1334,8 +1345,6 @@ It' rare that a leading vendor define a common standard. Standardization it's im
 It's acceptable that some users experiments performances issues while upgrading.
 
 **Procedures** are really important: knowing the procedure and applying it can avoid lost of data, users, money.
-
-**NIC teaming**
 
 **Erasure Coding** like RAID 5 (xor), with n drives of data and k drives of informations
 
