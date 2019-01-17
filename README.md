@@ -60,7 +60,6 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [Some consideration about Flash Drives](#some-consideration-about-flash-drives)
   - [Storage in the future](#storage-in-the-future)
 - [Servers](#servers)
-  - [Hypervisors](#hypervisors)
   - [Types of compute systems](#types-of-compute-systems)
   - [Form-factors](#form-factors)
   - [Misc](#misc-1)
@@ -70,26 +69,38 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
     - [Phyisical Layer](#phyisical-layer)
     - [Virtual Layer](#virtual-layer)
     - [VM components](#vm-components)
-      - [About the virtual memory:](#about-the-virtual-memory)
-      - [Balooning](#balooning)
-      - [Other considerations about the Virtual Layer](#other-considerations-about-the-virtual-layer)
+      - [Types of virtualization](#types-of-virtualization)
+      - [Virtual Machine (VM)](#virtual-machine-vm)
+      - [vRAM balooning](#vram-balooning)
       - [Docker](#docker)
     - [Control Layer](#control-layer)
+      - [Key phases for provisioning resources](#key-phases-for-provisioning-resources)
+      - [Thin provisioning](#thin-provisioning)
+      - [Open stack](#open-stack)
     - [Service layer](#service-layer)
+      - [Service layer](#service-layer-1)
     - [Orchestration layer](#orchestration-layer)
+      - [Cloud portal](#cloud-portal)
+      - [Orchestration types](#orchestration-types)
+      - [Orchestration APIs](#orchestration-apis)
       - [Example of orchestration workflows](#example-of-orchestration-workflows)
       - [Service orchestration](#service-orchestration)
     - [Business Continuity layer](#business-continuity-layer)
-      - [Redundancy (to avoid single point of failure)](#redundancy-to-avoid-single-point-of-failure)
-      - [Redundancy and service Zones](#redundancy-and-service-zones)
+      - [Single point of failure](#single-point-of-failure)
+      - [Redundancy](#redundancy-1)
       - [Service Availability Zones](#service-availability-zones)
       - [Live Migration of a VM](#live-migration-of-a-vm)
-      - [Server Setup Checklist:](#server-setup-checklist)
+      - [Server Setup Checklist](#server-setup-checklist)
       - [Backups](#backups)
-      - [Backup types](#backup-types)
-    - [Security layer](#security-layer)
+    - [Security layer  (TODO: complete)](#security-layer--todo-complete)
+      - [Levels of security](#levels-of-security)
       - [Firwall](#firwall)
+- [<<<<<<< HEAD](#-head)
     - [Service Managment layer](#service-managment-layer)
+      - [Service Operation management](#service-operation-management)
+      - [Capacity Planning/ Management](#capacity-planning-management)
+      - [Incident/Problem Management](#incidentproblem-management)
+      - [Examples](#examples)
       - [GDPR General Data Protection Regulation](#gdpr-general-data-protection-regulation)
       - [Vendor Lock-in](#vendor-lock-in)
       - [Standardization-Portability](#standardization-portability)
@@ -314,13 +325,9 @@ Now we try to analyse the problem from the connector point of view. The fastest 
     - Different cables have categories (cat4, cat5, cat6) 
       - 2.5/5 Gbps are new standards working on cat5 and cat6 cables respectively, in order to deliver more bandwidth to the WiFi access point. 
 
-From left to right: RJ45 plug, SFP+ and QSFP+ **transceiver module**, LC connector. 
-<p float="left">
-  <img width="100" src="./assets/rj45.jpeg">
-  <img width="150" src="./assets/sfpplus.jpg">
-  <img width="250" src="./assets/qsfpplus.png">
-  <img width="150" src="./assets/lc-duplex.jpg">
-</p>
+RJ45 | SPF+ | QSPF+ transceiver module | LC connector
+:-:|:-:|:-:|:-:
+<img width="100" src="./assets/rj45.jpeg">  |  <img width="150" src="./assets/sfpplus.jpg"> | <img width="250" src="./assets/qsfpplus.png"> | <img width="150" src="./assets/lc-duplex.jpg">
 
 Nowadays we have:
 - 25 Gbps 
@@ -713,15 +720,6 @@ For instance, servers have an ECC memory with Error Correction Code built in.
 Racks are divided in Units: 1 U is the minimal size you can allocate on a rack. Generally 2 meters rack has 42 Units. 
 
 
-## Hypervisors
-A hypervisor is a software, firmware or hardware that creates and **runs virtual machines**. 
-It can be **bare-metal** hypervisor or **hosted** hypervisor. A bare-metal is where the hypervisor is the OS itself, often requires certified hardware. Hosted hypervisor is VirtualBox.
-
-An hypervisor **permits to overbook physical resources** to allocate more resources than exist.
-
-It create also a **virtual switch to distribute the networking** over all VMs. 
-
-
 ## Types of compute systems
 <!--
 - **Tower**: a tower compute system, also known as a tower server, is a compute system built in an upright enclosure called a “tower”, which is **similar to a desktop cabinet**. Tower servers have a robust build, and have integrated power supply and cooling. They typically have individual monitors, keyboards, and mice. Tower servers **occupy significant floor space** and require **complex cabling** when deployed in a data center. Tower servers are typically used in smaller environments. Deploying a large number of tower servers in large environments may involve substantial expenditure. -->
@@ -832,7 +830,11 @@ In the cloud computing reference model there are some sylos of cross layer funct
   <img src="./assets/physical-layer.png" width="600">
 </p>
 
-Executes requests generated by virtualization and control layer. Specifies entities that operate at this layer (devices, systems, protocols...)
+The physical layer comprises compute, storage, and network resources, which are the fundamental physical computing resources that make up a cloud infrastructure. It executes requests generated by virtualization and control layer and specifies entities that operate at this layer:
+  - storage and its access method (file-based, block-based, object-based or unified)
+  - network
+  - compute systems
+  - other resources
 
 ### Virtual Layer
 
@@ -866,18 +868,22 @@ VM networks comprise virtual switches, virtual NICs, and uplink NICs that are cr
 -->
 ### VM components
 
-The **hypervisor** is responsible for running multiple VMs. Since I want to execute x86 ISA over an x86 server I don't need to translate the code.
+The **hypervisor** is responsible for running multiple VMs. Since I want to execute x86 ISA over an x86 server I don't need to translate the code. An hypervisor **permits to overbook physical resources** to allocate more resources than exist and it also create also a **virtual switch to distribute the networking** over all VMs. 
 
 Hypervisors types:
-  - Bare-metal: directly installed on the hardware. It has direct access to the hardware resources of the compute system. Therefore, it is more efficient than a hosted hypervisor. However, this type of hypervisor may have limited device drivers built-in. Therefore, hardware certified by the hypervisor vendor is usually required to run bare-metal hypervisors. A bare-metal hypervisor is designed for enterprise data centers and cloud infrastructure. 
-  - Hosted: installed as an application on an operating system. In this approach, the hypervisor does not have direct access to the hardware and all requests must pass through the operating system running on the physical compute system.
+  - **Bare-metal**: directly installed on the hardware. It has **direct access to the hardware** resources of the compute system. Therefore, it is more efficient than a hosted hypervisor. However, this type of hypervisor may have limited device drivers built-in. Therefore, hardware certified by the hypervisor vendor is usually required to run bare-metal hypervisors. A bare-metal hypervisor is designed for enterprise data centers and cloud infrastructure. 
+  - **Hosted**: installed as an application on an operating system. In this approach, the hypervisor **does not have direct access to the hardware** and all requests must pass through the operating system running on the physical compute system.
+
+#### Types of virtualization
 
 Types of virtualization:
   - **paravirtualization** the virtual kernel cooperates with the hosting OS.
     - the CPU is aware of the virtualization, it distinguishes the interrupts generated by the vOS.
   - **driver integration** you don't have to emlulate all the drivers but you can ask the underlying OS for this service.
 
-Each VM is a set of discrete **configuration files** where there are the values aswering the questions: how much memory, how much disk, where is the disk file, how many CPU's cores. An example of those files are:
+#### Virtual Machine (VM)
+
+Each **Virtual Machine** is a **set of discrete configuration files** where there are the values aswering the questions: how much memory, how much disk, where is the disk file, how many CPU's cores. An example of those files are:
   - configuration file: stores information, such as VM name, BIOS information, guest OS type, memory size
   - virtual disk file: stores the contents of the VM's disk drive
   - memory state file: stores the memory contents of a VM in a suspended state
@@ -892,16 +898,13 @@ The Virtual Disk is a file of fixed size or dynamically expanding. The vOS can b
 The Virtual CPU masks the feature of a CPU to a VM. The VCPU can be overbooked, up to twice the number of cores. The CPU has several rings of protection (user ... nested vos,vos,os).
 
 
-#### About the virtual memory:  
-It's not allowed to use a virtual memory as VM RAM because the sum of the VM RAM should be less or equal to the actual RAM. Fragmentation could be a problem if there is lot of unused reserved memory.
+#### vRAM balooning
 
-#### Balooning 
+It's not allowed to use a virtual memory as vRAM because the sum of the vRAM should be less or equal to the actual RAM. Fragmentation could be a problem if there is lot of unused reserved memory. In order to achive this, a technique called balooning has been introduced.  
 It is sayd to the VM: "Look, you have 1TB of RAM but most of it it's occupied". In this way we have dynamically expanding blocks of RAM: if the OS needs memory I can deflate the baloon by moving the occupancy threshold.
 
-#### Other considerations about the Virtual Layer
-The persistent state of a VM is made of the **conf file** and the file of the disk. Mooving a VM it's really simple: just stop it (freeze) and move the two files just mentioned.  
-
 #### Docker
+
 It exploits Linux's Resource Group. The processes in the container can see only a part of the OS. The containers have to share the networking. Docker separates different software stacks on a single node.
 
 ### Control Layer
@@ -910,7 +913,23 @@ It exploits Linux's Resource Group. The processes in the container can see only 
   <img width="600" src="./assets/control-layer.png">
 </p>
 
-The control layer includes control software that are **responsible for managing and controlling  the underlying cloud infrastructure resources and enable provisioning of IT resources** for creating cloud services. Control layer can be deployed on top of the virtual layer or on top of the physical layer. This layer receives request from the service and orchestration layers, and interacts with the underlying virtual and physical resources for provisioning IT resources. For example, when a consumer initiates a service request (a VM instance with 4 GB RAM and 500 GB storage), based on the workflow defined by the orchestration layer for this service, the control layer provisions the required resources from the resource pool to fulfill the service request. This layer also exposes the resources (physical and/or virtual) to and supports the service layer where cloud services interfaces are exposed to the consumers. The key functions of the control layer includes resource configuration, resource provisioning, and monitoring resources. 
+The control layer includes control software that are **responsible for managing and controlling  the underlying cloud infrastructure resources and enable provisioning of IT resources** for creating cloud services. Control layer can be deployed on top of the virtual layer or on top of the physical layer. This layer receives request from the service and orchestration layers, and interacts with the underlying virtual and physical resources for provisioning IT resources. For example, **when a consumer initiates a service request (a VM instance with 4 GB RAM and 500 GB storage), based on the workflow defined by the orchestration layer for this service, the control layer provisions the required resources from the resource pool to fulfill the service request**. This layer also exposes the resources (physical and/or virtual) to and supports the service layer where cloud services interfaces are exposed to the consumers. 
+
+The **key functions** of the control layer includes:
+- resource **configuration**
+- resource **provisioning**
+- **monitoring** resources. 
+
+Summarizing, **control software**:
+
+- Enables **resource configuration** and resource **pool configuration**
+- Enables resource **provisioning**
+- Executes **requests** generated **by service layer**
+- **Exposes resources** to and supports the service layer
+- Collaborates with the virtualization software and enables:
+  - **Resource pooling** and creating **virtual resources**
+  - **Dynamic allocation** of resources
+  - **Optimizing utilization** of resources
 
 - Enables resource configuration and resource pool configuration
 - Enables resource provisioning
@@ -920,19 +939,21 @@ The control layer includes control software that are **responsible for managing 
   - Resource pooling and creating virtual resources
   - Dynamic allocation of resources
   - Optimizing utilization of resources
+#### Key phases for provisioning resources
 
-**Key phases for provisioning resources**:
-  - *Resource discovery*: create an inventory of the infrastructure resources, so that unified manager can learn what resources are available for cloud service deployment
-  - *Resource pool management*: virtual resources such as VM, virtual volume, and virtual network are created from these pools and provisioned for the services
-  - *Resource provisioning*: involves allocating resources from graded resource pools to the service instances
+- Resource **discovery**: create an inventory of the infrastructure resources, so that unified manager can learn what resources are available for cloud service deployment
+- Resource **pool management**: virtual resources such as VM, virtual volume, and virtual network are created from these pools and provisioned for the services
+- Resource **provisioning**: involves allocating resources from graded resource pools to the service instances
 
-**Thin provisioning**
-	- This is a virtualization technology that gives the appearance of having more physical resources than are actually available. Thin provisioning allows space to be easily allocated to servers, on a just-enough and just-in-time basis. Thin provisioning is called "sparse volumes" in some contexts.
+#### Thin provisioning
 
-**Open stack**  
-A free and open-source software platform for cloud computing, mostly deployed as infrastructure-as-a-service (IaaS), whereby virtual servers and other resources are made available to customers.
+This is a **virtualization technology** that gives the **appearance of having more physical resources than are actually available**. Thin provisioning allows space to be easily allocated to servers, on a just-enough and just-in-time basis. Thin provisioning is called "sparse volumes" in some contexts.
 
-Good idea but bad implementation. Various open source softwares, difficult to deply, lots of dead code, bad security implementation. It has a small form of orchestration but it's not a service orchestrator (i.e. no distribution of the workload, scaling)
+#### Open stack 
+
+A **free and open-source software platform for cloud computing**, mostly deployed as infrastructure-as-a-service (IaaS), whereby virtual servers and other resources are made available to customers.
+
+**Good idea but bad implementation**. Various open source softwares, difficult to deply, lots of dead code, bad security implementation. It has a small form of orchestration but it's not a service orchestrator (i.e. no distribution of the workload, scaling)
 
 ### Service layer
 
@@ -943,13 +964,14 @@ Good idea but bad implementation. Various open source softwares, difficult to de
 **What is a cloud service?**  
 Cloud services are IT resources that are packaged by the service providers and are offered to the consumers. Once constituent IT resources are provisioned and configured, a service is instantiated.
 
-**Service layer**  
-The service layer of the cloud infrastructure enables a provider to define services and a consumer to self-provision services. Additionally, it presents cloud interfaces to the consumers, enabling them to consume deployed services. 
+#### Service layer
 
 The service layer has three key functions which are as follows: 
-- **Enables defining services in a service catalog**: Cloud service providers should ensure that the consumers are able to view the available services, service level options, and service cost that will help them effectively to make the right choice of services. Cloud services are defined in a service catalog, which is a menu of services offerings from a service provider. The catalog provides a central source of information on the service offerings delivered to the consumers by the provider, so that the consumers can get a standard, accurate and consistent view of services that are available to them.
- - **Enables on-demand, self-provisioning of services**: A service catalog also allows a consumer to request or order a service from the catalog that best matches the consumer’s need without manual interaction with a service provider. While placing a service request, a consumer commonly submits service demands, such as required resources, needed configurations, and location of data. Once a service request is approved by the provider, appropriate resources are provisioned for the requested service. 
- - **Presents cloud interfaces to consume services**: Cloud interfaces are the functional interfaces and the management interfaces of the deployed service instances. Using these interfaces, the consumers perform computing activities, such as executing a transaction and administer their use of rented service instances, such as modifying, scaling, stopping, or restarting a service instance.
+- **Enables defining services in a service catalog**: cloud service providers should ensure that the consumers are able to view the available services, service level options, and service cost that will help them effectively to make the right choice of services. Cloud services are defined in a **service catalog**, which is a menu of services offerings from a service provider. The catalog provides a central source of information on the service offerings delivered to the consumers by the provider, so that the consumers can get a standard, accurate and consistent view of services that are available to them.
+
+ - **Enables on-demand, self-provisioning of services**: a service catalog also allows a consumer to request or order a service from the catalog that best matches the consumer’s need **without manual interaction with a service provider**. While placing a service request, a consumer commonly submits service demands, such as required resources, needed configurations, and location of data. Once a service request is approved by the provider, appropriate resources are provisioned for the requested service. 
+
+ - **Presents cloud interfaces to consume services**: cloud interfaces are the functional interfaces and the **management** interfaces of the deployed service instances. Using these interfaces, the consumers perform computing activities, such as executing a transaction and administer their use of rented service instances, such as modifying, scaling, stopping, or restarting a service instance.
 
 ### Orchestration layer
 
@@ -960,14 +982,19 @@ The service layer has three key functions which are as follows:
 
 Automated arrangement, coordination, and management of various system or component functions in a cloud infrastructure to provide and manage cloud services.
 
-A cloud portal is an access (usually web-based) point to a cloud, which provides access to the service catalog, and facilitates self-service provisioning and ongoing access to the cloud interfaces. A cloud portal is also accessed by the cloud administrators to manage cloud infrastructure and the lifecycle of cloud services. Service lifecycle includes various phases of a service from its initiation to termination. 
+#### Cloud portal
 
-Once a service provisioning or management request is placed in the cloud portal, the portal routes the request to the orchestration layer where appropriate workflows are triggered to fulfill the request. The orchestration layer is the automation engine of the cloud infrastructure, which defines standardized workflows for process automation. The workflows help orchestrating the execution of various system functions across the cloud infrastructure to fulfill the request. 
+A cloud portal is an access (usually web-based) point to a cloud, which **provides access to the service catalog**, and facilitates **self-service provisioning** and ongoing access to the cloud interfaces. A cloud portal is also accessed by the cloud administrators to manage cloud infrastructure and the lifecycle of cloud services.
 
+Once a service provisioning or management request is placed in the cloud portal, the **portal routes the request to the orchestration layer** where appropriate **workflows are triggered to fulfill the request**. The orchestration layer is the automation engine of the cloud infrastructure, which defines standardized workflows for process automation. The workflows help orchestrating the execution of various system functions across the cloud infrastructure to fulfill the request. 
+
+#### Orchestration types
 
 Tow different types of orchestration:
 - low level: eg. installation of a new VM
 - high level: eg. configuration of the new VM. At the end of this process the VM will be up and running
+
+#### Orchestration APIs
 
 APIs are used to perform activities such as:
 - Resource provisioning and configuration
@@ -977,7 +1004,7 @@ APIs are used to perform activities such as:
 #### Example of orchestration workflows
 DB2 instance request            |  CRM instance request
 :-:|:-:
-<p float="center"><img src="./assets/orchestratorworkflow.png" width="600"></p>  |  <p float="center"><img src="./assets/orchestratorworkflow2.png" width="660"></p>
+<img src="./assets/orchestratorworkflow.png">  |  <img src="./assets/orchestratorworkflow2.png">
 
 #### Service orchestration
 
@@ -989,12 +1016,11 @@ Service orchestration provides several benefits:
 
 Although some manual steps (performed by cloud administrators) may be required while processing the service provisioning and management functions, service providers are looking to **automate these functions as much as possible**.
 
-Cloud service providers typically deploy a purpose-designed **orchestration software or orchestrator** that orchestrates the execution of various system functions. The orchestrator programmatically integrates and sequences various system functions into automated workflows for executing higher-level service provisioning and management functions provided by the cloud portal. The orchestration workflows are not only meant for fulfilling requests from consumers but also for administering cloud infrastructure, such as adding resources to a resource pool, handling service-related issues, scheduling a backup for a service, billing, and reporting. 
+Cloud service providers typically deploy a purpose-designed **orchestration software or orchestrator** that orchestrates the execution of various system functions. **The orchestrator programmatically integrates and sequences various system functions into automated workflows** for executing higher-level service provisioning and management functions provided by the cloud portal. The orchestration workflows are **not only meant for fulfilling requests from consumers** but **also for administering cloud infrastructure**, such as adding resources to a resource pool, handling service-related issues, scheduling a backup for a service, billing, and reporting. 
 
 <p align="center">
   <img width="600" src="./assets/orchestrator-example.png">
 </p>
-
 
 ### Business Continuity layer
 
@@ -1002,9 +1028,9 @@ Cloud service providers typically deploy a purpose-designed **orchestration soft
   <img width="600" src="./assets/business-continuity-layer.png">
 </p>
 
-Business continuity is a set of processes that includes all activities that a business must perform to **mitigate the impact of service outage**. BC entails preparing for, responding to, and recovering from a system outage that adversely affects business operations. It describes the processes and procedures a service provider establishes to **ensure that essential functions can continue during and after a disaster**. Business continuity prevents interruption of mission-critical services, and reestablishes the impacted services as swiftly and smoothly as possible by using an automated process. BC involves **proactive measures**, such as business impact analysis, risk assessment, building resilient IT infrastructure, deploying data protection solutions (**backup and replication**). It also involves reactive countermeasures, such as disaster recovery, to be invoked in the event of a service failure. Disaster recovery (DR) is the coordinated process of restoring IT infrastructure, including data that is required to support ongoing cloud services, after a natural or human-induced disaster occurs. 
+Business continuity is a set of processes that includes **all activities** that a business must perform to **mitigate the impact of service outage**. Business continuity entails preparing for, responding to, and recovering from a system outage that adversely affects business operations. It describes the processes and procedures a service provider establishes to **ensure that essential functions can continue during and after a disaster**. Business continuity prevents interruption of mission-critical services, and reestablishes the impacted services as swiftly and smoothly as possible by using an automated process. Business continuity involves **proactive measures**, such as business impact analysis, risk assessment, building resilient IT infrastructure, deploying data protection solutions (**backup and replication**). It also involves **reactive countermeasures**, such as disaster recovery, to be invoked in the event of a service failure. Disaster recovery (DR) is the coordinated process of restoring IT infrastructure, including data that is required to support ongoing cloud services, after a natural or human-induced disaster occurs. 
 
-#### Redundancy (to avoid single point of failure)
+#### Single point of failure
 
 Single points of failure refers to any individual component or aspect of an infrastructure whose failure can make the entire system or service unavailable. Single points of failure may occur at infrastructure component level and site level (data center). 
 
@@ -1012,32 +1038,29 @@ Methods to avoid Singole Points of Failure:
 - Redundancy
 - Multiple service availablity zones
 
-#### Redundancy and service Zones
+#### Redundancy
 
-**N+1 redundancy** is a common form of fault tolerance mechanism that ensures service availability in the event of a component failure. A set of N components has at least one standby component. This is typically implemented as an **active/passive** arrangement, as the additional component does not actively participate in the service operations. The standby component is active only if any one of the active components fails. N+1 redundancy with **active/active** component configuration is also available. In such cases, the standby component remains active in the service operation even if all other components are fully functional. For example, if active/active configuration is implemented at the site level, then a cloud service is fully deployed in both the sites. The load for this cloud service is balanced between the sites. If one of the site is down, the available site would manage the service operations and manage the workload. 
+Redundancy is a technique used to **avoid single point of failure**. **N+1 redundancy** is a common form of fault tolerance mechanism that ensures service availability in the event of a component failure. A set of N components has at least one standby component. This is typically implemented as an **active/passive** arrangement, as the additional component does not actively participate in the service operations. The standby component is active only if any one of the active components fails. N+1 redundancy with **active/active** component configuration is also available. In such cases, the standby component remains active in the service operation even if all other components are fully functional. For example, if active/active configuration is implemented at the site level, then a cloud service is fully deployed in both the sites. The load for this cloud service is balanced between the sites. If one of the site is down, the available site would manage the service operations and manage the workload. 
 
-Be careful to **active/passive failure**, when a system fails but also the "passive" part fails immediatly because I haven't checked it.
-
+Be careful to **active/passive failure**, when a system fails but also the "passive" part fails immediatly because any checks have been executed.
 
 **Key techniques to protect compute**:
 - Clustering (Two common clustering implementations are: Active/active ; Active/passive)
-- VM live migration
+- [VM live migration](#live-migration-of-a-vm)
 
 **Key techniques to protect network connectivity**:
-- Link and switch aggregation (cross connection)
+- Link and switch **aggregation** (cross connection)
   - Link aggregation: **combines two or more parallel network links into a single logical link**, called port-channel, yielding higher bandwidth than a single link could provide. Link aggregation enables distribution of network traffic across the links and traffic failover in the event of a link failure. If a link in the aggregation is lost, all network traffic on that link is redistributed across the remaining links. 
   - Switch aggregation: **combines two physical switches and makes them appear as a single logical switch**. All network links from these physical switches appear as a single logical link. This enables a single node to use a port-channel across two switches and network traffic is distributed across all the links in the port-channel. 
-- NIC teaming: groups NICs so that they appear as a single, logical NIC to the OS or hypervisor
-- Multipathing: enables a compute system to use multiple paths for transferring data to a LUN on a storage system
-- In-service software upgrade: is a technique where the software (firmware) on a network device (switch and router) can be patched or upgraded without impacting the network availability
-- Configuring redundant hot swappable components
+- **NIC teaming**: groups NICs so that they appear as a single, logical NIC to the OS or hypervisor
+- **Multipathing**: enables a compute system to use multiple paths for transferring data to a LUN on a storage system
+- **In-service software upgrade**: is a technique where the software (firmware) on a network device (switch and router) can be patched or upgraded without impacting the network availability
+- Configuring **redundant hot swappable components**
 
 **Key techniques to protect storage**:  
 - RAID and erasure coding
 - Dynamic disk sparing
 - Configuring redundant storage system components
-
-**Networking redundancy**  
 
 <p align="center">
   <img src="./assets/redundancy.png" width="600">
@@ -1045,29 +1068,35 @@ Be careful to **active/passive failure**, when a system fails but also the "pass
 
 #### Service Availability Zones
 
-A service availability zone is a location with its own set of resources and isolated from other zones to avoid that a failure in one zone will not impact other zones. A zone can be a part of a data center or may even be comprised of the whole data center. This provides redundant cloud computing facilities on which applications or services can be deployed. 
+A service availability zone is a **location with its own set of resources and isolated from other zones** to avoid that a failure in one zone will not impact other zones. A zone can be a part of a data center or may even be comprised of the whole data center. This provides redundant cloud computing facilities on which applications or services can be deployed. 
 
-Service providers typically deploy multiple zones within a data center (to run multiple instances of a service), so that if one of the zone incurs outage due to some reasons, then the service can be failed over to the other zone. They also deploy multiple zones across geographically dispersed data centers (to run multiple instances of a service), so that the service can survive even if the failure is at the data center level. It is also important that there should be a mechanism that allows seamless (automated) failover of services running in one zone to another. 
+Service providers typically **deploy multiple zones within a data center** (to run multiple instances of a service), so that if one of the zone incurs outage due to some reasons, then the service can be failed over to the other zone. They also **deploy multiple zones across geographically dispersed data centers** (to run multiple instances of a service), so that the service can survive even if the failure is at the data center level. It is also important that there should be a mechanism that allows seamless (automated) failover of services running in one zone to another. 
+
+<p align="center">
+  <img src="./assets/service-zones.png" width="600">
+</p>
 
 #### Live Migration of a VM
+
 Moving a VM from server A to B (from hypervisor A to hypervisor B) while it's running. The user could experience a degradation of the service but not a disruption.
 
-In a VM live migration the entire active state of a VM is moved from one hypervisor to another. The state information includes memory contents and all other information that identifies the VM. This method involves copying the contents of VM memory from the source hypervisor to the target and then transferring the control of the VM’s disk files to the target hypervisor. Next, the VM is suspended on the source hypervisor, and the VM is resumed on the target hypervisor. Because the virtual disks of the VMs are not migrated, this technique requires that both source and target hypervisors have access to the same storage. Performing VM live migration requires a high speed network connection. It is important to ensure that even after the migration, the VM network identity and network connections are preserved. 
+In a VM live migration **the entire active state of a VM is moved from one hypervisor to another**. The state information includes memory contents and all other information that identifies the VM. This method involves copying the contents of VM memory from the source hypervisor to the target and then transferring the control of the VM’s disk files to the target hypervisor. Next, the VM is suspended on the source hypervisor, and the VM is resumed on the target hypervisor. Because the virtual disks of the VMs are not migrated, this technique requires that both source and target hypervisors have access to the same storage. Performing VM live migration requires a high speed network connection. It is important to ensure that even after the migration, the VM network identity and network connections are preserved. 
 
-Live migration summary:
-- copy the RAM and at the end, copy the pages writed during this phase.
+**Live migration** summary:
+- copy the **RAM** and at the end, copy the **pages** writed during this phase.
 - create an empty drive on B
-- copy the CPU registers (the VM is stopped for a really short period)
-- manage VSwitch and ARP protocol. The virtual switch must be aware of the migration: if the old vswitch receives a pkt for the just migrated VM it should send it to B.
+- copy the **CPU registers** (the VM is stopped for a really short period)
+- manage vSwitch and ARP protocol. The virtual switch must be aware of the migration: if the old vSwitch receives a packet for the just migrated VM it should forward it to B.
 - continue running the VM on B, only when it needs the disk you stop it and start copying the disk file. A jumboframe can be used to avoid storage traffic fragmentation.
 
 The whole process is a little bit easier if both the VMs use a shared storage. 
 
 <p align="center">
-  <img src="./assets/vm-migration.png" width="600">
+  <img src="./assets/vm-live-migration.png" width="600">
 </p>
 
-#### Server Setup Checklist:
+#### Server Setup Checklist
+
 - OS installation
 - HyperVisor installation
 - Creation of a virtual switch
@@ -1084,51 +1113,46 @@ Share the identities of the users to not replicate them in each server:
 - **active-directory**: uses a secure protocol to exchange credentials throught the network. It's a centralized data structure listing users.
 The active directory allows for policy based management of the various servers.
 
-
 #### Backups 
 
-It' a data protection solution, and it should be automatized. It has become a crucial point in data center management to the extent in which cloud provider have started providing Backup-aaS and DisasterRecovery-aaS.
+It' a data **protection solution**, and it should be automatized. It has become a crucial point in data center management to the extent in which cloud provider have started providing Backup-aaS and DisasterRecovery-aaS.
 
-With Replicas are  data protection solutions. This task becomes more challenging with the growth of data, reduced IT budgets, and less time available for taking backups. Moreover, service providers need fast backup and recovery of data to meet their service level agreements. The amount of data loss and downtime that a business can endure in terms of RPO and RTO are the primary considerations in selecting and implementing a specific backup strategy. 
+With **replicas are  data protection solutions**. This task becomes more challenging with the growth of data, reduced IT budgets, and less time available for taking backups. Moreover, service providers need fast backup and recovery of data to meet their service level agreements. The amount of data loss and downtime that a business can endure in terms of **RPO and RTO are the primary considerations** in selecting and implementing a specific backup strategy. 
 
-**RTO**: Recovery Time Objective: time it will take to have a full recovery. Relates to the time taken to recover data from backup  
-**RPO**: Recovery Point Objective: what is the last consistent copy of the storage I will find. How many data points do you have to go back in time? specifies the time interval between two backups.
+- **RTO (Recovery Time Objective)**: time it will take to have a full recovery. Relates to the time taken to recover data from backup  
+- **RPO (Recovery Point Objective)**: what is the last consistent copy of the storage I will find. How many data points do you have to go back in time? specifies the time interval between two backups. Is defined by business continuity planning. It is the maximum targeted period in which data might be lost from an IT service due to a major incident (DR - Disaster Recovery).
 
-The Recovery Point Objective is defined by business continuity planning. It is the maximum targeted period in which data might be lost from an IT service due to a major incident (DR - Disaster Recovery).
+**Network** is the **first problem** when I want to make a backup, beacuse the **size of the backup** is bigger than the network bandwidth. Sometimes it's simply impossible to make a backup.
 
-Network it's the first problem when I want to make a backup, beacuse the size of the backup is bigger than the network bandwidth.  
-Sometimes it's simply impossible to make a backup.
+Backup types:
 
-#### Backup types
+- **Incremental backup**: backup **only the updated parts**. High RTO cause I have to reconstruct all the files hierarchy going back througth the back ups. Sometimes snapshots are needed.
 
-**Incremental backup**: backup only the updated parts. High RTO cause I have to reconstruct all the files hierarchy going back througth the back ups. Sometimes snapshots are needed.
+- **Guest level**: a VM is treated as if it is a physical compute system. A **backup agent is installed on the VM**, and it streams the backup data to the storage node. If multiple VMs on a compute system are backed up simultaneously, then the combined I/O and bandwidth demands placed on the compute system by the various guest-level backup operations can deplete the compute system resources. 
 
-**Guest level**: a VM is treated as if it is a physical compute system. A backup agent is installed on the VM, and it streams the backup data to the storage node. If multiple VMs on a compute system are backed up simultaneously, then the combined I/O and bandwidth demands placed on the compute system by the various guest-level backup operations can deplete the compute system resources. 
-
-**Image level:**  uses snapshots. It's agentless (agent == client who gathers the data that is to be backed up), the agent can't crash since there isn't one. The backup processing is performed by a proxy server that acts as the backup client. Backup is saved as a single entity called a VM image. Provides VM image-level and file-level recovery.
+- **Image level:**  uses **snapshots**. It's **agentless** (agent == client who gathers the data that is to be backed up), the agent can't crash since there isn't one. The backup processing is performed by a proxy server that acts as the backup client. Backup is saved as a single entity called a VM image. Provides VM image-level and file-level recovery.
 
 **Backup as a Service**: service providers offer backup as a service that enables an organization to reduce its backup management overhead. It also enables the individual consumer to perform backup and recovery anytime, from anywhere, using a network connection. 
 
 **Backup window**: the horizon effect: you decide a window but the stuff you need will be always in the deleted part.
 
-**Data Deduplication**: the process of detecting and identifying the unique data segments (chunk) within a given set of data to eliminate redundancy. The use of deduplication techniques significantly reduces the amount of data to be backed up in a cloud environment, where typically a large number of VMs are deployed. Take the hash of two identical files, store only one of the two files and both the hashes.  
- If the same file is required in two context, it is saved one time and is served to different context.
+**Data Deduplication**: the process of detecting and **identifying the unique data segments** (chunk) within a given set of data **to eliminate redundancy**. The use of deduplication techniques significantly reduces the amount of data to be backed up in a cloud environment, where typically a large number of VMs are deployed. **Take the hash of two identical files**, **store only one** of the two files **and both the hashes**. If the same file is required in two context, it is saved one time and is served to different context.
 
-**Replica**: the process of creating an exact copy (replica) of the data. The syncronous replica needs an acknowledgement before proceeding, and any additional writes on the source cannot occur until each preceding write has been completed and acknowledged.  DBs like Oracle, SQL Servers want syncronous replica. 
-- Local replication
-  - Snapshot and mirroring
-- Remote replication
+**Replica**: the process of creating an **exact copy** of the data. The syncronous replica needs an acknowledgement before proceeding, and any additional writes on the source cannot occur until each preceding write has been completed and acknowledged.  DBs like Oracle, SQL Servers want syncronous replica. 
+- **Local** replication
+  - Snapshot
+  - Mirroring
+- **Remote** replication
   - Synchronous: typically deployed for distances less than 200 KM between the two sites
   - Asynchronous: write from a compute system is committed to the source and immediately acknowledged
 
-With the **backup** you can choose the chunk of files to "backup".
-
-
-### Security layer 
+### Security layer  (TODO: complete)
 
 <p align="center">
   <img src="./assets/security-layer.png" width="600">
 </p>
+
+The fundamental requirements of information security and compliance pertain to both non-cloud and cloud infrastructure management. In both the environments, there are some common security requirements. However, in a cloud environment there are important additional factors, which a service provider must consider, that arise from information ownership, responsibility and accountability for information security, and the cloud infrastructure’s multi-tenancy characteristic. Therefore, **providing secure multi-tenancy is a key requirement** for building a cloud infrastructure. 
 
 Key security threats according:
 - Data leakage: occurs when an unauthorized entity (an attacker) gains access to a cloud consumer’s confidential data stored on the cloud infrastructure
@@ -1151,8 +1175,8 @@ Key security threats according:
 
 Firewall, Antivirus, Standard procedures to direct safe execution of operations.
 
-Three levels of security:
-- **Procedural**: phising, the weakest link is the human.
+#### Levels of security
+- **Procedural**: phising, the weakest link is the human
 - **Logical**: abstraction produced by the OS. **mandatory access** (classification of the infos); **discreptional access** (~ ACL)
 - **Physical**
 - Authentication
@@ -1199,6 +1223,17 @@ Disable the possibility of changing the MAC address at the hypervisor level.
 - **level 3 firwall**: looks at the envelope, source address, port ...
 - **level 7 firewall**: reconstruct the full pkt looking inside its content.
 
+<<<<<<< HEAD
+=======
+Share the identities of the users to not replicate them in each server:
+- **lDAP** lightweight Directly Access Protocol: distributed database organized as a tree where we store the name of the users.
+
+- **active-directory**: uses a secure protocol to exchange credentials throught the network. It's a centralized data structure listing users.
+>>>>>>> master
+
+<p align="center">
+  <img src="./assets/securityArchitecture.png" width="600">
+</p>
 
 ### Service Managment layer
 
@@ -1206,19 +1241,17 @@ Disable the possibility of changing the MAC address at the hypervisor level.
   <img src="./assets/service-managment-layer.png" width="600">
 </p>
 
-Cloud service management has a service-based focus, meaning that the management functions are linked to the service requirements and service level agreement (SLA). Be aware of regulations and legal constraints that define how to run a system.
+Cloud service management has a service-based focus, meaning that the **management functions are linked to the service requirements and service level agreement** (SLA). Be **aware of regulations and legal constraints** that define how to run a system. Is this system behaving according to the regulations? Recap that information processors (cloud providers) are responsible of the data they process.
 
-Level of compliancy to the policy. Demonstrate compliancy. Is this system behaving according to the regulations?  
-Information processors (cloud providers) are responsible of the infos they process.
+**SLA** Service Level Agreement: legal contract that you sign as a customer to the provider defining what the user is paying for.
 
-**SLA** Service Level Agrrement: legal contract that you sign as a customer to the provider defining what the user is paying for.  
-**service availability** = 1 - (downtime/ agreed service time)  
+**Service availability** = 1 - (downtime/ agreed service time)  
 The uptime is difficult to define and to test because the reachability of the cloud depend also from the service providers.
 
-The lower the resources used, the higher the margin got. Low level magrgin business: very high numbers * low margins = big profits.
+#### Service Operation management
 
 **Service Operation management** is crucial, it keeps up the whole thing running. 
-Maintains cloud infrastructure and deployed services, ensuring that services and service levels are delivered as committed. Ideally, service operation management should be automated:
+Maintains cloud infrastructure and deployed services, ensuring that services and service levels are delivered as committed. Ideally, service operation management **should be automated**:
   - Service management tools automate many management activities
   - Orchestrated workflows integrate functions of management tools  
   - Activities
@@ -1227,47 +1260,53 @@ Maintains cloud infrastructure and deployed services, ensuring that services and
     - Problem resolution
     - Capacity planning
     - Availability and performance conformance
+    
 **Service Level** not only functional requirements.
 
 Ensure **charge-back** (pay per use), **show-back** (I exhausted the resources so I need more): make a good use of the money spent on hardware, people. Measure how much are you efficient in spending money.
 
-**TCO**: estimates the full lifecycle cost of owning service assets. The cost includes capital expenditure (CAPEX), such as procurement and deployment costs of hardware and on-going operational expenditure (OPEX), such as power, cooling, facility, and administration cost. 
+**TCO (Toal Cost of Ownership)**: estimates the **full lifecycle cost of owning service** assets. The cost includes capital expenditure (**CAPEX**), such as procurement and deployment costs of hardware and on-going operational expenditure (**OPEX**), such as power, cooling, facility, and administration cost. 
 
-Reducing risk is a kind of **ROI** Return On Investment.
+**ROI (Return On Investment)**: reducing risk is a kind of ROI
 
-**CAPEX** CAPital EXpenses: buy something. It's a one time cost e.g procurement and deployment costs of hardware .
+**CAPEX (CAPital EXpenses)**: buy something. It's a one time cost e.g procurement and deployment costs of hardware .
 
-**OPEX** OPerational EXpences: use something. It's a recurrent cost e.g power, cooling, facility, and administration costs.
+**OPEX (OPerational EXpences)**: use something. It's a recurrent cost e.g power, cooling, facility, and administration costs.
 
-**Capacity Planning/ Management**: make some forecast to find when we will exhaust the resources and how many resources we will really need.  Ensure that a cloud infrastructure is able to meet the required capacity demands for cloud services in a cost effective and timely manner.  
+#### Capacity Planning/ Management
+
+**Capacity Planning/ Management**: make some forecast to find when we will exhaust the resources and how many resources we will really need.  Ensure that a cloud infrastructure is able to **meet the required capacity demands** for cloud services in a cost effective and timely manner.  
+
 Common Methods to Maximize Capacity Utilization:
-- Resource pooling
-- Over-commitment of processor cycles and memory (it can bring to capacity issues.)
-- Automated VM load balancing across hypervisors
-- Dynamic scheduling of virtual processors across processing cores
-- Thin provisioning
-- Automated storage tiering
-- Dynamic VM load balancing across storage volumes
-- Converged network
-- WAN optimization
-- Automatic reclamation of capacity when a service is terminated
+- Resource **pooling**
+- **Over-commitment** of processor cycles and memory (it can bring to capacity issues)
+- Automated VM **load balancing** across hypervisors
+- **Dynamic scheduling** of virtual processors across processing cores
+- **Thin provisioning**
+- Automated **storage tiering**
+- Dynamic VM **load balancing across storage volumes**
+- **Converged network**
+- **Automatic reclamation** of capacity when a service is terminated
 
 
-**Monitoring**: collecting data (in a respectfull way). Availability Monitoring, Capacity Monitoring, Performance Monitoring, Security Monitoring ...   
-Monitoring benefits:
- - Helps to track the availability and performance status of infrastructure components and services 
- - Helps to analyze the utilization and consumption of resources by service instances
- - Helps to track events that may impact availability and performance
- - Helps in metering, reporting, and alerting
- - Helps to present information as service metrics to consumers
+**Monitoring**: collecting data (in a respectfull way). Availability Monitoring, Capacity Monitoring, Performance Monitoring, Security Monitoring.
 
- Examples of Performance-related Changes:
- - Allocating more memory to VMs running cloud management software
- - Migrating a service to a different availability zone
- - Moving application instances to a public cloud in a hybrid cloud environment
- - Changing policy for balancing client workload across servers
+Monitoring **benefits**:
+ - Helps to track the availability and **performance** status of infrastructure components and services 
+ - Helps to analyze the **utilization** and consumption of resources by service instances
+ - Helps to track **events** that **may impact availability** and performance
+ - Helps in **metering**, **reporting**, and **alerting**
+ - Helps to present information as service **metrics to consumers**
 
-Keep track of things, processes, servers, configurations so that you can roll back.
+ Examples of **Performance-related Changes**:
+ - Allocating **more memory to VMs** running cloud management software
+ - **Migrating** a service **to a different availability zone**
+ - **Moving** application instances **to a public cloud** in a hybrid cloud environment
+ - Changing policy for **balancing client workload** across servers
+
+**Keep track** of things, processes, servers, configurations **so that you can roll back**.
+
+#### Incident/Problem Management
 
 **Incident/Problem Management**  
 Indentify the impact of a failure to all the other services.  
@@ -1276,15 +1315,13 @@ Return cloud services to consumers as quickly as possible when unplanned events,
 
 Prevent incidents that share common symptoms or—more importantly—root causes from reoccurring, and to minimize the adverse impact of incidents that cannot be prevented.
 
-Examples of Business Continuity Solutions
- - Clustering of compute systems to provide automated service failover
- - Replicating a database and hypervisor’s native file system continuously
- - Deploying multiple availability zones, enabling automated service failover globally
- - Creating redundant network links between devices, sites, and clouds in a hybrid cloud
+#### Examples
 
-<p align="center">
-  <img src="./assets/securityArchitecture.png" width="600">
-</p>
+Examples of Business Continuity Solutions
+ - **Clustering** of compute systems to provide automated service failover
+ - **Replicating** a database and hypervisor’s native file system continuously
+ - Deploying **multiple availability zones**, enabling automated service failover globally
+ - Creating **redundant** network links between devices, sites, and clouds in a hybrid cloud
 
 
 #### GDPR General Data Protection Regulation
