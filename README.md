@@ -106,7 +106,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
       - [Standardization-Portability](#standardization-portability)
   - [Miscellaneous](#miscellaneous)
 - [In class exercises](#in-class-exercises)
-  - [1) Spine and leaves VS traditional architecture](#1-spine-and-leaves-vs-traditional-architecture)
+  - [1) Spine and leaf VS traditional architecture](#1-spine-and-leaf-vs-traditional-architecture)
     - [Question](#question)
     - [Solution](#solution)
   - [2) Orchestration layer](#2-orchestration-layer)
@@ -121,7 +121,6 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [5) Dimension a hyperconvergent system](#5-dimension-a-hyperconvergent-system)
     - [Question](#question-4)
     - [Solution](#solution-4)
-    - [Solution summary](#solution-summary)
 - [Other questions](#other-questions)
 - [About numbers](#about-numbers)
   - [Current](#current-1)
@@ -325,10 +324,11 @@ Now we try to analyse the problem from the connector point of view. The fastest 
     - 1 Gbps
   - **SFP+**, can be combined with some other SFP
     - 10 Gbps
-  - **QSFP28**, where the number 28 is the number of pins
-    - 25 GBps
   - **QSFP** (Quad SPF)
     - 4x10 Gbps (if combined with SPF+)
+  - **SFP28**, where the number 28 is the number of pins
+    - 25 GBps
+  - **QSPF28**
     - 4x25 Gbps (if combined with QSFP28)
   - **RJ45**, in datacenters there are almost no installations of it 
     - 10/100 Mbps, 1/2.5/5 Gbps.
@@ -1346,7 +1346,7 @@ It's acceptable that some users experiments performances issues while upgrading.
 
 # In class exercises
 
-## 1) Spine and leaves VS traditional architecture
+## 1) Spine and leaf VS traditional architecture
 
 ### Question
 Discuss the difference between spine and leaf fabric and the more traditional fabric architecture based on larger chassis. How bandwidth and latency are affected?
@@ -1380,8 +1380,8 @@ Today is not so much used because it's difficult to design a backplane offering 
 With spine and leaf we introduce more hops, so more latency, than the chassis approach. The solution for this problem is using as a base of the spine a huge switch (256 ports) which actually acts as a chassis, in order to reduce the number of hops and latency.
 
 **Bandwidth**   
-To enlarge the bandwidth in a spine and leaves architecture we need only to add a new spine and to connect to all leaves. With the chassis approach we can add bandwidth adding new line cards (new switches) to the chassis, provided that there are free slots in the chassis.   
-In the spine and leaves arch we can upgrade a spine reducing the bandwidth, but still without disrupting the connectivity. In the traditional chassis an upgrade degrades the bandwidth => TODO: verify.
+To enlarge the bandwidth in a spine and leaf architecture we need only to add a new spine and to connect to all leaves. With the chassis approach we can add bandwidth adding new line cards (new switches) to the chassis, provided that there are free slots in the chassis.   
+In the spine and leaf arch we can upgrade a spine reducing the bandwidth, but still without disrupting the connectivity. In the traditional chassis an upgrade degrades the bandwidth => TODO: verify.
 
 ## 2) Orchestration layer
 
@@ -1482,7 +1482,13 @@ The choice depends also on the kind of data I assume to process (assume at least
 
 It's not enough to say: I take 5 big drives, because their bandwidth can be a bottleneck.
 
-SAN could be the good solution because it's cheaper. SAN can be used with tiering: in the first layer I keep SSD "buffers",  in the second layer mechanical drives. If I keep a buffer of 1TB I'll have a minute to copy down the buffered data to the mech drives.
+SAN could be the good solution because it's cheaper. SAN can be used with tiering: in the first layer I keep SSD "buffers",  in the second layer mechanical drives. If I keep a buffer of 1TB I'll have 6 minutes to copy down the buffered data to the mech drives.
+
+Assuming 24 Gbps of incoming bandwidth and 1 TB of SSD buffer.
+24 Gbps = 3 GBps --> 1000 Gb /3 = 330 s to saturate the buffer.
+Netxt to the buffer there are mech drives (130/150 MBps)
+I write to the SSD 3000 MBps but I copy to the drive (assuming just 1) 150 MBps. So the incoming bandwidth in the buffer is 3000 -150 = 2850 MB/s.
+With one mech empting the SSD cache, I'm going to fill it in 1000 GB / 2.8 GBps = 360 s = 6 minutes
 
 If I consider the text of the exercise, in particular 'towards', as in the sense of "only writing", imagining to have to almost only archive data and read only from time to time, I can actually consider SAN, because if I go hyperconvergent I am paying also for the CPU which might be unused. If I instead have a balance between r/w and want a good throughput for both operations, or I have a peek and then a flatter period of time with few action, then I might choose better going hyperconvergent.
 
@@ -1500,43 +1506,37 @@ A service requires a sustained throughput towards the storage of 15 GB/s. How wo
 
 ### Solution
 
-Look first at the network (fabric is the glue of the infrastructure).  
-Can't have 100 GBps straight to the server because of spine and leaf, so I have to consider the idea of distribution.
+Look first at the network (fabric is the glue of the infrastructure). Can't have 100 GBps straight to the server because of spine and leaf, so I have to consider the idea of distribution (hyperconvergent). 
 
-Just 1 or 2 ports of 100Gbps are enough to saturate the PCIe. 
+Recap that:
+ - just 1 or 2 ports of 100Gbps are enough to saturate the PCIe. 
+ - not good to have 100Gbps for each node cause I'm overloading that single node while HCI is distributed
 
-Not good to have 100Gbps for each node cause I'm overloading that single node while HCI is distributed.
+First I have to choose the Ethernet bandwidth between (10-25-50-100-400), considering that 400 Gbps is achievable only on the spine, and not on the leaves. Better 10 Gbps or 25Gbps depending on Capex.  
 
-Well first I have to choose the Ethernet bandwidth between (10-25-50-100-400), considering that 400 Gbps is achievable only on the spine, and not ont the leaves.
-
-Better 10 Gbps or 25Gbps depending on Capex.  
-With spine and leaf I have 50 Gbps  cause I double (active-active).
-
-Consider at least 5 full used nodes with 25 Gbps network. Since I want to have some redundancy and efficiency I can use 8 to 10 nodes. I'm overprovisioning but it's good.
-
-Every HCI node will have some SSD (at leat 2, 1 GB/sec writing) and some mechanical drives.  If I use SATA drives I need al leat 6 for each node because the bottle neck is in their bandwidth. I can use NVMe drives: lower number but I pay more.
-
-**Consider SLA**: how much I gonna pay for the missed target/data? If it's a lot it's better to overprovision.
-
-### Solution summary
+**Some calculations**   
 We have 15 GB/s incoming bandwidth -->  15 * 8 = 120 Gbps   
 We first dimension a spine and leaf architecture to sustain this bandwidth value.
 We have a couple of options:
   - 10 Gbps per server (hyperconvergent node)
   - 25 Gbps per server (we choose this)
 
-To cover 120 Gbps we need at least 5 nodes --> 5*25 = 125 Gbps  
-(We could also add more node to have redundancy and efficiency, but we will consider 5 in the calculations)
+To cover 120 Gbps we need at least 5 nodes --> 5*25 = 125 Gbps
 
-Since we have 120 Gbps totally each node will recive 24 Gbps = 120 /5  
+We could also add more (up to 8-10) nodes to have redundancy and efficiency, but we will consider 5 in the calculations
+
+Every HCI node will have some SSD (as buffer) and some mechanical drives.
+
+Since we have 120 Gbps totally each node will recive 120 / 5 = 24 Gbps storage bandwidth
 This is ok since the link to the node is 25Gbps (even if we have active-active configuration so the actual bandwidth is 50 Gbps)  
 
 Now we must consider the number of drives in each node. The drive throughput must sustain the incoming bandwidth  of 24Gbps to avoid data loss. We know that SSD drives have a bandwidth of 500 MBps, so half a GB.  
- So 24 Gbps / 8 = 3 GBps  
- \#disks * (1/2 GBps) = 3 GBps --> \#disks = 6
-
+ So 24 Gbps / 8 = 3 GBps
+  - \#disks * (1/2 GBps) = 3 GBps --> \#disks = 6
 
 Remember that bandwidth are not fully used because of some overhead..(e.g. to connect two spine nodes together)
+
+**Consider SLA**: how much I gonna pay for the missed target/data? If it's a lot it's better to overprovision.
 
 # Other questions
 
@@ -1614,7 +1614,7 @@ Remember that bandwidth are not fully used because of some overhead..(e.g. to co
  - https://en.wikipedia.org/wiki/Software-defined_data_center
  - https://en.wikipedia.org/wiki/Spanning_Tree_Protocol#Rapid_Spanning_Tree_Protocol
  - https://en.wikipedia.org/wiki/Multitier_architecture
- - https://blog.westmonroepartners.com/a-beginners-guide-to-understanding-the-leaf-spine-network-topology/
+ - Spine and leaf - https://blog.westmonroepartners.com/a-beginners-guide-to-understanding-the-leaf-spine-network-topology/
  - http://searchdatacenter.techtarget.com/definition/Leaf-spine
  - https://en.wikipedia.org/wiki/Network-attached_storage
  - https://en.wikipedia.org/wiki/Non-RAID_drive_architectures
@@ -1623,7 +1623,9 @@ Remember that bandwidth are not fully used because of some overhead..(e.g. to co
  - https://en.wikipedia.org/wiki/Power_usage_effectiveness
  - https://howdoesinternetwork.com/2015/what-is-a-non-blocking-switch
  - https://en.wikipedia.org/wiki/Network_function_virtualization
- -http://www.itc.unipi.it/index.php/2016/02/23/comparison-of-solid-state-drives-ssds-on-different-bus-interfaces/
-- http://www.itc.unipi.it/wp-content/uploads/2016/05/ITC-TR-02-16.pdf
-- https://www.nutanix.com/hyperconverged-infrastructure/
-- Spine and leaves - https://community.fs.com/blog/leaf-spine-with-fs-com-switches.html
+- Drives performances - http://www.itc.unipi.it/index.php/2016/02/23/comparison-of-solid-state-drives-ssds-on-different-bus-interfaces/
+- Drives performances - http://www.itc.unipi.it/wp-content/uploads/2016/05/ITC-TR-02-16.pdf
+- HCI - https://www.nutanix.com/hyperconverged-infrastructure/
+- spine and leaf - https://community.fs.com/blog/leaf-spine-with-fs-com-switches.html
+- Power consumption - https://searchdatacenter.techtarget.com/answer/How-do-I-estimate-server-power-consumption-per-rack
+- UPS dimension - https://searchdatacenter.techtarget.com/feature/How-do-I-figure-size-requirements-for-new-UPS-unit
