@@ -338,7 +338,7 @@ Now we try to analyse the problem from the connector point of view. The fastest 
     - 25 GBps
   - **QSFP** (Quad SPF)
     - 4x10 Gbps (if combined with SPF+)
-  - **QSF28P** (Quad SPF28)
+  - **QSFP28** (Quad SPF28)
     - 4x25 Gbps (if combined with SFP28)
   - **RJ45**, in datacenters there are almost no installations of it 
     - 10/100 Mbps, 1/2.5/5 Gbps.
