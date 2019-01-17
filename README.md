@@ -1002,7 +1002,7 @@ APIs are used to perform activities such as:
 #### Example of orchestration workflows
 DB2 instance request            |  CRM instance request
 :-:|:-:
-<p float="center"><img src="./assets/orchestratorworkflow.png" width="600"></p>  |  <p float="center"><img src="./assets/orchestratorworkflow2.png" width="660"></p>
+<img src="./assets/orchestratorworkflow.png">  |  <img src="./assets/orchestratorworkflow2.png">
 
 #### Service orchestration
 
