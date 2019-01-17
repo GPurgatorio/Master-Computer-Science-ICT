@@ -1,3 +1,5 @@
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors)
+
 ICT Infrastructures - University of Pisa (Italy)
 
 *Since there is only little material on ICT Infrastructures course, this is a recap and summary of classes. The notes are a compilation of the course contents and focus on the topics in accordance with Prof. Antonio Cisternino's OneNote Notebook. 
@@ -129,6 +131,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [Fabric](#fabric-1)
   - [Disk and Storage](#disk-and-storage)
 - [References](#references)
+- [Contributors](#contributors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 </details>
@@ -1666,3 +1669,13 @@ Remember that bandwidth are not fully used because of some overhead..(e.g. to co
 - Spine and leaf - https://blog.westmonroepartners.com/a-beginners-guide-to-understanding-the-leaf-spine-network-topology/
 - Power consumption - https://searchdatacenter.techtarget.com/answer/How-do-I-estimate-server-power-consumption-per-rack
 - UPS dimension - https://searchdatacenter.techtarget.com/feature/How-do-I-figure-size-requirements-for-new-UPS-unit
+
+# Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars0.githubusercontent.com/u/4717227?v=4" width="100px;" alt="Giacomo De Liberali"/><br /><sub><b>Giacomo De Liberali</b></sub>](http://giacomodeliberali.com)<br />[📖](https://github.com/giacomodeliberali/ict-infrastructures/commits?author=giacomodeliberali "Documentation") | [<img src="https://avatars3.githubusercontent.com/u/34099303?v=4" width="100px;" alt="Frioli Leonardo"/><br /><sub><b>Frioli Leonardo</b></sub>](https://github.com/wikilele)<br />[📖](https://github.com/giacomodeliberali/ict-infrastructures/commits?author=wikilele "Documentation") | [<img src="https://avatars0.githubusercontent.com/u/6088300?v=4" width="100px;" alt="Alessandro Pagiaro"/><br /><sub><b>Alessandro Pagiaro</b></sub>](https://apagiaro.it)<br />[📖](https://github.com/giacomodeliberali/ict-infrastructures/commits?author=alessandro308 "Documentation") | [<img src="https://avatars3.githubusercontent.com/u/36964883?v=4" width="100px;" alt="LorenzoBellomo"/><br /><sub><b>LorenzoBellomo</b></sub>](https://github.com/LorenzoBellomo)<br />[📖](https://github.com/giacomodeliberali/ict-infrastructures/commits?author=LorenzoBellomo "Documentation") | [<img src="https://avatars1.githubusercontent.com/u/4587828?v=4" width="100px;" alt="Mohamed Megahed"/><br /><sub><b>Mohamed Megahed</b></sub>](https://github.com/megantosh)<br />[📖](https://github.com/giacomodeliberali/ict-infrastructures/commits?author=megantosh "Documentation") |
+| :---: | :---: | :---: | :---: | :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

@@ -1,0 +1,58 @@
+{
+  "projectName": "ict-infrastructures",
+  "projectOwner": "giacomodeliberali",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "giacomodeliberali",
+      "name": "Giacomo De Liberali",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/4717227?v=4",
+      "profile": "http://giacomodeliberali.com",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "wikilele",
+      "name": "Frioli Leonardo",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/34099303?v=4",
+      "profile": "https://github.com/wikilele",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "alessandro308",
+      "name": "Alessandro Pagiaro",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/6088300?v=4",
+      "profile": "https://apagiaro.it",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "LorenzoBellomo",
+      "name": "LorenzoBellomo",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/36964883?v=4",
+      "profile": "https://github.com/LorenzoBellomo",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "megantosh",
+      "name": "Mohamed Megahed",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4587828?v=4",
+      "profile": "https://github.com/megantosh",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ]
+}
