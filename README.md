@@ -334,11 +334,12 @@ Now we try to analyse the problem from the connector point of view. The fastest 
     - 1 Gbps
   - **SFP+**, can be combined with some other SFP
     - 10 Gbps
-  - **QSFP28**, where the number 28 is the number of pins
+  - **SFP28**, where the number 28 is the number of pins
     - 25 GBps
   - **QSFP** (Quad SPF)
     - 4x10 Gbps (if combined with SPF+)
-    - 4x25 Gbps (if combined with QSFP28)
+  - **QSF28P** (Quad SPF28)
+    - 4x25 Gbps (if combined with SFP28)
   - **RJ45**, in datacenters there are almost no installations of it 
     - 10/100 Mbps, 1/2.5/5 Gbps.
     - Different cables have categories (cat4, cat5, cat6) 
@@ -1446,6 +1447,7 @@ Some claculations:
 
 <p align="center">
   <img src="http://latex.codecogs.com/gif.latex?\text{PUE}%20=%20\dfrac{\text{total%20power}}{\text{compute%20power}}%20"/>
+  PUE = total current/compute current
 </p>
 
 - calculate the toal power
