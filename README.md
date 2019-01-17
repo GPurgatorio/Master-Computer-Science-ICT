@@ -335,13 +335,9 @@ Now we try to analyse the problem from the connector point of view. The fastest 
     - Different cables have categories (cat4, cat5, cat6) 
       - 2.5/5 Gbps are new standards working on cat5 and cat6 cables respectively, in order to deliver more bandwidth to the WiFi access point. 
 
-From left to right: RJ45 plug, SFP+ and QSFP+ **transceiver module**, LC connector. 
-<p float="left">
-  <img width="100" src="./assets/rj45.jpeg">
-  <img width="150" src="./assets/sfpplus.jpg">
-  <img width="250" src="./assets/qsfpplus.png">
-  <img width="150" src="./assets/lc-duplex.jpg">
-</p>
+RJ45 | SPF+ | QSPF+ transceiver module | LC connector
+:-:|:-:|:-:|:-:
+<img width="100" src="./assets/rj45.jpeg">  |  <img width="150" src="./assets/sfpplus.jpg"> | <img width="250" src="./assets/qsfpplus.png"> | <img width="150" src="./assets/lc-duplex.jpg">
 
 Nowadays we have:
 - 25 Gbps 
