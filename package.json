@@ -6,7 +6,9 @@
   "scripts": {
     "toc": "npx doctoc README.md --github",
     "toc:3": "npx doctoc README.md --github --maxlevel 3",
-    "toc:git:add": "git add README.md"
+    "toc:git:add": "git add README.md",
+    "contributors:add": "all-contributors add",
+    "contributors:generate": "all-contributors generate"
   },
   "repository": {
     "type": "git",
@@ -26,6 +28,7 @@
   },
   "homepage": "https://github.com/giacomodeliberali/ict-infrastructures#readme",
   "devDependencies": {
+    "all-contributors-cli": "^5.10.1",
     "doctoc": "^1.4.0",
     "pre-commit": "^1.2.2"
   },
