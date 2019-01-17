@@ -40,9 +40,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
       - [Stacking](#stacking)
     - [Three-tier design](#three-tier-design)
     - [Spine and leaf Architecture](#spine-and-leaf-architecture)
-- [In that topology the **Link Aggregation Control Protocol (LACP) is used**. It provides a method to control the bundling of several physical ports together to form a single logical channel. The first two ports of every switch are reserved to create a link with a twin switch (a loop is created, but the OS is aware of that and it avoids it). Next ports are the ones used to create links with leaf nodes. The bandwidth is aggregated (i.e. 2*25 Gbps): a single flow will only use a single link, but you can use the full channel bandwidth in aggregate.](#in-that-topology-the-link-aggregation-control-protocol-lacp-is-used-it-provides-a-method-to-control-the-bundling-of-several-physical-ports-together-to-form-a-single-logical-channel-the-first-two-ports-of-every-switch-are-reserved-to-create-a-link-with-a-twin-switch-a-loop-is-created-but-the-os-is-aware-of-that-and-it-avoids-it-next-ports-are-the-ones-used-to-create-links-with-leaf-nodes-the-bandwidth-is-aggregated-ie-225-gbps-a-single-flow-will-only-use-a-single-link-but-you-can-use-the-full-channel-bandwidth-in-aggregate)
     - [Oversubscription](#oversubscription)
-- [Another factor to keep in mind when designing your fabric is the oversubscription ratio. In a leaf-spine design, this oversubscription is measured as the ratio of downlink ports (to servers/storage) to uplink ports (to spine switches). If you have 20 servers each connected with 10Gbps links and 4 10Gbps uplinks to your spine switches, you have a 5:1 oversubscription ratio (200Gbps/40Gbps). Significant increases in the use of multi-core CPUs, server virtualization, flash storage, Big Data and cloud computing have driven the requirement for modern networks to have lower oversubscription. Current modern network designs have oversubscription ratios of 3:1 or less.](#another-factor-to-keep-in-mind-when-designing-your-fabric-is-the-oversubscription-ratio-in-a-leaf-spine-design-this-oversubscription-is-measured-as-the-ratio-of-downlink-ports-to-serversstorage-to-uplink-ports-to-spine-switches-if-you-have-20-servers-each-connected-with-10gbps-links-and-4-10gbps-uplinks-to-your-spine-switches-you-have-a-51-oversubscription-ratio-200gbps40gbps-significant-increases-in-the-use-of-multi-core-cpus-server-virtualization-flash-storage-big-data-and-cloud-computing-have-driven-the-requirement-for-modern-networks-to-have-lower-oversubscription-current-modern-network-designs-have-oversubscription-ratios-of-31-or-less)
     - [Some consideation about numbers](#some-consideation-about-numbers)
     - [Full Fat Tree](#full-fat-tree)
     - [VLAN](#vlan)
@@ -67,13 +65,11 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
   - [Form-factors](#form-factors)
   - [Misc](#misc-1)
 - [Cloud](#cloud)
-- [Cloud computing benefits are:](#cloud-computing-benefits-are)
   - [Cloud computering Layers](#cloud-computering-layers)
     - [Cross functional layers](#cross-functional-layers)
     - [Phyisical Layer](#phyisical-layer)
     - [Virtual Layer](#virtual-layer)
     - [VM components](#vm-components)
-      - [VM components](#vm-components-1)
       - [About the virtual memory:](#about-the-virtual-memory)
       - [Balooning](#balooning)
       - [Other considerations about the Virtual Layer](#other-considerations-about-the-virtual-layer)
@@ -103,18 +99,15 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
     - [Question](#question)
     - [Solution](#solution)
   - [Spine and Leaf](#spine-and-leaf)
-- [LACP protocol allowing to bind multiple links to a single conceptual link (link aggregation, active-active).](#lacp-protocol-allowing-to-bind-multiple-links-to-a-single-conceptual-link-link-aggregation-active-active)
   - [2) Orchestration layer](#2-orchestration-layer)
     - [Question](#question-1)
     - [Solution](#solution-1)
   - [3) Datacenter architecture](#3-datacenter-architecture)
     - [Question](#question-2)
     - [Solution](#solution-2)
-  - [4 - A service requires a sustained throughput towards the storage of 15 GB/s. Would you recomment using a SAN architecture or an hyperconvergent one.](#4---a-service-requires-a-sustained-throughput-towards-the-storage-of-15-gbs-would-you-recomment-using-a-san-architecture-or-an-hyperconvergent-one)
   - [4) SAN VS Hyperconvergent architecture](#4-san-vs-hyperconvergent-architecture)
     - [Question](#question-3)
     - [Solution](#solution-3)
-- [With one mech drive I will saturate the disk in 1000 GB / 2.8 GBps = 360 s](#with-one-mech-drive-i-will-saturate-the-disk-in-1000-gb--28-gbps--360-s)
   - [5) Dimension a hyperconvergent system](#5-dimension-a-hyperconvergent-system)
     - [Question](#question-4)
     - [Solution](#solution-4)
@@ -439,11 +432,7 @@ This architecture is simple architecture where each component has a redundant un
 </p>
 
 With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are divided into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric. 
-<<<<<<< HEAD
 In that topology the **Link Aggregation Control Protocol (LACP) is used**. It provides a method to control the bundling of several physical ports together to form a single logical channel. The first two ports of every switch are reserved to create a link with a twin switch (a loop is created, but the OS is aware of that and it avoids it). Next ports are the ones used to create links with leaf nodes. The bandwidth is aggregated (i.e. 2*25 Gbps): a single flow will only use a single link, but you can use the full channel bandwidth in aggregate.
-=======
-In that topology the **Link Aggregation Control Protocol (LACP) is used**. It provides a method to control the **bundling of several physical ports together to form a single logical channel**. The **first two ports of every switch are reserved** to create a link with a twin switch (a loop is created, but the OS is aware of that and it avoids it). Next ports are the ones used to create links with leaf nodes. The **bandwidth is aggregated** (i.e. 2*25 Gbps), but it's still capped to 25 Gbps because the **traffic goes only from one way to the other** each time.
->>>>>>> master
 
 Characteristics:
 - fixed form factor (non modular switches)
@@ -468,16 +457,7 @@ Just a small remark: with spine and leaf we introduce **more hops**, so more lat
 
 ### Oversubscription
 
-<<<<<<< HEAD
 Another factor to keep in mind when designing your fabric is the oversubscription ratio. In a leaf-spine design, this oversubscription is measured as the ratio of downlink ports (to servers/storage) to uplink ports (to spine switches). If you have 20 servers each connected with 10Gbps links and 4 10Gbps uplinks to your spine switches, you have a 5:1 oversubscription ratio (200Gbps/40Gbps). Significant increases in the use of multi-core CPUs, server virtualization, flash storage, Big Data and cloud computing have driven the requirement for modern networks to have lower oversubscription. Current modern network designs have oversubscription ratios of 3:1 or less.
-=======
-Fabric switch **port oversubscription** occurs when the **amount of internal switching bandwidth allocated to a given switch port is less than the device connection speed at that port**. For example, if a port on a Fibre Channel switch has a connection speed of 2 Gbps but is unable to achieve wire-rate 2 Gbps of performance, then the port is said to be oversubscribed. 
-
-Fabric **switch oversubscription** occurs when the **overall switching bandwidth of the switch is less than the aggregate bandwidth** of all ingress switch ports. This means that a subset of the total number of ports can run at full wire-rate simultaneously, but not all ports can.
-
-Given two linked switches with a 100 Gbps link and 48 ports with 10 Gbps per port. Then: 
-  - *oversubscription* = 48*10 / 100 = 4.8
->>>>>>> master
 
 A degree that is considered acceptable is **2.5**. But is it possible to achieve a degree of oversubscription equal to 1?
 Yes, and it is possible by just linking half the ports upwards and half down. This is the basis of the full fat tree.
@@ -774,7 +754,6 @@ Typically the max number of CPUs is four and they are close to the memory module
 - **10U Blade server**: big chassis, up to 16 servers 2 CPUs each, simpler cabling, easy management and cost reduced. 
 - **Intel Ruler**: up to 1 petabyte but there is no room for CPU because it is a SS media. Possible to design a one half PB ruler with room for CPUs.
 
-<<<<<<< HEAD
 Differs from desktop systems. 
 - CPU architecture with a new generation memory called [NUMA](https://en.wikipedia.org/wiki/Non-uniform_memory_access) (Non Uniform Memory Architecture). 
   - Drop the assumption that all the RAMs are equal. NUMA is supported in the most used servers and virtualizer. Create threads and process that are NUMA aware: split data in an array and each thread works on a part of it. APIs are provided in order to access specific memory zones in a NUMA architecture.
@@ -792,12 +771,6 @@ Differs from desktop systems.
   - Crossbar interconnection (each CPU at the vertex of a square connected by the edges and the diagonals too) between CPU's to reduce 1 hop.
 
 - Intel [AVX](https://en.wikipedia.org/wiki/Advanced_Vector_Extensions) CPU architecture
-=======
-Differs from desktop systems:
-- CPU architecture with a new generation memory called [NUMA](https://en.wikipedia.org/wiki/Non-uniform_memory_access).
-- Hyper threading
-- Intra socket connection 
->>>>>>> master
 - MCDRAM (multi channel RAM) with less latency
 
 ## Misc
@@ -806,24 +779,8 @@ Trade-off in CPU design: high frequency, low cores. All depends on the applicati
 
 Latency is slightly higher when I access a RAM bank of another socket because I have to ask for it via a bus that interconnects them (UPI in an Intel CPU).
 
-<<<<<<< HEAD
 Inside the core there are some funtional units like: branch missprediction unit, FMA (Floating point Multiply Add). Each core has a dedicated cache at L1 and a shared cache at L2.
 
-=======
-Crossbar interconnection (each CPU at the vertex of a square connected by the edges and the diagonals too) between CPU's to reduce 1 hop.
-
-**NUMA**: Non Uniform Memory Architecture  
-Drop the assumption that all the RAMs are equal. NUMA is supported in the most used servers and virtualizer. Create threads and process that are NUMA aware: split data in an array and each thread works on a part of it. APIs are provided in order to access specific memory zones in a NUMA architecture. 
-
-**Hyper-threading** makes a single processor core appear as two logical processor cores, allowing the hyper-threading enabled operating system (or hypervisor) to schedule two threads simultaneously to avoid idle time on processor. However, the two threads cannot be executed at the same time because the two logical cores share the resources of a single physical core. When core resources are not in use by the current thread, especially when the processor is stalled (for example due to data dependency), resources of the core are used to execute the next scheduled thread. 
-
-**Inter socket** and **Intra Socket** connection: initially cores used a token ring or two token rings, now they use a mash. 
-
-Inside the core there are some functional units like: branch mis-prediction unit, FMA (Floating point Multiply Add). Each core has a dedicated cache at L1 and a shared cache at L2.
-
-**MCDRAM** (Multi Channel RAM): more bandwidth than DDR.
-
->>>>>>> master
 **SMART technology** in drives: predictive system in the drive that gives the probability that the drive will fail in the next hours. Used by the driver provider for statistics, usage patterns.
 
 # Cloud
@@ -836,12 +793,7 @@ Cloud is a collection of **network-accessible** IT resources:
 
 One of the main concept of cloud computing is the one of pooling, which means that a set of **heterogeneous resources** can be viewed as a whole big resource in order to provide reassignment capability and location independence (which means that the clint cannot control where his data are, except for maybe the geographical area). Another important concept is the one of resource measurement. The cloud computing business model revolves around pricing and resource consumption, so the system must be able to monitor it.
 
-<<<<<<< HEAD
-One of the main concept of cloud computing is the one of pooling, which means that a set of etherogeneous resources can be viewed as a whole big resource in order to provide reassignment capability and location indipendence (which means that the client cannot control where his data are, except for maybe the geographical area). Another important concept is the one of resource measurement. The cloud computing business model revolves around pricing and resource consumption, so the system must be able to monitor it.
-Cloud computing benefits are:
-=======
 Cloud computing **benefits** are:
->>>>>>> master
 - Agility
 - Reduction of IT cost (CAPEX to OPEX)
 - High Availability and fault tolerance
@@ -897,13 +849,8 @@ Benefits of virtualization:
 - increases flexibility
 
 This allows a **multi tenant environment** since I can run multiple organizations VMs on the same server.
-<<<<<<< HEAD
 <!--
 ### VM Network components
-=======
-
-#### VM Network components
->>>>>>> master
 
 VM networks comprise virtual switches, virtual NICs, and uplink NICs that are created on a physical compute system running a hypervisor.
 
@@ -916,13 +863,8 @@ VM networks comprise virtual switches, virtual NICs, and uplink NICs that are cr
 <p align="center">
   <img width="600" src="./assets/virtual-network.png">
 </p>
-<<<<<<< HEAD
 -->
 ### VM components
-=======
-
-#### VM components
->>>>>>> master
 
 The **hypervisor** is responsible for running multiple VMs. Since I want to execute x86 ISA over an x86 server I don't need to translate the code.
 
@@ -1383,14 +1325,9 @@ Discuss the difference between spine and leaf fabric and the more traditional fa
 
 ### Solution
 
-<<<<<<< HEAD
 ## Spine and Leaf
 Non modular, fixed switches are interconnected with some MLAG (Multi-chassis Link Aggregation). Loosely copuled form of aggregation: the two switches are independent and share some form of aggregation. Each leaf is connected to all the spines (if the leaf has 6 upwards ports, 2 are used to connect the two coupled switches in the leaf ,the others are used to the connection with the spine). At least 2 spines for redundancy. The spines are not connected each other.   
  LACP protocol allowing to bind multiple links to a single conceptual link (link aggregation, active-active).  
-=======
-**Spine and Leaf**  
-Non modular, fixed switches are interconnected with some MLAG (Multi-chassis Link Aggregation). Loosely copuled form of aggregation: the two switches are independent and share some form of aggregation. LACP protocol allowing to bind multiple links to a single conceptual link (link aggregation, active-active).  
->>>>>>> master
 **over-subscription** the links to the spine should be able to sustain the trafic coming from all the links below. This is not a problem for EW trafic between servers attached to the same switch (because the link to the spine is not affected).  
 Pros:
 - resilient
@@ -1455,11 +1392,10 @@ Discuss a datacenter architecture made of 10 racks. Assuming a power distributio
 ### Solution
 Use an in row cooling approach trying to reduce the rows to be cooled. Do not forget to mention the PDU and the UPS. (2 plugs per rack 32A each).
 
-<<<<<<< HEAD
+
 15000 W / 380 V = 40 A per rack. 40 * 10 = 400 A on the UPS for the whole DC.
 
-## 4 - A service requires a sustained throughput towards the storage of 15 GB/s. Would you recomment using a SAN architecture or an hyperconvergent one.
-=======
+
 ## 4) SAN VS Hyperconvergent architecture
 
 ### Question
@@ -1467,7 +1403,7 @@ Use an in row cooling approach trying to reduce the rows to be cooled. Do not fo
 A service requires a sustained throughput towards the storage of 15 GB/s. Would you recomment using a SAN architecture or an hyperconvergent one.
 
 ### Solution
->>>>>>> master
+
 
 - 15 GB is the max bandwidth of a PCI express bus with 16 lanes.  
 - 100 Gbps bandwidth of a single link (even if internally is 4*25 Gbps).  
@@ -1510,16 +1446,12 @@ The choice depends also on the kind of data I assume to process (assume at least
 
 It's not enough to say: I take 5 big drives, because their bandwidth can be a bottleneck.
 
-<<<<<<< HEAD
 SAN could be the good solution because it's cheaper. SAN can be used with **tiering**: in the first layer I keep SSD "buffers",  in the second layer mechanical drives. If I keep a buffer of 1TB I'll have a minute to copy down the buffered data to the mech drives.  
 Assuming 24 Gbps of incoming bandwidth and 1 TB of SSD buffer.  
 24 Gbps = 3 GBps --> 1000 Gb /3 = 330 s to saturate the buffer.  
 Netxt to the buffer there are mech drives (130/150 MBps)  
 I write to the SSD 3000 MBps but I copy to the drive (assuming just 1) 150 MBps. So the incoming bandwidth in the buffer is 3000 -150 = 2850 MB/s.  
 With one mech drive I will saturate the disk in 1000 GB / 2.8 GBps = 360 s  
-=======
-SAN could be the good solution because it's cheaper. SAN can be used with tiering: in the first layer I keep SSD "buffers",  in the second layer mechanical drives. If I keep a buffer of 1TB I'll have a minute to copy down the buffered data to the mech drives.
->>>>>>> master
 
 If I consider the text of the exercise, in particular 'towards', as in the sense of "only writing", imagining to have to almost only archive data and read only from time to time, I can actually consider SAN, because if I go hyperconvergent I am paying also for the CPU which might be unused. If I instead have a balance between r/w and want a good throughput for both operations, or I have a peek and then a flatter period of time with few action, then I might choose better going hyperconvergent.
 
