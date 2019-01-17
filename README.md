@@ -69,8 +69,8 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
     - [Cross functional layers](#cross-functional-layers)
     - [Phyisical Layer](#phyisical-layer)
     - [Virtual Layer](#virtual-layer)
-    - [VM Network components](#vm-network-components)
-    - [VM components](#vm-components)
+      - [VM Network components](#vm-network-components)
+      - [VM components](#vm-components)
       - [Types of virtualization](#types-of-virtualization)
       - [Virtual Machine (VM)](#virtual-machine-vm)
       - [vRAM balooning](#vram-balooning)
@@ -105,7 +105,7 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
       - [GDPR General Data Protection Regulation](#gdpr-general-data-protection-regulation)
       - [Vendor Lock-in](#vendor-lock-in)
       - [Standardization-Portability](#standardization-portability)
-  - [Miscellaneous](#miscellaneous)
+  - [Misc](#misc-2)
 - [In class exercises](#in-class-exercises)
   - [1) Spine and leaf VS traditional architecture](#1-spine-and-leaf-vs-traditional-architecture)
     - [Question](#question)
@@ -882,7 +882,7 @@ Benefits of virtualization:
 
 This allows a **multi tenant environment** since I can run multiple organizations VMs on the same server.
 
-### VM Network components
+#### VM Network components
 
 VM networks comprise virtual switches, virtual NICs, and uplink NICs that are created on a physical compute system running a hypervisor.
 
@@ -900,7 +900,7 @@ VM networks comprise virtual switches, virtual NICs, and uplink NICs that are cr
   </p>
 </details>
 
-### VM components
+#### VM components
 
 The **hypervisor** is responsible for running multiple VMs. Since I want to execute x86 ISA over an x86 server I don't need to translate the code. An hypervisor **permits to overbook physical resources** to allocate more resources than exist and it also create also a **virtual switch to distribute the networking** over all VMs. 
 
@@ -1360,7 +1360,7 @@ Even in Open Source there is vendor lock-in due to the difficulty of mooving fro
 It' rare that a leading vendor define a common standard. Standardization it's important but it's not feasable. It partly avoids lock-in. ""The only thing that can be standardize it's the VM"". Every platform tends to have its own API. REST is the standard that is working today in the cloud.
 
 
-## Miscellaneous
+## Misc
 
 **Greenfield installation** : format, configure everything from scratch, in opposition with **brownfield installation**: network is already existing, routers, hosts... I have to mantain support for legacy stuff and integrate the new technology. Greenfield installation is typically used when an infrastructure does not exist and an organization has to build the cloud infrastructure starting from the physical layer.
 
