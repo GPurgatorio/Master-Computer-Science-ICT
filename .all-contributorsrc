@@ -16,8 +16,16 @@
       "profile": "http://giacomodeliberali.com",
       "contributions": [
         "doc",
-        "review",
-        "maintenance"
+        "review"
+      ]
+    },
+    {
+      "login": "wikilele",
+      "name": "Frioli Leonardo",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/34099303?v=4",
+      "profile": "https://github.com/wikilele",
+      "contributions": [
+        "doc"
       ]
     }
   ]
