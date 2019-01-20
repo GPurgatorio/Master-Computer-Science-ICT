@@ -1516,26 +1516,28 @@ Some claculations:
 NB. We have not considered the [power factor](#power-factor), which is a number equal to 1.0 or less. Reactance, obtainied by converting AC in DC, reduces the useful power (watts) available from the apparent power. The ratio of these two numbers is called the power factor (PF).
 
 
-Solution 2 
+### Solution 2 
 
 <p align="center">
-  <img src="./assets/10racks.jpg"/>
+  <img src="./assets/10racks.jpeg" height="600px"/>
 </p>
 <p align="center"><i>t1 and t2 are AC/DC transformers</i><br><i>ATS: Automatic Transfer Switch</i></p>
 
-```
+
 15 KW/Rack x 10 Racks = 150 KW to deliver towards our DC
+
 380 Volts  x 150 KW   = 400 Ampere (at least)
 
 
 Assuming a PUE of 1.2, we need:
+
 400 Ampere x 1.2 = 480 Ampere (including cooling and AC/DC power loss)
 
 So, every couple UPS/PDU must manage 480 Ampere at full load.
 
 According to Facebook, by eliminating centralized UPS/PDUs you can achieve a total loss of 7%.
 
-```
+
 
 ## 4) SAN VS Hyperconvergent architecture
 
@@ -1650,20 +1652,20 @@ Remember that bandwidth are not fully used because of some overhead..(e.g. to co
 
 **Design a data center that should contain 40 Racks, consuming  15 kW each. Discuss all necessary considerations, e.g. Power Distribution, Cabling, Cooling.**
 
-```
+
 drawing a scheme with the components like PDU etc. was appreciated. Discussing firefighting, cooling using natural resources (water from ocean etc.). Show that you can do the Math: 15000 Watt = 380 V * A * cos fi where cos fi is the heat dissemination happening from conversion of AC into DC current
-```
+
 **1024 Servers need to be connected with any of the following switch options: 48x25Gbps East/West Traffic with 6 x 100 Gbps for North/South (and two other configs to choose from). Oversubcription level can be up to 1/6. Which network Topology would you choose? Discuss its pros and cons.**
 
-Solution 1
+## Solution 1
 
-```
+
 I gave a couple but he was more interested to see one discussed in thorough detail. So not to recite theory but to be able to apply the knowledge from the section above.
 For 1024, 48x25, oversubscr 1/6. I went for spine/leaf model and he wanted to know how many switches  would be  required  in that  case (do not forget redudancy causes doubling + two links of the 6 will be gone for connecting the two spines together)
-```
 
-Solution 2
-```
+
+## Solution 2
+
 E/W : 48 x 25 = 1200 Gbps
 
 N/S : 6 x 100 = 600 Gbps
@@ -1679,21 +1681,24 @@ I don't have enough space to put every switch in a single rack (tor), can I re-o
 Yes, you can "merge" two switches phisically by switch aggregation and put them in a rack (tor). To aggregate two switches, we need to connect them with 2 cables (for resiliency). This means that we lost 2 ports on each side, so, a new oversubcription ratio should be computed.
 
 If we imagine two of the given switches put together, we get:
+
 E/W : (2 x 48 ports) x 25 Gbps        = 96 ports  x 25 Gbps   = 2400 Gbps
+
 N/S : [2 x (6 - 2) ports] x 100 Gbps  = 8 ports   x 100 Gbps  = 800 Gbps
+
 2400 / 680 = 3:1 Oversubcription (Still good)
-```
+
 
 **How does live migration of a VM happen and would you prefer to do it over HCI or SAN?**
-```
+
 as long as no detail is provided, you are allowed to make your own assumptions.
 I said both should be effectively the same given that bandwidth would not be blocked and that we are using latest/fastest technology. Crucial part of the VM Migration was (apart from copying config files, moving virtual registers and  halting the old machine for a millisecond) is that copying the files happens in the background. If a file is required to complete a process and it has still not been migrated, the new VM goes and fetches it first from the old VM before it continues with copying any other file*
-```
+
 
 **Discuss the role (functions) of the orchestration layer. Give an example workflow. where does it lie in the cloud stack?**
-```
+
 check the slides for sure, they are very helpful! A process I gave was provisioning an Alexa skill on AWS which requires building a Lambda function (an AWS service) and a Skill controller. I think he was happy to have a real-life example. Draw the workflow like a business process from the point of provisioning to the billing etc.
-```
+
 # About numbers
 ## Current
 - Watt = cos fi * A * V
