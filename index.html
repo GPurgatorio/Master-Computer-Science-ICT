@@ -18,13 +18,6 @@
           text-align: center;
         }
       </style>
-      
-      
-      
-      
-      
-      
-      
 
       <style> 
       /**
@@ -223,7 +216,7 @@ code.language-yaml {
     </head>
     <body for="html-export">
       <div class="mume markdown-preview   ">
-      <p><a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square" alt="All Contributors"></a></p>
+      <p><a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square" alt="All Contributors"></a></p>
 <p>ICT Infrastructures - University of Pisa (Italy)</p>
 <p><em>Since there is only little material on ICT Infrastructures course, this is a recap and summary of classes. The notes are a compilation of the course contents and focus on the topics in accordance with Prof. Antonio Cisternino&apos;s OneNote Notebook.<br>
 It is highly recommended to study with the EMC DELL slides provided under &lt;&lt;_Raccolta contenuto&gt;&gt; which will not be uploaded here for copyright reasons. Each heading correspond to a module. If you find any error please, fork and submit a pull request!</em></p>
@@ -278,6 +271,7 @@ It is highly recommended to study with the EMC DELL slides provided under &lt;&l
 <ul>
 <li><a href="#introduction-1">Introduction</a>
 <ul>
+<li><a href="#small-world-theory">Small-world theory</a></li>
 <li><a href="#spanning-tree-protocol-stp">Spanning Tree Protocol (STP)</a></li>
 <li><a href="#network-chassis">Network Chassis</a></li>
 <li><a href="#stacking">Stacking</a></li>
@@ -290,6 +284,7 @@ It is highly recommended to study with the EMC DELL slides provided under &lt;&l
 <li><a href="#full-fat-tree">Full Fat Tree</a></li>
 <li><a href="#vlan">VLAN</a></li>
 <li><a href="#switch-anatomy">Switch Anatomy</a></li>
+<li><a href="#network-topology-with-firewalls">Network topology with firewalls</a></li>
 </ul>
 </li>
 </ul>
@@ -301,6 +296,7 @@ It is highly recommended to study with the EMC DELL slides provided under &lt;&l
 <li><a href="#memory-hierarchy">Memory Hierarchy</a>
 <ul>
 <li><a href="#nvme">NVMe</a></li>
+<li><a href="#nvdimm">nvDIMM</a></li>
 <li><a href="#misc">Misc</a></li>
 </ul>
 </li>
@@ -323,17 +319,17 @@ It is highly recommended to study with the EMC DELL slides provided under &lt;&l
 </li>
 <li><a href="#cloud">Cloud</a>
 <ul>
-<li><a href="#cloud-computering-layers">Cloud computering Layers</a>
+<li><a href="#cloud-computing-layers">Cloud computing Layers</a>
 <ul>
 <li><a href="#cross-functional-layers">Cross functional layers</a></li>
-<li><a href="#phyisical-layer">Phyisical Layer</a></li>
+<li><a href="#physical-layer">Physical Layer</a></li>
 <li><a href="#virtual-layer">Virtual Layer</a>
 <ul>
 <li><a href="#vm-network-components">VM Network components</a></li>
 <li><a href="#vm-components">VM components</a></li>
 <li><a href="#types-of-virtualization">Types of virtualization</a></li>
 <li><a href="#virtual-machine-vm">Virtual Machine (VM)</a></li>
-<li><a href="#vram-balooning">vRAM balooning</a></li>
+<li><a href="#vram-ballooning">vRAM ballooning</a></li>
 <li><a href="#docker">Docker</a></li>
 </ul>
 </li>
@@ -433,6 +429,9 @@ It is highly recommended to study with the EMC DELL slides provided under &lt;&l
 <li><a href="#disk-and-storage">Disk and Storage</a></li>
 </ul>
 </li>
+<li><a href="#real-use-cases">Real Use Cases</a></li>
+<li><a href="#open-source">Open Source</a></li>
+<li><a href="#books--guides">Books &amp; Guides</a></li>
 <li><a href="#references">References</a></li>
 <li><a href="#contributors">Contributors</a></li>
 </ul>
@@ -492,8 +491,8 @@ There is a <em>floating floor</em>, under which all the cabling and the cooling 
 </p>
 <h4 class="mume-header" id="hotcold-aisles">Hot/Cold aisles</h4>
 
-<p>The building block of this architecture are hot and cold corridors, that optimize cooling efficiency.<br>
-The <em>workload balancing</em> may be a problem: there can be the situation where a rack is hotter than the other depending on the workload, thus is difficult to module the amount of hot and cold air. In CRAC model the solution is pumping enough for the higher consumer.</p>
+<p>The building block of this architecture are hot and cold corridors, with servers front-to-front and back-to-back; that optimize cooling efficiency.</p>
+<p>The <em>workload balancing</em> may be a problem: there can be the situation where a rack is hotter than the other depending on the workload, thus is difficult to module the amount of hot and cold air. In the CRAC model the solution is pumping enough for the higher consumer, but is not possible to act only where needed. That leads waste of energy. This problem is not present in the in-row cooling technology.</p>
 <p align="center">
   <img width="600" src="./assets/crac1.png">
 </p>
@@ -506,20 +505,21 @@ The <em>workload balancing</em> may be a problem: there can be the situation whe
   <img width="600" src="./assets/in-row-cooling.jpg">
 </p>
 <p>The in-row cooling unit draws warm exhaust air directly from the hot aisle, cools it and distributes it to the cold aisle. This ensures that inlet temperatures are steady for precise operation. Coupling the air conditioning with the heat source produces an efficient direct return air path; this is called <em>close coupled cooling</em>, which also lowers the fan energy required. In-row cooling also prevents the mixing of hot and cold air, thus increasing efficiency.</p>
-<p>It&apos;s possible to give more cooling to a single rack, modulating the air needed. In front of the rack there are temperature and humidity sensors (humidity should be avoided because can conduct electricity).<br>
-There are systems collecting data from the sensors and adjusting the fans. The racks are covered to separate cool air and hot air. It&apos;s also possible to optimize the datacenter cooling according to the temperature changes of the region where the datacenter is. It is also possible to apply &quot;static analysis&quot; to the datacenter location, in order to optimize resource consumption according to temperature changes. Programs are available in order to simulate airflows in datacenter in order to optimize the fans.</p>
+<p>It&apos;s possible to give more cooling to a single rack, modulating the air needed. In front of the rack there are temperature and humidity sensors. Humidity should be avoided because can condensate because of the temperature differences and therefore conduct electricity.<br>
+There are systems collecting data from the sensors and adjusting the fans. The racks are covered to separate cool air and hot air. It&apos;s also possible to optimize the datacenter cooling according to the temperature changes of the region where the datacenter is and apply &quot;static analysis&quot; to the datacenter location, in order to optimize resource consumption according to temperature changes. Programs are available in order to simulate airflows in datacenter in order to optimize the fans.</p>
 <p>Usually every 2 racks (each 70 cm) there should be a cooling row (30 cm).</p>
 <h4 class="mume-header" id="liquid-cooling">Liquid cooling</h4>
 
-<p>Having water in a data center is a risky business (even if there are different ways to handle a fire). Make the water flow onto the CPUs lowers the temperature for ~40%. One way of chilling the water could be pushing it down to the ground. Water Distribution System, like the Power Distribution System.</p>
+<p>It&apos;s also called CoolIT, consists in making the water flow directly onto the CPUs.<br>
+Having water in a data center is a risky business, but this solution lowers the temperature for ~40%. One way of chilling the water could be pushing it down to the ground. Water Distribution System, like the Power Distribution System.</p>
+<p>A lot of research has been lately invested towards oil cooling computers, particularly in the contest of High Performance Computing. This is a more secure solution because the mineral oil is not a conductor and allows to immerse everything in the oil, in order to maximize the effectiveness of the cooling. The problem of this technique is that the cables slowly pump the oil out.</p>
 <h4 class="mume-header" id="other-ideas">Other ideas</h4>
 
-<p>A lot of research has been lately invested towards oil cooling computers (particularly in the contest of High Performance Computing). Both this approach and liquid cooling provide water circuits that flow straight over the CPU in order to maximize the effectiveness of the cooling.<br>
-A typical approach to cool the air is to place chillers outside the building, or by trying geocooling, which revolves around using the cold air in depth. The main idea is to make a deep hole in the ground, and make the cables pass through it.</p>
+<p>A typical approach to cool the air is to place chillers outside the building, or by trying geocooling, which revolves around using the cold air in depth. The main idea is to make a deep hole in the ground, and make the cables pass through it.</p>
 <h2 class="mume-header" id="current">Current</h2>
 
 <p>A 32KW datacenter is small (also if it consumes the same amount of current of 10 apartments).</p>
-<p><em>Direct Current Transformers</em> from AC to DC. Direct current is distributed inside the datacenter even if is more dangerous than Alternating current.</p>
+<p><em>Direct Current Transformers</em> from AC to DC. Direct current is distributed inside the datacenter even if is more dangerous than alternating current.</p>
 <p align="center">
   <img src="http://latex.codecogs.com/gif.latex?\text{Watt}%20=%20\cos\phi\cdot%20V\cdot%20A">
 </p>
@@ -529,8 +529,8 @@ For example an idle server with 2 CPUs (14 cores each) consumes 140 Watts.</p>
 
 <p>The Industrial current has 380 Volts in 3 phases. The amount of current allowed in a data center are the Ampere on the <em>PDU</em> (Power Distribution Unit).</p>
 <p>There are one or more lines (for reliability and fault tolerance reasons) coming from different generators to the datacenter (i.e. each line 80 KW , 200 A more or less. Can use it for 6 racks 32A / rack. Maybe I will not use the whole 32 A so I can put more racks).</p>
-<p>The lines are attached to an <em>UPS (Uninterruptible Power Supply/Source)</em>. It is a rack or half a rack with batteries (not enough to keep-on the servers) that in some cases can power the DC for ~20 minutes. There are a <em>Control Panel</em> and a <em>Generator</em>. When the power lines fail the UPS is active between their failure and the starting of the generator.  The energy that arrives to the UPS should be divided among the servers and the switches.</p>
-<p>The UPS is attached to the <em>PDU</em> (Power Distribution Unit) which is linked to the <em>server PDU</em> with a pair of lines for redundancy. In the server there are the power plugs in a row that can monitored via a web server running on the rack PDU.</p>
+<p>The lines are attached to an <em>UPS (Uninterruptible Power Supply/Source)</em>. It is a rack or half a rack with batteries (not enough to keep-on the servers) that in some cases can power the DC for ~20 minutes. Them are also used to prevent current oscillation. There are a <em>Control Panel</em> and a <em>Generator</em>. When the power lines fail the UPS is active between their failure and the starting of the generator and ensure a smooth transition during the energy source switching. The energy that arrives to the UPS should be divided among the servers and the switches.</p>
+<p>The UPS is attached to the <em>PDU</em> (Power Distribution Unit) which is linked to the server. For redundancy reasons, a server is powered by a pair of lines, that usually are attached to two different PDU. The server uses both the lines, so that there will be continuity in case of failure of a line. In the server there are the power plugs in a row that can monitored via a web server running on the rack PDU.</p>
 <p>Example of rack PDU: 2 banks, 12 plugs each, 16 A each bank, 15 KW per rack, 42 servers per rack.</p>
 <h4 class="mume-header" id="power-factor">Power factor</h4>
 
@@ -563,9 +563,10 @@ For example an idle server with 2 CPUs (14 cores each) consumes 140 Watts.</p>
 <p>The connection can be performed with various technologies, the most famous is <strong>Ethernet</strong>, commonly used in Local Area Networks (LAN) and Wide Area Networks (WAN). Ethernet use twisted pair and optic fiber links. Ethernet as some famous features such as 48-bit MAC address and Ethernet frame format that influenced other networking protocols.</p>
 <p><strong>MTU</strong> (Maximum Transfer Unit) up to 9 KB with the so called <strong>Jumbo Frames</strong>.<br>
 On top of ethernet there are TCP/IP protocols (this is a standard), they introduce about 70-100 micro sec of latency.</p>
+<p>The disadvantage of Ethernet is the low reliability.</p>
 <h2 class="mume-header" id="infiniband">Infiniband</h2>
 
-<p>Even if Ethernet is so famous, there are other standard to communicate. <strong>InfiniBand (IB)</strong> is another standard used in high-performance computing (HPC) that features very high throughput and very low latency (about 2 microseconds). InfiniBand is a protocol and a physical infrastructure and it can send up to 2GB messages with 16 priorities level.<br>
+<p>Even if Ethernet is so famous, there are other standard to communicate. <strong>InfiniBand (IB)</strong>, by Mellanox, is another standard used in high-performance computing (HPC) that features very high throughput and very low latency (about 2 microseconds). InfiniBand is a protocol and a physical infrastructure and it can send up to 2GB messages with 16 priorities level.<br>
 The <a href="https://tools.ietf.org/html/rfc4391">RFC 4391</a> specifies a method for encapsulating and transmitting IPv4/IPv6 and Address Resolution Protocol (ARP) packets over InfiniBand (IB).</p>
 <p>InfiniBand transmits data in packets up to 4KB. A massage can be:</p>
 <ul>
@@ -582,7 +583,7 @@ The <a href="https://tools.ietf.org/html/rfc4391">RFC 4391</a> specifies a metho
 </ul>
 <h2 class="mume-header" id="rdma-remote-direct-memory-access">RDMA: Remote Direct Memory Access</h2>
 
-<p>Access, a direct memory access (really!) from one computer into that of another without involving either one&apos;s OS, this permits high-throughput, low-latency networking performing.</p>
+<p>Access, a direct memory access (really!) from one computer into that of another without involving either one&apos;s OS and bypassing the CPU. This permits high-throughput and low-latency networking performing. RDMA can gain this features because is not a protocol, but is on API, hence there is no overhead.</p>
 <p>RDMA supports zero-copy networking by enabling the network adapter to transfer data directly to or from application memory, eliminating the need to copy data between application memory and the data buffers in the operating system, and by bypassing TCP/IP. Such transfers require no work to be done by CPUs, caches, or context switches, and transfers continue in parallel with other system operations. When an application performs an RDMA Read or Write request, the application data is delivered directly to the network, reducing latency and enabling fast message transfer. The main use case is distributed storage.</p>
 <p align="center">
   <img src="./assets/rdma.jpg" width="600">
@@ -701,17 +702,29 @@ Deep packet inspection made by a level 7 firewall. The firewall validates the fl
 <p>Hyper-converged infrastructure combines common datacenter hardware using locally attached storage resources with intelligent software to create flexible building blocks that replace legacy infrastructure consisting of separate servers, storage networks, and storage arrays.</p>
 <h2 class="mume-header" id="network-topologies">Network topologies</h2>
 
-<p>A way of cabling allowing multiple computers to communicate. It&apos;s not necessary a graph,but for the reliability purpose it often realized as a set of connected  nodes. At least 10% of nodes should be connected in order to guarantee a sufficient reliability (<a href="https://en.wikipedia.org/wiki/Small-world_network">Small World Theory</a>).</p>
+<p>A way of cabling allowing multiple computers to communicate. It&apos;s not necessary a graph,but for the reliability purpose it often realized as a set of connected  nodes. At least 10% of nodes should be connected in order to guarantee a sufficient reliability (<a href="#small-world-theory">Small World Theory</a>).</p>
+<p>At layer 2 there is no routing table (<em>broadcast domain</em>), even if there are some cache mechanism. The topology is more like a tree than a graph because some edges can be cutted preserving reachability and lowering the costs. In the layer 2 topology computers talk each other, for that reason there is no scalability.<br>
+The layer 2 topology is widely used for broadcasting.</p>
+<p>At layer 3 there are routing tables, them are keep updated by a third part, the router. The L3 topology is the mainly used for point-to-point communication.</p>
+<p>In switches there are routing tables but them are used just for cache, switches working also without routing tables.</p>
 <h3 class="mume-header" id="introduction-1">Introduction</h3>
 
+<h4 class="mume-header" id="small-world-theory">Small-world theory</h4>
+
+<p>This <a href="https://en.wikipedia.org/wiki/Small-world_network">theory</a>, formulated by Watts and Strogatz, claims that 6 hops connect us with every person in the world.<br>
+According to their studies, taken two people x and y respectively strangers, x can send a message to y just asking to his acquaintances to pass the message to someone closer to y. Hop by hop, the message reaches y going only through friends of friends. On average, this operation needs only 6 steps.</p>
+<p>For this reason, a good network topology should take 6 hops on average to connect 2 machines.<br>
+Actually, topologically we got more than 6 hops, but adding 10% of random links across the graph the hops number easly collapse to 6.</p>
 <h4 class="mume-header" id="spanning-tree-protocol-stp">Spanning Tree Protocol (STP)</h4>
 
 <p>First of all it is necessary to understand the loop problem. A loop is a cycle of the links between various nodes which creates a &quot;DDoS-like&quot; situation by flooding the network.<br>
-The spanning Tree Protocol is a network protocol that builds a logical loop-free topology for Ethernet networks. It builds a spanning tree from the existing topology graph, and disabilitates the remaining links. <!-- The spanning tree is built using some Bridge Protocol Data Units (BPDUs) frames. --> In 2001 the IEEE introduced Rapid Spanning Tree Protocol (RSTP) that provides significantly faster spanning tree convergence after a topology change.</p>
-<p>Nowadays this protocol is used only in campus and not in datacenters, due to its hight latency of convergence (up to 10-15 seconds to activate a backup line).</p>
+The spanning Tree Protocol is a network protocol that builds a logical loop-free topology for Ethernet networks. Taken a node as root, it builds a spanning tree from the existing topology graph, and disables all the arch that are not in use. The graph is now totally converted into a tree.</p>
+<p>In networking the spanning tree is built using some Bridge Protocol Data Units (BPDUs) packages.<br>
+In 2001 the IEEE introduced Rapid Spanning Tree Protocol (RSTP) that provides significantly faster spanning tree convergence after a topology change.</p>
+<p>The advantage of the Spanning Tree protocol is that unplugging a link the network will autofix in less than a minute, rebuilding a new tree with the edges previously discarded. However, nowadays it is used only in campus and not in datacenters, due to its high latency of convergence (up to 10-15 seconds to activate a backup line) that is not sufficient for an always-on system.</p>
 <h4 class="mume-header" id="network-chassis">Network Chassis</h4>
 
-<p>The Network Chassis is a sort of big  modular and resilient switch. At the bottom it has a pair of power plugs and then it&apos;s made of modular <strong>line cards</strong> (with some kind of ports) and a pair of <strong>RPM</strong> Routing Processing Modules to ensure that the line cards work. The chassis can be over provisioned to resist to aging but it has a limit.</p>
+<p>The Network Chassis is a sort of big  modular and resilient switch. At the bottom it has a pair of power plugs and then it&apos;s made of modular <strong>line cards</strong> (with some kind of ports) and a pair of <strong>RPM</strong> Routing Processing Modules (for redundancy) to ensure that the line cards work. The chassis can be over provisioned to resist to aging but it has a limit.</p>
 <p align="center">
   <img width="300" src="./assets/cisco-chassis.png">
 </p>
@@ -719,7 +732,7 @@ The spanning Tree Protocol is a network protocol that builds a logical loop-free
 <ul>
 <li>resilient</li>
 <li>1 CLI per switch</li>
-<li>expandible</li>
+<li>expandable</li>
 </ul>
 <p>Cons</p>
 <ul>
@@ -741,14 +754,15 @@ The spanning Tree Protocol is a network protocol that builds a logical loop-free
   <img width="800" src="./assets/spine-leaf-vs-3-tier.png">
   <img width="800" src="./assets/spine-and-leaves.jpg">
 </p>
-<p><strong>Every leaf switch is connected to every spine</strong>. Therefore, the <strong>number of connections used for uplinks</strong> from each leaf determines <strong>the number of spine switches we can have</strong> (4 ports here for four spine switches). And <strong>the number of ports on each spine</strong> switch determines <strong>the number of leaf switches we can have</strong> (20 leaf switches here).</p>
-<p>With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are divided into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric.<br>
-In that topology the <strong>Link Aggregation Control Protocol (LACP) is used</strong>. It provides a method to control the bundling of several physical ports together to form a single logical channel. The first two ports of every switch are reserved to create a link with a twin switch (a loop is created, but the OS is aware of that and it avoids it). Next ports are the ones used to create links with leaf nodes. The bandwidth is aggregated (i.e. 2*25 Gbps): a single flow will only use a single link, but you can use the full channel bandwidth in aggregate.</p>
+<p>With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are divided into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric.</p>
+<p>That topology uses the <strong>Link Aggregation Control Protocol (LACP)</strong> to avoid loops. Two different links to two different ports are bounded into a logical link. That means that both links can be used to communicate, gaining the redundancy in case of failure of a link, but there are no loops because them are saw as a single channel.<br>
+LACP provides a method to control the <strong>bundling of several physical ports together to form a single logical channel</strong>. The <strong>first two ports of every switch are reserved</strong> to create a link with a twin switch (a loop is created, but the OS is aware of that and it avoids it). Next ports are the ones used to create links with leaf nodes. The <strong>bandwidth is aggregated</strong> (i.e. 2*25 Gbps), but it&apos;s still capped to 25 Gbps because the <strong>traffic goes only from one way to the other</strong> each time.</p>
+<p>Usually in a spine and leaf architecture the NS traffic, that connect the datacenter to Internet, is slow and the EW traffic, that is server-to-server and rack-to-rack is very intensive.</p>
 <p>Characteristics:</p>
 <ul>
 <li>fixed form factor (non modular switches)</li>
 <li>active-active redundancy</li>
-<li>loop aware topology (no links disabled).</li>
+<li>loop aware topology (a tree topology with no links disabled for redundancy reasons).</li>
 <li>interconnect using standard cables (decide how many links use to interconnect spines with leaves and how many others link to racks).</li>
 </ul>
 <p>With this architecture it&apos;s possible to turn off one switch, upgrade it and reboot it without compromising the network. Half of the bandwidth is lost in the process, but the twin switch keeps the connection alive.</p>
@@ -831,14 +845,17 @@ Start think about real world. We have some server with 1 Gbps (not so high speed
 The switch has a firmware and two slots for the OS images. When updating in the first slot we store the old OS image, in the second slot the new one.</p>
 <p><strong>NFV</strong> Network Functions Virtualization (5G mostly NFV based)<br>
 The data plane is connected to a DC&apos;s VM which acts as a control plane.</p>
+<h3 class="mume-header" id="network-topology-with-firewalls">Network topology with firewalls</h3>
+
+<p>A Firewall can only perform security check on a flow, but cannot manage the flow itself. Furthermore, is not possible to let pass the entire traffic through the Firewall, because it would be a bottleneck. For that reason, after the security checks the firewall divert the flow directly to router and switches thanks to <a href="https://ryu.readthedocs.io/en/latest/ofproto_ref.html">OpenFlow API</a>.</p>
 <h1 class="mume-header" id="disks-and-storage">Disks and Storage</h1>
 
 <p><strong>IOPS</strong>: Input/output operations per second is an input/output performance measurement used to characterize computer storage devices (associated with an access pattern: random or sequential).</p>
 <h2 class="mume-header" id="interfaces">Interfaces</h2>
 
 <ul>
-<li>SATA (with controller, slow because it is the bottleneck)</li>
-<li>SAS Serial Attached SCSI</li>
+<li>SATA: with controller, slow because it is the bottleneck</li>
+<li>SAS (Serial Attached SCSI)</li>
 <li>NVMe (Non Volatile Memory express): controller-less, protocol used over PCI express bus</li>
 <li>...</li>
 </ul>
@@ -848,13 +865,16 @@ The data plane is connected to a DC&apos;s VM which acts as a control plane.</p>
 The more common RAID configurations are:</p>
 <ul>
 <li>RAID-0: striping, two drivers aggregated that works as a single one (no fault tolerance)</li>
-<li>RAID-1: mirroring, write on both the drives one is the copy of the other.</li>
-<li>RAID-5: block-level striping with distributed parity. It&apos;s xor based: the first bit goes in the first disk, the second bit in the second one and their xor in the third. If one disk crashes I can recompute its content ( for each two bits of info I need one extra bit, so one third more disk storage).</li>
+<li>RAID-1: mirroring, write on both the drives, one is the copy of the other.</li>
+<li>RAID-5: block-level striping with distributed parity. It&apos;s xor based: the first bit goes in the first disk, the second bit in the second one and their xor in the third. If one disk crashes I can recompute its content with the other two (for each two bits of info I need one extra bit, so one third more disk storage). This means mirroring with only 50% more space.</li>
 <li>RAID-6: block-level striping with double distributed parity. Similar to RAID1 but with more disks.</li>
 </ul>
 <h2 class="mume-header" id="memory-hierarchy">Memory Hierarchy</h2>
 
 <p><strong>Tiering</strong> is a technology that categorizes data to choose different type of storage media to reduce the total storage cost. Tiered storage policies place the <strong>most frequently accessed data on the highest performing storage</strong>. Rarely accessed data goes on low-performance, cheaper storage.</p>
+<p align="center">
+  <img src="./assets/memory-tiering.png" width="600">
+</p>
 <p><strong>Caches</strong>:</p>
 <ul>
 <li>CPU Registries</li>
@@ -863,16 +883,12 @@ The more common RAID configurations are:</p>
 <p><strong>Memory tiering</strong>:</p>
 <ul>
 <li>RAM</li>
-<li>nvRAM
-<ul>
-<li>uses <a href="https://en.wikipedia.org/wiki/NVDIMM">nvDIMM</a> (non volatalie Dual Inline Memory Module) to save energy because you can change the amount of current given to each pin; moreover the data doesn&apos;t need to be refreshed periodically to avoid data loss.</li>
-</ul>
-</li>
-<li>SSD Memory</li>
-<li>Hard drive</li>
+<li>nvRAM (uses <a href="#nvdimm">nvDIMM</a>)</li>
 </ul>
 <p><strong>Storage tiering</strong>:</p>
 <ul>
+<li>SSD Memory</li>
+<li>Hard drive</li>
 <li>Tape</li>
 </ul>
 <h3 class="mume-header" id="nvme">NVMe</h3>
@@ -881,17 +897,34 @@ The more common RAID configurations are:</p>
   <img src="./assets/3d-xpoint-performance.jpg" width="600">
 </p>
 <p>It&apos;s a protocol on the PCI-express bus and it&apos;s totally <strong>controller-less</strong>. From the software side it&apos;s simpler in this way to talk with the disk because the driver is directly attached to the PCI, there is no controller and minor latency.</p>
-<p>A bus is a component where I can attach different devices. It has a clock and some lanes (16 in PCI,  ~15 GBps because each lane is slightly less then 1 GB). <strong>Four drives are enough to exhaust a full PCI v3 bus</strong>. They are also capable of saturating a 100 Gbps link, since a NVMe SSD has a bandwidth of 3.5 GBps (3.5*4 = 14 GBps =&gt; almost filled the 15 GBps of the PCI-e).</p>
+<p>A bus is a component where I can attach different devices. It has a clock and some lanes (16 in PCI, ~15 GBps because each lane is slightly less then 1 GB). <strong>Four drives are enough to exhaust a full PCI v3 bus</strong>. They are also capable of saturating a 100 Gbps link, since a NVMe SSD has a bandwidth of 3.5 GBps (3.5*4 = 14 GBps =&gt; almost filled the 15 GBps of the PCI-e).</p>
+<p>NVMe has now almost totally replaced SATA, since the latter uses 2 PCIe lines and for that reasons represents the bottleneck considering the actual SSD speed.<br>
+Furthermore, NVMe is often uses in the lower memory tier of the RAM: its speed is only one order of magnitude less than RAM, but can have a very big size without any problem. For that reason represent a valid super-fast cache level for the RAM and them started being associated in one single level to implement a big RAM tier, in a totally transparent way for the system.</p>
+<p>Since the software latency in disk IOs is 5 microseconds more or less, TCP/IP software introduces also a latency of 70-80 microseconds, the disk is no more a problem. Indeed, the problem is now the network, not only for the latency, but also for the bandwidth: 4 NVMe totally saturates a 100 Gbps network.</p>
+<h3 class="mume-header" id="nvdimm">nvDIMM</h3>
+
+<p><a href="https://en.wikipedia.org/wiki/NVDIMM">nvDIMM</a> (non volatile Dual Inline Memory Module) is used to save energy. It allows to change the amount of current given to each line, that is as much as a SSD needs to write.</p>
+<p>The memory power consumption is a problem, because it usually consume more current than the CPU; moreover the RAM to persists after a reboot needs to be battery-powered, that is very expensive.<br>
+With the advent of SSD and NVMe things changed, since we reach high speed with persistent memory: non-volatile memory does not need power unless the need of performing I/O operations; moreover data does not need to be refreshed periodically to avoid data loss.</p>
+<p>nvDIMM allows to put SSDs on the memory BUS as for the RAM instead of the PCIe as for the storage.</p>
 <h3 class="mume-header" id="misc">Misc</h3>
 
 <ul>
-<li>Processes can share memory through the <strong>memory mapping</strong> technique (the memory is seen as a file).</li>
-<li>Beside Volatile RAM it&apos;s now possible to have <strong>persistent state RAM</strong>.</li>
-<li>With this kind of technology the <strong>non volatile tier is only 35% slower then the RAM</strong>, so there is the need for supporting large non volatile memory tier with super fast access.</li>
+<li>Processes can share memory through the memory mapping technique (the memory is seen as a file).</li>
+<li>Beside Volatile RAM it&apos;s now possible to have persistent state RAM.</li>
+<li>With Intel Optane storage is only 35% slower then the RAM, so there is the need for supporting large non volatile memory tier with super fast access.</li>
 </ul>
 <h2 class="mume-header" id="storage-aggregation">Storage aggregation</h2>
 
-<p>It is the concept of splitting data between various disks and then &quot;picture&quot; the <strong>whole system as a sole huge drive</strong> (concept of resource pooling in cloud computing)<br>
+<p>Actually, the Hard Drive problem is not the speed but the latency. With a large bandwidth HDD are fast on contiguous data, but have a high latency on sparse data, on which are very slow.</p>
+<p>Latency is due to:</p>
+<ul>
+<li>software (Filesystem, OS, ..): in a microseconds order, cannot be removed</li>
+<li>controller: can be reduced, e.g. with NVMe is just 20&#xB5;s</li>
+<li>HDD latency: can drastically be reduced with SSD, and is even smaller with 3D NAND</li>
+</ul>
+<p>This problems are solved with the storage aggregation technique, that is a strategy for accessing drives in parallel instead of sequentially.<br>
+It is the concept of splitting data between various disks and then &quot;picture&quot; the <strong>whole system as a sole huge drive</strong> (concept of resource pooling in cloud computing)<br>
 The <strong>strategy for accessing drive makes the difference</strong>.<br>
 Fiber channel is the kind of fabric dedicated for the storage. The link coming from the storage ends up in the Host Based Adapter in the server.</p>
 <h2 class="mume-header" id="network-area-storage-nas">Network Area Storage (NAS)</h2>
@@ -1097,12 +1130,12 @@ When you program for the cloud you dont know where your process will be executed
 <p align="center">
   <img src="./assets/cloud-services.png" width="600">
 </p>
-<p><strong>Rapid Elasticity</strong>: consumers can adapt to variation in workloads and mantain required performance levels. This permits also to reduce costs avoiding the overprovisining.</p>
-<p><strong>High Avaialability</strong>: the cloud provide high avaialabity. This feature can be achived with redundancy of resources to avoid system failure. Some Load Balancer is used to balance the request between all the resources to avoid failure due the resources saturation on some machine.</p>
-<p>The cloud infrastrucure can be <strong>public</strong>, if it is provisioned for open use by the general public; or <strong>private</strong>, if is provisioned for exclusive use by a single organization comprising multiple consumers.</p>
-<h2 class="mume-header" id="cloud-computering-layers">Cloud computering Layers</h2>
+<p><strong>Rapid Elasticity</strong>: consumers can adapt to variation in workloads and maintain required performance levels. This permits also to reduce costs avoiding the overprovisining.</p>
+<p><strong>High Availability</strong>: the cloud provide high availability. This feature can be achieved with redundancy of resources to avoid system failure. Some Load Balancer is used to balance the request between all the resources to avoid failure due the resources saturation on some machine.</p>
+<p>The cloud infrastructure can be <strong>public</strong>, if it is provisioned for open use by the general public; or <strong>private</strong>, if is provisioned for exclusive use by a single organization comprising multiple consumers.</p>
+<h2 class="mume-header" id="cloud-computing-layers">Cloud computing Layers</h2>
 
-<p>The cloud infrastrucure can be see as a <strong>layered infrastructure</strong>.</p>
+<p>The cloud infrastructure can be see as a <strong>layered infrastructure</strong>.</p>
 <h3 class="mume-header" id="cross-functional-layers">Cross functional layers</h3>
 
 <p>In the cloud computing reference model there are some sylos of cross layer functionalities, they mainly revolve around:</p>
@@ -1111,7 +1144,7 @@ When you program for the cloud you dont know where your process will be executed
 <li>Security: policies, standard procedures, firewalls, antivirus, intrusion detection/prevention.</li>
 <li>Service Management: Portfolio (SLA, roadmap, customer support...) and operation (monitoring, provisioning, compliance...)</li>
 </ul>
-<h3 class="mume-header" id="phyisical-layer">Phyisical Layer</h3>
+<h3 class="mume-header" id="physical-layer">Physical Layer</h3>
 
 <p align="center">
   <img src="./assets/physical-layer.png" width="600">
@@ -1191,10 +1224,10 @@ When you program for the cloud you dont know where your process will be executed
 </p>
 The Virtual Disk is a file of fixed size or dynamically expanding. The vOS can be shared among the VMs and stored elsewhere than in the vdisk file. Each write goes on the vdisk (can undo all the write ops), instead each read first look in the &quot;file&quot; where the vOS is, than in the vdisk file if the previous check wasn&apos;t successful. I can also freeze the virtual disk, and extend the file with the software I want to add, making also rollback possible. This file abstraction for the disk makes also possible the application of a copy on write mechanism. I can use the same portion of file to save an operating system, and then create only one virtual disk file containing the differences between the various virtual machine and the original disk (more or less like image layering in Docker*). 
 <p>The Virtual CPU masks the feature of a CPU to a VM. The VCPU can be overbooked, up to twice the number of cores. The CPU has several rings of protection (user ... nested vos,vos,os).</p>
-<h4 class="mume-header" id="vram-balooning">vRAM balooning</h4>
+<h4 class="mume-header" id="vram-ballooning">vRAM ballooning</h4>
 
-<p>It&apos;s not allowed to use a virtual memory as vRAM because the sum of the vRAM should be less or equal to the actual RAM. Fragmentation could be a problem if there is lot of unused reserved memory. In order to achive this, a technique called balooning has been introduced.<br>
-It is sayd to the VM: &quot;Look, you have 1TB of RAM but most of it it&apos;s occupied&quot;. In this way we have dynamically expanding blocks of RAM: if the OS needs memory I can deflate the baloon by moving the occupancy threshold.</p>
+<p>It&apos;s not allowed to use a virtual memory as vRAM because the sum of the vRAM should be less or equal to the actual RAM. Fragmentation could be a problem if there is lot of unused reserved memory. In order to achive this, a technique called ballooning has been introduced.<br>
+It is said to the VM: &quot;Look, you have 1TB of RAM but most of it it&apos;s occupied&quot;. In this way we have dynamically expanding blocks of RAM: if the OS needs memory I can deflate the baloon by moving the occupancy threshold.</p>
 <h4 class="mume-header" id="docker">Docker</h4>
 
 <p>It exploits Linux&apos;s Resource Group. The processes in the container can see only a part of the OS. The containers have to share the networking. Docker separates different software stacks on a single node.</p>
@@ -1939,11 +1972,29 @@ So 24 Gbps / 8 = 3 GBps</p>
 <li>SATA interface 16 Gbps</li>
 <li>SCSI interface 22.5 Gbps</li>
 </ul>
+<h1 class="mume-header" id="real-use-cases">Real Use Cases</h1>
+
+<ul>
+<li><a href="https://code.fb.com/production-engineering/introducing-data-center-fabric-the-next-generation-facebook-data-center-network/">Introducing data center fabric, the next-generation Facebook data center network</a></li>
+<li><a href="https://www.facebook.com/notes/facebook-engineering/designing-a-very-efficient-data-center/10150148003778920/">Facebook - Designing a Very Efficient Data Center</a></li>
+<li><a href="https://www.google.com/about/datacenters/efficiency/internal/">Google - Efficiency: How we do it</a></li>
+</ul>
+<h1 class="mume-header" id="open-source">Open Source</h1>
+
+<p>In 2011 Facebook announced the <a href="https://www.opencompute.org">Open Compute Project</a> (OCP), an organization that shares designs of data center products among companies, including Facebook, IBM, Intel, Nokia, Google, Microsoft and many others.</p>
+<p>Their mission is to design and enable the delivery of the most efficient server, storage and data center hardware designs for scalable computing.</p>
+<h1 class="mume-header" id="books-guides">Books &amp; Guides</h1>
+
+<ul>
+<li><a href="https://www.cisco.com/c/en/us/solutions/design-zone.html">Cisco - Design Zone - Design Guides</a></li>
+<li><a href="https://www.actualtechmedia.com/wp-content/uploads/2018/05/Building-a-Modern-Data-Center-ebook.pdf">Building a Modern Data Center</a></li>
+<li><a href="http://www.redbooks.ibm.com/redbooks/pdfs/sg247928.pdf">IBM Data Center Networking</a></li>
+</ul>
 <h1 class="mume-header" id="references">References</h1>
 
 <ul>
 <li><a href="https://tools.ietf.org/html/rfc4391">https://tools.ietf.org/html/rfc4391</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Omni-Path">https://en.wikipedia.org/wiki/Omni-Path</a></li>
+<li>Omni-Path - <a href="https://en.wikipedia.org/wiki/Omni-Path">https://en.wikipedia.org/wiki/Omni-Path</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Remote_direct_memory_access">https://en.wikipedia.org/wiki/Remote_direct_memory_access</a></li>
 <li><a href="https://www.arubacloud.com/infrastructures/italy-dc-it1.aspx">https://www.arubacloud.com/infrastructures/italy-dc-it1.aspx</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Software-defined_networking">https://en.wikipedia.org/wiki/Software-defined_networking</a></li>
@@ -1966,6 +2017,10 @@ So 24 Gbps / 8 = 3 GBps</p>
 <li>Spine and leaf - <a href="https://blog.westmonroepartners.com/a-beginners-guide-to-understanding-the-leaf-spine-network-topology/">https://blog.westmonroepartners.com/a-beginners-guide-to-understanding-the-leaf-spine-network-topology/</a></li>
 <li>Power consumption - <a href="https://searchdatacenter.techtarget.com/answer/How-do-I-estimate-server-power-consumption-per-rack">https://searchdatacenter.techtarget.com/answer/How-do-I-estimate-server-power-consumption-per-rack</a></li>
 <li>UPS dimension - <a href="https://searchdatacenter.techtarget.com/feature/How-do-I-figure-size-requirements-for-new-UPS-unit">https://searchdatacenter.techtarget.com/feature/How-do-I-figure-size-requirements-for-new-UPS-unit</a></li>
+<li>Automatic Transfer Switch - <a href="https://ethancbanks.com/2014/08/22/what-is-an-automatic-transfer-switch-power/">https://ethancbanks.com/2014/08/22/what-is-an-automatic-transfer-switch-power/</a></li>
+<li>Securing a datacenter - <a href="https://www.youtube.com/watch?v=cLory3qLoY8">https://www.youtube.com/watch?v=cLory3qLoY8</a></li>
+<li>Live migration of a VM in nutanix HCI - <a href="https://www.youtube.com/watch?v=LlArzoASFNc">https://www.youtube.com/watch?v=LlArzoASFNc</a></li>
+<li>Live migration of a VM (Hyper-V and vMotion) - <a href="https://searchservervirtualization.techtarget.com/feature/Lets-get-this-straight-VM-live-migration">https://searchservervirtualization.techtarget.com/feature/Lets-get-this-straight-VM-live-migration</a></li>
 </ul>
 <h1 class="mume-header" id="contributors">Contributors</h1>
 
@@ -1977,6 +2032,7 @@ So 24 Gbps / 8 = 3 GBps</p>
 <th style="text-align:center"><a href="https://apagiaro.it"><img src="https://avatars0.githubusercontent.com/u/6088300?v=4" width="100px;" alt="Alessandro Pagiaro"><br><sub><b>Alessandro Pagiaro</b></sub></a><br><a href="https://github.com/giacomodeliberali/ict-infrastructures/commits?author=alessandro308" title="Documentation">&#x1F4D6;</a></th>
 <th style="text-align:center"><a href="https://github.com/LorenzoBellomo"><img src="https://avatars3.githubusercontent.com/u/36964883?v=4" width="100px;" alt="LorenzoBellomo"><br><sub><b>LorenzoBellomo</b></sub></a><br><a href="https://github.com/giacomodeliberali/ict-infrastructures/commits?author=LorenzoBellomo" title="Documentation">&#x1F4D6;</a></th>
 <th style="text-align:center"><a href="https://github.com/megantosh"><img src="https://avatars1.githubusercontent.com/u/4587828?v=4" width="100px;" alt="Mohamed Megahed"><br><sub><b>Mohamed Megahed</b></sub></a><br><a href="https://github.com/giacomodeliberali/ict-infrastructures/commits?author=megantosh" title="Documentation">&#x1F4D6;</a></th>
+<th style="text-align:center"><a href="http://aldodaquino.com"><img src="https://avatars3.githubusercontent.com/u/18645793?v=4" width="100px;" alt="Aldo D&apos;Aquino"><br><sub><b>Aldo D&apos;Aquino</b></sub></a><br><a href="https://github.com/giacomodeliberali/ict-infrastructures/commits?author=daquinoaldo" title="Documentation">&#x1F4D6;</a></th>
 </tr>
 </thead>
 <tbody></tbody>
