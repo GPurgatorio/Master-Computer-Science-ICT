@@ -15,12 +15,17 @@
     "url": "git+https://github.com/giacomodeliberali/ict-infrastructures.git"
   },
   "keywords": [
-    "ict"
+    "ict",
+    "ict-infrastructures",
+    "unipi"
   ],
   "authors": [
     "Alessandro Pagiaro",
+    "Giacomo De Liberali",
+    "Lorenzo Bellomo",
+    "Aldo D'Aquino",
     "Leonardo Frioli",
-    "Giacomo De Liberali"
+    "Mohamed Megahed"
   ],
   "license": "MIT",
   "bugs": {
