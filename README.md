@@ -1657,14 +1657,14 @@ drawing a scheme with the components like PDU etc. was appreciated. Discussing f
 
 **1024 Servers need to be connected with any of the following switch options: 48x25Gbps East/West Traffic with 6 x 100 Gbps for North/South (and two other configs to choose from). Oversubcription level can be up to 1/6. Which network Topology would you choose? Discuss its pros and cons.**
 
-## Solution 1
+### Solution 1
 
 
 I gave a couple but he was more interested to see one discussed in thorough detail. So not to recite theory but to be able to apply the knowledge from the section above.
 For 1024, 48x25, oversubscr 1/6. I went for spine/leaf model and he wanted to know how many switches  would be  required  in that  case (do not forget redudancy causes doubling + two links of the 6 will be gone for connecting the two spines together)
 
 
-## Solution 2
+### Solution 2
 
 E/W : 48 x 25 = 1200 Gbps
 
