@@ -130,8 +130,10 @@ It is highly recommended to study with the EMC DELL slides provided under <<_Rac
     - [Question](#question-4)
     - [Solution](#solution-4)
 - [Other questions](#other-questions)
+  - [@megantosh](#megantosh)
     - [Solution 1](#solution-1)
     - [Solution 2](#solution-2-1)
+  - [@giacomodeliberali](#giacomodeliberali)
 - [About numbers](#about-numbers)
   - [Current](#current-1)
   - [Fabric](#fabric-1)
@@ -1649,7 +1651,9 @@ Remember that bandwidth are not fully used because of some overhead..(e.g. to co
 
 <!-- Please add here your questions -->
 
-@megantosh: my exam was a variation of the above questions:
+## @megantosh
+
+My exam was a variation of the above questions:
 
 **Design a data center that should contain 40 Racks, consuming  15 kW each. Discuss all necessary considerations, e.g. Power Distribution, Cabling, Cooling.**
 
@@ -1699,6 +1703,12 @@ I said both should be effectively the same given that bandwidth would not be blo
 **Discuss the role (functions) of the orchestration layer. Give an example workflow. where does it lie in the cloud stack?**
 
 check the slides for sure, they are very helpful! A process I gave was provisioning an Alexa skill on AWS which requires building a Lambda function (an AWS service) and a Skill controller. I think he was happy to have a real-life example. Draw the workflow like a business process from the point of provisioning to the billing etc.
+
+## @giacomodeliberali
+
+**What is a virtual firewall? Where will you put it? And how many?**
+
+TODO: answer
 
 # About numbers
 ## Current
