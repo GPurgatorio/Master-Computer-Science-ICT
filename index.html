@@ -1,11 +1,20 @@
 <!DOCTYPE html><html><head>
-  <title>ICT - Infrastructures</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>README</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css">
+      
+      
 
-  
-  
-  <style>
+      
+      
+      
+      
+      
+      
+
+      <style>
     h1, h2, h3, h4, h5, h6{
       color: #159957 !important;
     }
@@ -17,67 +26,65 @@
     p[align="center"]{
       text-align: center;
     }
-  </style>
-  
-  <style> 
-  /**
-* prism.js Github theme based on GitHub's theme.
-* @author Sam Clarke
-*/
+        
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
 code[class*="language-"],
 pre[class*="language-"] {
-color: #333;
-background: none;
-font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-text-align: left;
-white-space: pre;
-word-spacing: normal;
-word-break: normal;
-word-wrap: normal;
-line-height: 1.4;
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
 
--moz-tab-size: 8;
--o-tab-size: 8;
-tab-size: 8;
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
 
--webkit-hyphens: none;
--moz-hyphens: none;
--ms-hyphens: none;
-hyphens: none;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
 }
 
 /* Code blocks */
 pre[class*="language-"] {
-padding: .8em;
-overflow: auto;
-/* border: 1px solid #ddd; */
-border-radius: 3px;
-/* background: #fff; */
-background: #f5f5f5;
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
 }
 
 /* Inline code */
 :not(pre) > code[class*="language-"] {
-padding: .1em;
-border-radius: .3em;
-white-space: normal;
-background: #f5f5f5;
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
 }
 
 .token.comment,
 .token.blockquote {
-color: #969896;
+  color: #969896;
 }
 
 .token.cdata {
-color: #183691;
+  color: #183691;
 }
 
 .token.doctype,
 .token.punctuation,
 .token.variable,
 .token.macro.property {
-color: #333;
+  color: #333;
 }
 
 .token.operator,
@@ -85,14 +92,14 @@ color: #333;
 .token.keyword,
 .token.rule,
 .token.builtin {
-color: #a71d5d;
+  color: #a71d5d;
 }
 
 .token.string,
 .token.url,
 .token.regex,
 .token.attr-value {
-color: #183691;
+  color: #183691;
 }
 
 .token.property,
@@ -104,13 +111,13 @@ color: #183691;
 .token.symbol,
 .token.command,
 .token.code {
-color: #0086b3;
+  color: #0086b3;
 }
 
 .token.tag,
 .token.selector,
 .token.prolog {
-color: #63a35c;
+  color: #63a35c;
 }
 
 .token.function,
@@ -122,108 +129,159 @@ color: #63a35c;
 .token.id,
 .token.url-reference .token.variable,
 .token.attr-name {
-color: #795da3;
+  color: #795da3;
 }
 
 .token.entity {
-cursor: help;
+  cursor: help;
 }
 
 .token.title,
 .token.title .token.punctuation {
-font-weight: bold;
-color: #1d3e81;
+  font-weight: bold;
+  color: #1d3e81;
 }
 
 .token.list {
-color: #ed6a43;
+  color: #ed6a43;
 }
 
 .token.inserted {
-background-color: #eaffea;
-color: #55a532;
+  background-color: #eaffea;
+  color: #55a532;
 }
 
 .token.deleted {
-background-color: #ffecec;
-color: #bd2c00;
+  background-color: #ffecec;
+  color: #bd2c00;
 }
 
 .token.bold {
-font-weight: bold;
+  font-weight: bold;
 }
 
 .token.italic {
-font-style: italic;
+  font-style: italic;
 }
 
 
 /* JSON */
 .language-json .token.property {
-color: #183691;
+  color: #183691;
 }
 
 .language-markup .token.tag .token.punctuation {
-color: #333;
+  color: #333;
 }
 
 /* CSS */
 code.language-css,
 .language-css .token.function {
-color: #0086b3;
+  color: #0086b3;
 }
 
 /* YAML */
 .language-yaml .token.atrule {
-color: #63a35c;
+  color: #63a35c;
 }
 
 code.language-yaml {
-color: #183691;
+  color: #183691;
 }
 
 /* Ruby */
 .language-ruby .token.function {
-color: #333;
+  color: #333;
 }
 
 /* Markdown */
 .language-markdown .token.url {
-color: #795da3;
+  color: #795da3;
 }
 
 /* Makefile */
 .language-makefile .token.symbol {
-color: #795da3;
+  color: #795da3;
 }
 
 .language-makefile .token.variable {
-color: #183691;
+  color: #183691;
 }
 
 .language-makefile .token.builtin {
-color: #0086b3;
+  color: #0086b3;
 }
 
 /* Bash */
 .language-bash .token.keyword {
-color: #0086b3;
-}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
 /* Please visit the URL below for more information: */
 /*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
 
-  </style>
-</head>
-<body for="html-export">
-  <div class="mume markdown-preview   ">
-  <p><a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square" alt="All Contributors"></a></p>
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <p><a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square" alt="All Contributors"></a></p>
 <p>ICT Infrastructures - University of Pisa (Italy)</p>
 <p><em>Since there is only little material on ICT Infrastructures course, this is a recap and summary of classes. The notes are a compilation of the course contents and focus on the topics in accordance with Prof. Antonio Cisternino&apos;s OneNote Notebook.<br>
 It is highly recommended to study with the EMC DELL slides provided under &lt;&lt;_Raccolta contenuto&gt;&gt; which will not be uploaded here for copyright reasons. Each heading correspond to a module. If you find any error please, fork and submit a pull request!</em></p>
 <h1 class="mume-header" id="table-of-contents">Table of contents</h1>
 
 <details>
-<summary>Click to show or hide</summary>
+  <summary>Click to show or hide</summary>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <ul>
@@ -463,7 +521,7 @@ It is highly recommended to study with the EMC DELL slides provided under &lt;&l
 
 <p>Since the course revolves around Cloud Computing architectures, it is important to keep the following reference model of the cloud stack in mind:</p>
 <p align="center">
-<img width="800" src="./assets/referenceModel.png">
+  <img width="800" src="./assets/referenceModel.png">
 </p>
 <ol>
 <li><strong>Physical Layer [Module 3]</strong>: Foundation layer of the cloud infrastructure.<br>
@@ -498,14 +556,14 @@ The air pushed though the server gets a 10/15 degrees temperature augment.</p>
 There is a <em>floating floor</em>, under which all the cabling and the cooling is performed. The air goes up because of thermal convection where it gets caught, cooled and re-introduced.</p>
 <p>Drawbacks are density (if we want to go dense this approach fails) and the absence of locality. No one is using this technique today.</p>
 <p align="center">
-<img width="600" src="./assets/crac.png">
+  <img width="600" src="./assets/crac.png">
 </p>
 <h4 class="mume-header" id="hotcold-aisles">Hot/Cold aisles</h4>
 
 <p>The building block of this architecture are hot and cold corridors, with servers front-to-front and back-to-back; that optimize cooling efficiency.</p>
 <p>The <em>workload balancing</em> may be a problem: there can be the situation where a rack is hotter than the other depending on the workload, thus is difficult to module the amount of hot and cold air. In the CRAC model the solution is pumping enough for the higher consumer, but is not possible to act only where needed. That leads waste of energy. This problem is not present in the in-row cooling technology.</p>
 <p align="center">
-<img width="600" src="./assets/crac1.png">
+  <img width="600" src="./assets/crac1.png">
 </p>
 <h4 class="mume-header" id="in-row-cooling">In-Row cooling</h4>
 
@@ -513,7 +571,7 @@ There is a <em>floating floor</em>, under which all the cabling and the cooling 
 <p>In-row cooling systems use a horizontal airflow pattern utilizing hot aisle/cold aisle configurations and they only occupy one-half rack of row space without any additional side clearance space. Typically, each unit is about 12 inches wide by 42 inches deep.</p>
 <p>These units may be a supplement to raised-floor cooling (creating a plenum to distribute conditioned air) or may be the primary cooling source on a slab floor.</p>
 <p align="center">
-<img width="600" src="./assets/in-row-cooling.jpg">
+  <img width="600" src="./assets/in-row-cooling.jpg">
 </p>
 <p>The in-row cooling unit draws warm exhaust air directly from the hot aisle, cools it and distributes it to the cold aisle. This ensures that inlet temperatures are steady for precise operation. Coupling the air conditioning with the heat source produces an efficient direct return air path; this is called <em>close coupled cooling</em>, which also lowers the fan energy required. In-row cooling also prevents the mixing of hot and cold air, thus increasing efficiency.</p>
 <p>It&apos;s possible to give more cooling to a single rack, modulating the air needed. In front of the rack there are temperature and humidity sensors. Humidity should be avoided because can condensate because of the temperature differences and therefore conduct electricity.<br>
@@ -532,7 +590,7 @@ Having water in a data center is a risky business, but this solution lowers the 
 <p>A 32KW datacenter is small (also if it consumes the same amount of current of 10 apartments).</p>
 <p><em>Direct Current Transformers</em> from AC to DC. Direct current is distributed inside the datacenter even if is more dangerous than alternating current.</p>
 <p align="center">
-<img src="http://latex.codecogs.com/gif.latex?\text{Watt}%20=%20\cos\phi\cdot%20V\cdot%20A">
+  <img src="http://latex.codecogs.com/gif.latex?\text{Watt}%20=%20\cos\phi\cdot%20V\cdot%20A">
 </p>
 <p>Where <img src="http://latex.codecogs.com/gif.latex?%5Ccos%5Cphi" alt="cosfi"> gives the efficiency of the power supply and generally it changes according to the amount of current needed (idle vs under pressure). <img src="http://latex.codecogs.com/gif.latex?%5Ccos%5Cphi" alt="cosfi"> is the heat dissemination happening from conversion of AC into DC current, and it is a number &lt;= 1.<br>
 For example an idle server with 2 CPUs (14 cores each) consumes 140 Watts.</p>
@@ -546,7 +604,7 @@ For example an idle server with 2 CPUs (14 cores each) consumes 140 Watts.</p>
 <h4 class="mume-header" id="power-factor">Power factor</h4>
 
 <details>
-<summary>Click to expand</summary>
+  <summary>Click to expand</summary>
 <p>Alternating current (AC) supplies our buildings and equipment. AC is more efficient for power companies to deliver, but when it hits the equipment&apos;s transformers, it exhibits a characteristic known as reactance.</p>
 <p>Reactance reduces the useful power (watts) available from the apparent power (volt-amperes). The ratio of these two numbers is called the power factor (PF). Therefore, the actual power formula for AC circuits is watts = volts x amps x power factor. Unfortunately, the PF is rarely stated for most equipment, but it is always a number of 1.0 or less, and about the only thing with a 1.0 PF is a light bulb.</p>
 <p>For years, large UPS systems were designed based on a PF of 0.8, which meant that a 100 kVA UPS would only support 80 kW of real power load.</p>
@@ -563,7 +621,7 @@ For example an idle server with 2 CPUs (14 cores each) consumes 140 Watts.</p>
 <p>As example, consider that the PUE of the university&apos;s datacenter during 2018 is less 1.2, while the average italian data center&apos;s PUE are around 2-2.5.</p>
 <p>If the PUE is equal to 2 means that for each Watt used for computing, 1 Watt is used for cooling.</p>
 <p align="center">
-<img src="http://latex.codecogs.com/gif.latex?\text{PUE}%20=%20\dfrac{\text{total%20current}}{\text{compute%20current}}%20">
+  <img src="http://latex.codecogs.com/gif.latex?\text{PUE}%20=%20\dfrac{\text{total%20current}}{\text{compute%20current}}%20">
 </p>
 <h1 class="mume-header" id="fabric">Fabric</h1>
 
@@ -597,7 +655,7 @@ The <a href="https://tools.ietf.org/html/rfc4391">RFC 4391</a> specifies a metho
 <p>Access, a direct memory access (really!) from one computer into that of another without involving either one&apos;s OS and bypassing the CPU. This permits high-throughput and low-latency networking performing. RDMA can gain this features because is not a protocol, but is on API, hence there is no overhead.</p>
 <p>RDMA supports zero-copy networking by enabling the network adapter to transfer data directly to or from application memory, eliminating the need to copy data between application memory and the data buffers in the operating system, and by bypassing TCP/IP. Such transfers require no work to be done by CPUs, caches, or context switches, and transfers continue in parallel with other system operations. When an application performs an RDMA Read or Write request, the application data is delivered directly to the network, reducing latency and enabling fast message transfer. The main use case is distributed storage.</p>
 <p align="center">
-<img src="./assets/rdma.jpg" width="600">
+  <img src="./assets/rdma.jpg" width="600">
 </p>
 <h2 class="mume-header" id="omni-path">Omni-Path</h2>
 
@@ -737,7 +795,7 @@ In 2001 the IEEE introduced Rapid Spanning Tree Protocol (RSTP) that provides si
 
 <p>The Network Chassis is a sort of big  modular and resilient switch. At the bottom it has a pair of power plugs and then it&apos;s made of modular <strong>line cards</strong> (with some kind of ports) and a pair of <strong>RPM</strong> Routing Processing Modules (for redundancy) to ensure that the line cards work. The chassis can be over provisioned to resist to aging but it has a limit.</p>
 <p align="center">
-<img width="300" src="./assets/cisco-chassis.png">
+  <img width="300" src="./assets/cisco-chassis.png">
 </p>
 <p>Pros</p>
 <ul>
@@ -762,8 +820,8 @@ In 2001 the IEEE introduced Rapid Spanning Tree Protocol (RSTP) that provides si
 <h3 class="mume-header" id="spine-and-leaf-architecture">Spine and leaf Architecture</h3>
 
 <p align="center">
-<img width="800" src="./assets/spine-leaf-vs-3-tier.png">
-<img width="800" src="./assets/spine-and-leaves.jpg">
+  <img width="800" src="./assets/spine-leaf-vs-3-tier.png">
+  <img width="800" src="./assets/spine-and-leaves.jpg">
 </p>
 <p>With the increased focus on east-west data transfer the three-tier design architecture is being replaced with Spine-Leaf design. The switches are divided into 2 groups, the leaf switches and spine switches. Every leaf switch in a leaf-spine architecture connects to every switch in the network fabric.</p>
 <p>That topology uses the <strong>Link Aggregation Control Protocol (LACP)</strong> to avoid loops. Two different links to two different ports are bounded into a logical link. That means that both links can be used to communicate, gaining the redundancy in case of failure of a link, but there are no loops because them are saw as a single channel.<br>
@@ -792,7 +850,7 @@ LACP provides a method to control the <strong>bundling of several physical ports
 </li>
 </ul>
 <p align="center">
-<img width="400" src="./assets/sal-switch.png">
+  <img width="400" src="./assets/sal-switch.png">
 </p>
 <p>Just a small remark: with spine and leaf we introduce <strong>more hops</strong>, so more latency, than the chassis approach. The solution for this problem is using as a base of the spine a <strong>huge switch (256 ports)</strong> which actually acts as a chassis, in order to reduce the number of hops and latency.</p>
 <h3 class="mume-header" id="oversubscription">Oversubscription</h3>
@@ -803,12 +861,12 @@ Yes, and it is possible by just linking half the ports upwards and half down. Th
 <h3 class="mume-header" id="some-considerations-about-numbers">Some considerations about numbers</h3>
 
 <details>
-<summary>
-Click to show or hide
-</summary>
+  <summary>
+    Click to show or hide
+  </summary>
 Start think about real world. We have some server with 1 Gbps (not so high speed, just think that is the speed you can reach with your laptop attaching a cable that is in classroom in the university). We have to connect this servers to each other, using switches (each of them has 48 ports). We have a lots of servers... The computation is done.
 <p align="center">
-<img width="600" src="./assets/speed-required.png">
+  <img width="600" src="./assets/speed-required.png">
 </p>
 <p>As we see we need a lots of bandwidth to manage a lots of service and even if the north-south traffic (the traffic that goes outside from our datacenter) can be relatively small (the university connection exits on the world with 40 Gbps), the east-west traffic (the traffic inside the datacenter) can reach a very huge number of Gbps. <a href="https://www.arubacloud.com/infrastructures/italy-dc-it1.aspx">Aruba datacenter</a> (called IT1) with another Aruba datacenter (IT2) reach a bandwidth of 82 Gbps of Internet connection.</p>
 </details>
@@ -817,7 +875,7 @@ Start think about real world. We have some server with 1 Gbps (not so high speed
 <p>In this network topology, the link that are nearer the top of the hierarchy are &quot;fatter&quot; (thicker) than the link further down the hierarchy. <strong>Used only in high performance computing</strong> where performances have priority over budgets.</p>
 <p>The full fat tree <strong>resolves the problem of over-subscription</strong>. Adopting the spine and leaf there is the risk that the links closer to the spines can&apos;t sustain the traffic coming from all the links going from the servers to the leaves. The full fat tree is a way to build a tree so that the capacity is never less than the incoming traffic. It&apos;s <strong>quite expensive</strong> and because of this reason some over subscription can be accepted.</p>
 <p align="center">
-<img width="600" src="./assets/full-fat-tree-network.png">
+  <img width="600" src="./assets/full-fat-tree-network.png">
 </p>
 <h3 class="mume-header" id="vlan">VLAN</h3>
 
@@ -825,7 +883,7 @@ Start think about real world. We have some server with 1 Gbps (not so high speed
 <p>A virtual LAN (VLAN) is a virtual network consisting of virtual and/or physical switches, which <strong>divides a LAN into smaller logical segments</strong>. A VLAN groups the nodes with a common set of functional requirements, independent of the physical location of the nodes. In a multi-tenant cloud environment, the provider typically creates and assigns a <strong>separate VLAN to each consumer</strong>. This provides a private network and IP address space to a consumer, and ensures isolation from the network traffic of other consumers.</p>
 <p>It works by applying <strong>tags</strong> (from 1 to 4094) to network packets (in Ethernet frame) and handling these tags in the networking systems.</p>
 <p align="center">
-<img width="600" src="./assets/vlan.png">
+  <img width="600" src="./assets/vlan.png">
 </p>
 <p>A <strong>switch can be configured to accept some tags</strong> on some ports and some other tags on some other ports.</p>
 <p>VLAN are useful to manage the <strong>access control</strong> to some resources (and avoid to access to some subnetwork from other subnetwork). Different VLANs are usually used for different purposes.</p>
@@ -884,7 +942,7 @@ The more common RAID configurations are:</p>
 
 <p><strong>Tiering</strong> is a technology that categorizes data to choose different type of storage media to reduce the total storage cost. Tiered storage policies place the <strong>most frequently accessed data on the highest performing storage</strong>. Rarely accessed data goes on low-performance, cheaper storage.</p>
 <p align="center">
-<img src="./assets/memory-tiering.png" width="600">
+  <img src="./assets/memory-tiering.png" width="600">
 </p>
 <p><strong>Caches</strong>:</p>
 <ul>
@@ -905,7 +963,7 @@ The more common RAID configurations are:</p>
 <h3 class="mume-header" id="nvme">NVMe</h3>
 
 <p align="center">
-<img src="./assets/3d-xpoint-performance.jpg" width="600">
+  <img src="./assets/3d-xpoint-performance.jpg" width="600">
 </p>
 <p>It&apos;s a protocol on the PCI-express bus and it&apos;s totally <strong>controller-less</strong>. From the software side it&apos;s simpler in this way to talk with the disk because the driver is directly attached to the PCI, there is no controller and minor latency.</p>
 <p>A bus is a component where I can attach different devices. It has a clock and some lanes (16 in PCI, ~15 GBps because each lane is slightly less then 1 GB). <strong>Four drives are enough to exhaust a full PCI v3 bus</strong>. They are also capable of saturating a 100 Gbps link, since a NVMe SSD has a bandwidth of 3.5 GBps (3.5*4 = 14 GBps =&gt; almost filled the 15 GBps of the PCI-e).</p>
@@ -947,25 +1005,25 @@ Fiber channel is the kind of fabric dedicated for the storage. The link coming f
 <li><strong>block-based (SAN)</strong>: a block-based storage system enables the creation and assignment of storage volumes to compute systems. The compute OS (or hypervisor) discovers these <strong>storage volumes as local drives</strong>. A file system can be created on these storage volumes, for example NTFS in a Windows environment, which can then be formatted and used by applications.</li>
 </ul>
 <p align="center">
-<img src="./assets/block-based-storage-access.png" width="600">
+  <img src="./assets/block-based-storage-access.png" width="600">
 </p>
 <ul>
 <li><strong>file-based</strong>: a file-based storage system, also known as Network-Attached Storage (NAS), is a dedicated, high-performance file server having either integrated storage or connected to external storage. NAS enables clients to share files over an IP network. NAS supports <strong>NFS</strong> and <strong>CIFS</strong> protocols to give both UNIX and Windows clients the ability to share the same files using appropriate access and locking mechanisms. NAS systems have integrated hardware and software components, including a processor, memory, NICs, ports to connect and manage physical disk resources, an OS optimized for file serving, and file sharing protocols.</li>
 </ul>
 <p align="center">
-<img src="./assets/file-based-storage-access.png" width="600">
+  <img src="./assets/file-based-storage-access.png" width="600">
 </p>
 <ul>
 <li><strong>object-based</strong>: object-based storage is a way to <strong>store file data in the form of objects based on the content and other attributes</strong> of the data rather than the name and location of the file. An object contains user data, related metadata (size, date, ownership, etc.), and user defined attributes of data (retention, access pattern, and other business-relevant attributes). The additional <strong>metadata or attributes enable optimized search</strong>, retention and deletion of objects. The object-based storage system uses a flat, non-hierarchical address space to store data, providing the flexibility to scale massively. Cloud service providers leverage object-based storage systems to offer Storage as a Service because of its inherent security, scalability, and automated data management capabilities. Object-based storage systems support web service access via REST and SOAP. Eg. <strong>AWS S3</strong>.</li>
 </ul>
 <p align="center">
-<img src="./assets/object-based-storage-access.png" width="600">
+  <img src="./assets/object-based-storage-access.png" width="600">
 </p>
 <ul>
 <li><strong>unified</strong>: unified storage or multi-protocol storage has emerged as a solution that consolidates block, file, and object-based access within one storage platform. It <strong>supports multiple protocols</strong> such as CIFS, NFS, iSCSI, FC, FCoE, REST, and SOAP for data access</li>
 </ul>
 <p align="center">
-<img src="./assets/unified-storage-access.png" width="600">
+  <img src="./assets/unified-storage-access.png" width="600">
 </p>
 <p><strong>iSCASI</strong>: Internet Small Computer Systems Interface, an IP-based storage networking standard for linking data storage facilities. It provides <strong>block-level access to storage</strong> devices by carrying SCSI commands over a TCP/IP network.</p>
 <h2 class="mume-header" id="storage-area-network-san">Storage Area Network (SAN)</h2>
@@ -996,7 +1054,7 @@ Fiber channel is the kind of fabric dedicated for the storage. The link coming f
 <p>This kind of software is <strong>expensive</strong> (Nutanix HCI is fully software defined so you <strong>do not depend on the vendors hardware</strong>).</p>
 <p>The main idea is not to design three different systems (compute, networking, storage) and then connect them, but it&apos;s better to have a bit of them in each server I deploy. &quot;<strong>Adding servers adds capacity</strong>&quot;.</p>
 <p align="center">
-<img src="./assets/nutanix-hci.png" width="600">
+  <img src="./assets/nutanix-hci.png" width="600">
 </p>
 <p>The software works with the cooperations of different controller (VMs) in each node (server). <strong>The controller (VM) implements the storage abstraction through the node and it implements also the logical moving of data</strong>. Every <strong>write keeps a copy on the local server storage</strong> exploiting the PCI bus and avoiding the network cap; a copy of the data is given to the controller of another node. The <strong>read is performed locally</strong> gaining high performances. The VM is aware that there are two copies of the data so it can exploit this fact. <strong>Once a drive fails its copy is used to make another copy</strong> of the data. The write operation is a little bit slower since I need to wait for the &apos;ack&apos; of the controller in order to keep replicas of the written data on other nodes (sync replica).</p>
 <h2 class="mume-header" id="sds-software-defined-storage">SDS - Software Defined Storage</h2>
@@ -1018,20 +1076,20 @@ It&apos;s used to build a <strong>distributed system that provides storage servi
 <h2 class="mume-header" id="storage-in-the-future">Storage in the future</h2>
 
 <details>
-<summary>
-Click to show or hide
-</summary>
-<p align="center">
-<img src="./assets/memory-history.jpg" width="600">
-</p>
+  <summary>
+    Click to show or hide
+  </summary>
+  <p align="center">
+  <img src="./assets/memory-history.jpg" width="600">
+  </p>
 <p>As we can see in the image, it&apos;s been decades since the last mainstream memory update is done. In fact, the SSD became popular in the last years due the cost but they exists since 1989.</p>
-<p align="center">
-<img src="./assets/3d-xpoint.jpg" width="600">
-</p>
+  <p align="center">
+  <img src="./assets/3d-xpoint.jpg" width="600">
+  </p>
 <p>New technology was introduced in 2015, the 3D XPoint. This improvement takes ICT world in a new phase? If yesterday our problem was the disk latency, so we design all algorithm to reduce IOs operation, now the disk is almost fast as the DRAM, as shown the following image:</p>
-<p align="center">
-<img src="./assets/storages-latency.png" width="600">
-</p>
+  <p align="center">
+  <img src="./assets/storages-latency.png" width="600">
+  </p>
 </details>
 <h1 class="mume-header" id="servers">Servers</h1>
 
@@ -1064,7 +1122,7 @@ For instance, servers have an ECC memory with Error Correction Code built in.</p
 </ul>
 <p>Typically the max number of CPUs is four and they are close to the memory modules.</p>
 <p align="center">
-<img src="./assets/pizzabox.png" width="400">
+  <img src="./assets/pizzabox.png" width="400">
 </p>
 <ul>
 <li><strong>1U</strong> Pizza box: 2 CPUs, ~10 drives disposed horizontally.</li>
@@ -1139,7 +1197,7 @@ When you program for the cloud you dont know where your process will be executed
 </ul>
 <p>There is a trade off between centralization (the bottleneck is the storage) and distribution (the bottleneck is the network).</p>
 <p align="center">
-<img src="./assets/cloud-services.png" width="600">
+  <img src="./assets/cloud-services.png" width="600">
 </p>
 <p><strong>Rapid Elasticity</strong>: consumers can adapt to variation in workloads and maintain required performance levels. This permits also to reduce costs avoiding the overprovisining.</p>
 <p><strong>High Availability</strong>: the cloud provide high availability. This feature can be achieved with redundancy of resources to avoid system failure. Some Load Balancer is used to balance the request between all the resources to avoid failure due the resources saturation on some machine.</p>
@@ -1158,19 +1216,41 @@ When you program for the cloud you dont know where your process will be executed
 <h3 class="mume-header" id="physical-layer">Physical Layer</h3>
 
 <p align="center">
-<img src="./assets/physical-layer.png" width="600">
+  <img src="./assets/physical-layer.png" width="600">
 </p>
-<p>The physical layer comprises compute, storage, and network resources, which are the fundamental physical computing resources that make up a cloud infrastructure. It executes requests generated by virtualization and control layer and specifies entities that operate at this layer:</p>
+<p>Comprises <strong>compute, storage and network</strong> resources and execute both provider and consumer software. The <strong>compute system</strong> can be shared between consumers or dedicated, typically providers use virtualisation and offer compute systems in the form of virtual machines. There are several software components deployed on compute systems:</p>
 <ul>
-<li>storage and its access method (file-based, block-based, object-based or unified)</li>
-<li>network</li>
-<li>compute systems</li>
-<li>other resources</li>
+<li>Self-service portal</li>
+<li>Platform and application software: PaaS and SaaS provided to the consumer</li>
+<li>Virtualisation software: useful for virtual resource pooling and creation</li>
+<li>Cloud management software: provider&apos;s software</li>
+<li>Consumer software</li>
+</ul>
+<p>Compute system may be physically <strong>tower</strong>, <strong>rack or blade.</strong></p>
+<p>The <strong>storage system</strong> is the repository for saving and retrieving data. Cloud storage provides massive scalability and long-term data retention. Virtualisation is used by cloud providers to create storage pools shared among consumers.</p>
+<p>Independently from storage devices there are several data access methods, as seen previously:</p>
+<ul>
+<li>Block-based</li>
+<li>File-based (NAS)</li>
+<li>Object-based</li>
+<li>Unified</li>
+</ul>
+<p>The <strong>network system</strong> must be reliable and secure, it enables data transfer and sharing of IT resources between nodes across geographic regions. The network system enables several kinds of communications:</p>
+<ul>
+<li><strong>Compute-to-compute</strong> : it is the interconnection of physical systems that, typically, use IP-based protocols. Compute systems access the network through NIC, physical switches and routers, they are common interconnecting devices.</li>
+<li><strong>Compute-to-storage</strong> : it is typically a <strong>SAN (storage area network)</strong>, they are classified on the communication protocol they support (fiber channel (FC), IP, fiber channel over ethernet (FCoE) etc.). SAN are divided in units called <strong>LUN</strong> (Logical Unit Number) that abstracts the identity and internal functions of storage systems and can be dynamically resized.
+<ul>
+<li>FC SAN: SAN that uses fiber channel to transport data etc. Provides block-level access to storage and can connect approx. 15 million nodes with a speed up to 16 Gbps. FC implements <strong>zoning</strong> , a switch function that enables ports within a fabric to be logically divided into groups, each node can communicate with nodes within its group. It provides access control.</li>
+<li>IP SAN: SAN that uses the IP protocol to transport storage traffic. Since IP is a mature protocol, IP SAN can be built using an existing IP infrastructure. There are two main IP SAN protocols: iSCSI and FCIP: The first encapsulate SCSI command into IP packets and it is made by iSCSI targets and iSCSI initiators. The second protocol, FCIP, encapsulates FC frame into IP packets</li>
+<li>FCoE SAN: made by Converged Network Adapter (CNA), SOFTWARE adapter, FCoE switch and FCoE port.</li>
+</ul>
+</li>
+<li>Inter-cloud: different cloud, even with different deployment model, are interconnected by WAN.</li>
 </ul>
 <h3 class="mume-header" id="virtual-layer">Virtual Layer</h3>
 
 <p align="center">
-<img src="./assets/virtual-layer.png" width="600">
+  <img src="./assets/virtual-layer.png" width="600">
 </p>
 <p>Deployed on the physical layer. Abstract physical resources, including storage and network, and makes them appear as virtual resources. Executes the requests generated by control layer. It permits a better use of the hardware when you have services that underuse it.  With VMs there is a 10% of performance loss but we gain in flexibility and security.</p>
 <p>Benefits of virtualization:</p>
@@ -1181,11 +1261,15 @@ When you program for the cloud you dont know where your process will be executed
 <li>increases flexibility</li>
 </ul>
 <p>This allows a <strong>multi tenant environment</strong> since I can run multiple organizations VMs on the same server.</p>
+<p>Key concept is virtualisation: it enables a single hardware resource to support multiple concurrent systems or vice versa. It is composed by 3 entities: <strong>virtualisation software, resource pool and virtual resources.</strong> Virtualisation refers to all the resources provided by the physical layer hence we have <strong>compute virtualisation, storage virtualisation and network virtualisation</strong>. <strong>Hypervisors</strong> enable compute virtualisation: it is a software that enables a physical compute system to run multiple OSs concurrently. For every OSs there is a virtual machine manager on top of the hypervisor kernel.</p>
+<p>The network virtualisation software enables the creation of <strong>virtual LANs, virtual SANs and virtual switches</strong>. The storage virtualisation software allows the creation of virtual volumes, virtual disk files and virtual arrays.</p>
+<p>The <strong>resource pool</strong> is an abstraction of aggregated computing resources such as processing power, memory capacity and network bandwidth. Cloud services obtain computing resources from resource pools. LUN in SAN are an example of storage pooling. Aggregation of virtualisation software and resource pool make a virtual machine, that like a physical system runs OS and applications.</p>
+<p>VM files are managed using hypervisor&apos;s native file system or a shared file system that enables a VM to use NAS devices, for example. The VM console is an interface used to manage and monitor a VM and can be local or remote. It can be used also for configuration, reboot etc. VM template is a &quot;standard first version&quot; of a VM that can be specialised: every VM can be converted into a template.</p>
 <h4 class="mume-header" id="vm-network-components">VM Network components</h4>
 
 <p>VM networks comprise virtual switches, virtual NICs, and uplink NICs that are created on a physical compute system running a hypervisor.</p>
 <details>
-<summary>Click to expand</summary>
+  <summary>Click to expand</summary>
 <ul>
 <li>
 <p><strong>vSwitch</strong>: a virtual switch is a <strong>logical OSI Layer 2 Ethernet switch</strong> created within a compute system. A virtual switch is either internal or external. An internal virtual switch connects only the VMs on a compute system. It has no connection to any physical NIC and cannot forward traffic to a physical network. An external virtual switch connects the VMs on a compute system to each other and also to one or more physical NICs. A physical NIC already connected to a virtual switch cannot be attached to any other virtual switch.</p>
@@ -1197,9 +1281,27 @@ When you program for the cloud you dont know where your process will be executed
 <p><strong>Uplink NIC</strong>: an uplink NIC is a physical NIC connected to the uplink port of a virtual switch and functions as an <strong>Inter-Switch Link</strong> between the virtual switch and a physical Ethernet switch. It is called uplink because it only provides a physical interface to connect a compute system to the network and <strong>is not addressable from the network</strong>. Uplink NICs are <strong>neither assigned an IP address nor are their built-in MAC addresses</strong> available to any compute system in the network. It simply forwards the VM traffic between the VM network and the external physical network without modification.</p>
 </li>
 </ul>
+<p>Virtual networks can be:</p>
+<ul>
+<li><strong>VLAN:</strong> a virtual segregation of the broadcast domain of a LAN. The network infrastructure is shared but the devices belonging to a LAN are <strong>logically</strong> divided in groups.</li>
+<li><strong>PVLAN</strong> : sub-VLAN that segregates nodes within a primary VLAN. It provides security between nodes on the same VLAN, simplifies network management and allows providers to support a larger number of consumers.</li>
+<li><strong>Stretched VLAN</strong> : VLAN that spans multiple sites, enables the movement of VMs across locations without changing their network configs.</li>
+<li><strong>VXLAN</strong> : overlay layer 2 network on top of a layer 3 network, it uses MAC in UDP encapsulation.</li>
+<li><strong>VSAN</strong> : a logical fabric created over a physical FC or FCoE SAN enabling communication between nodes with a common set of requirements, independent of their physical location in the fabric.</li>
+</ul>
+<p>There exists a mapping between VSAN and VLAN to determine which VLAN carries a VSAN traffic.</p>
+<p>As anticipated LUNs are logical components of a SAN (storage pool), their capacity can be dynamically changed. LUNs created from a storage pool can be of 2 categories:</p>
+<ul>
+<li>
+<p><strong>Thin LUN</strong> : at creation time only a portion of the physical storage is really allocated. Storage is consumed as needed in increments called <strong>LUN extents</strong>. Used when storage consumption is difficult to predict and when the above application layer can tolerate performance variations.</p>
+</li>
+<li>
+<p><strong>Thick LUN</strong> : storage completely allocated at creation time</p>
 <p align="center">
-<img width="600" src="./assets/virtual-network.png">
+  <img width="600" src="./assets/virtual-network.png">
 </p>
+</li>
+</ul>
 </details>
 <h4 class="mume-header" id="vm-components">VM components</h4>
 
@@ -1231,7 +1333,7 @@ When you program for the cloud you dont know where your process will be executed
 </ul>
 <p>The disk is virtualized usign a file, while for the Network there is a VNIC (Network Interface Card) connected to a vSWITCH, comunicating with the physical NIC. The vNIC is used also by the real OS because it&apos;s physical NIC is busy doing the vSWITCH.</p>
 <p align="center">
-<img width="500" src="./assets/virtual-network.png">
+  <img width="500" src="./assets/virtual-network.png">
 </p>
 The Virtual Disk is a file of fixed size or dynamically expanding. The vOS can be shared among the VMs and stored elsewhere than in the vdisk file. Each write goes on the vdisk (can undo all the write ops), instead each read first look in the &quot;file&quot; where the vOS is, than in the vdisk file if the previous check wasn&apos;t successful. I can also freeze the virtual disk, and extend the file with the software I want to add, making also rollback possible. This file abstraction for the disk makes also possible the application of a copy on write mechanism. I can use the same portion of file to save an operating system, and then create only one virtual disk file containing the differences between the various virtual machine and the original disk (more or less like image layering in Docker*). 
 <p>The Virtual CPU masks the feature of a CPU to a VM. The VCPU can be overbooked, up to twice the number of cores. The CPU has several rings of protection (user ... nested vos,vos,os).</p>
@@ -1245,14 +1347,48 @@ It is said to the VM: &quot;Look, you have 1TB of RAM but most of it it&apos;s o
 <h3 class="mume-header" id="control-layer">Control Layer</h3>
 
 <p align="center">
-<img width="600" src="./assets/control-layer.png">
+  <img width="600" src="./assets/control-layer.png">
 </p>
-<p>The control layer includes control software that are <strong>responsible for managing and controlling  the underlying cloud infrastructure resources and enable provisioning of IT resources</strong> for creating cloud services. Control layer can be deployed on top of the virtual layer or on top of the physical layer. This layer receives request from the service and orchestration layers, and interacts with the underlying virtual and physical resources for provisioning IT resources. For example, <strong>when a consumer initiates a service request (a VM instance with 4 GB RAM and 500 GB storage), based on the workflow defined by the orchestration layer for this service, the control layer provisions the required resources from the resource pool to fulfill the service request</strong>. This layer also exposes the resources (physical and/or virtual) to and supports the service layer where cloud services interfaces are exposed to the consumers.</p>
-<p>The <strong>key functions</strong> of the control layer includes:</p>
+<p>This layer includes software and tools useful for managing and controlling the underlying infrastructure. Control layer can be deployed on top of virtual or physical layer and it receives requests from service and orchestration layer: control layer provisions the required resources to fulfil these requests. <strong>Together with the virtualisation layer, the control layer provides a unified view of all the resources of the cloud infrastructure, enables resource pooling and dynamic allocation of resources.</strong></p>
+<p>There exist two types of control layer:</p>
 <ul>
-<li>resource <strong>configuration</strong></li>
-<li>resource <strong>provisioning</strong></li>
-<li><strong>monitoring</strong> resources.</li>
+<li><strong>Element manager</strong> : it can be built-in or externally provided and it comprises management tool for compute, network and storage resources because it is required to manage those components independently from each other. Between the tasks performed by the element manager, we find the initial configuration of OS, RAID, zoning, VLANs etc; dynamic expansion of existing resource pool with newly added resources; troubleshooting; performance and security monitoring.</li>
+<li><strong>Unified manager</strong> : we can think to it as a layer mounted above an element manager. It provides a single management interface for the three components of the infrastructure (compute, network and storage). Like the element manger, the unified one provides a way to monitoring the resources and removing or adding some of them to an already provisioned service. More than this, the unified manager exposes APIs that can be used by an orchestration layer in order to automatize the service provisioning.</li>
+</ul>
+<p>Another (new) approach to abstract the underlying infrastructure components is the <strong>Software Defined Approach.</strong> With this approach is possible to have an aggregated view of resources, it enables rapid provisioning and provides a mechanism to apply policies across the infrastructure. A software approach, like the unified manager, offers APIs to controllers enabling them to request and access resources like they were services. An approach like the one described improves business ability, brings to lower CAPEX (specialized hardware is not necessary) and provides a scale-out architecture.</p>
+<p>The main duty of the Control Layer is the <strong>resource management</strong> and it can be <strong>relative or absolute</strong>. In the first case the resource allocation for a service is defined proportionally relative to the resource allocated to other service instances, in the second case the allocation is defined on the base of quantitative (lower and upper) bounds.</p>
+<p>Every component has its resource management techniques.</p>
+<ul>
+<li><strong>Compute resource management:</strong>
+<ul>
+<li><strong>Hyper-threading</strong> : every physical core is split into two logical that share the same physical resources, in this way OSs can schedule two threads simultaneously (for each logical unit)</li>
+<li><strong>Memory page sharing</strong> : memory pages are shared among VMs and redundant copies of memory pages are eliminated by the hypervisor. VMs can have private copies of pages.</li>
+<li><strong>Dynamic memory allocation</strong> : every VM&apos;s OS has an agent that communicate with the hypervisor. With this communication unused pages can be released and allocated to another VM with scarce memory.</li>
+<li><strong>VM load balancing across hypervisors</strong> : a management server monitors load across hypervisors and when a new VM is started it choose a hypervisor with enough resources. When the workload on a hypervisor exceed the resources available, the management server <strong>migrates</strong> the VM to an underutilized hypervisor.</li>
+<li><strong>Server flash-cache technology</strong> : according to principles of locality and reuse, software is intelligently cached on flash storage. Is needed a warm-up time before appreciating a performance improvement</li>
+</ul>
+</li>
+<li><strong>Storage resource management:</strong>
+<ul>
+<li><strong>Virtual storage provisioning</strong> : using the thin LUNs, this mechanism is used to present a LUN to an application with more storage than effectively allocated. Physical storage will be allocated on demand, this simplify storage management and improve performance, reducing storage cost.</li>
+<li><strong>Storage pool rebalancing</strong> : when storage devices are added to a storage pool, this technique automatically rebalance the data stored, for example performing striping and spreading data equally to all the drives of the pool.</li>
+<li><strong>Storage space reclamation</strong> : unused space on thin LUNs is re-assigned to storage pool, providing cost savings. The free space can be discovered by <strong>zero-extent</strong> reclamation (recall: extents are blocks of storage that form a LUN) or can be communicated to the storage system using an API.</li>
+<li><strong>Automated storage tiering</strong> : storage is divided into tier. Each tier is characterized by the storage type and the categories of data that stores. This allow to store data automatically into the right tier. Tiers can have different levels of protection and performance, hence cost.</li>
+<li><strong>Cache tiering</strong> : allows to create large capacity cache aggregating SSDs and DRAMs forming tier, again characterized by the storage type.</li>
+<li><strong>VM load balancing across storage volumes</strong> : it is like the load balancing of hypervisors but obviously this time is based on storage requirements of VMs. Load balancing is performed within pools of volumes aggregated as one.</li>
+</ul>
+</li>
+<li><strong>Network resource management</strong> :
+<ul>
+<li><strong>Balancing client workload across nodes</strong> : a load balancer is placed between internet and a cluster of nodes and it decide where to forward ingoing traffic.</li>
+<li><strong>Network storm control</strong> : this technique prevents flooding of frames to create excessive traffic into a LAN or VLAN. Switches count frames and when reached a certain threshold they block traffic on ports.</li>
+<li><strong>QoS</strong> : prioritization mechanism of traffic</li>
+<li><strong>Traffic shaping</strong> : if traffic exceeds a certain threshold, switches commence to enqueue packets for a later transmission. Useful to avoid network congestion</li>
+<li><strong>Link aggregation</strong> : combines link between switches or switches and node with the aim to distribute traffic across the aggregation.</li>
+<li><strong>NIC teaming</strong> : same of link aggregation but for network interface cards, provides also fault tolerance with network failover.</li>
+<li><strong>Multipathing</strong> : provides load balancing of links and links failover, it improves I/O performance and data path utilization</li>
+</ul>
+</li>
 </ul>
 <p>Summarizing, <strong>control software</strong>:</p>
 <ul>
@@ -1285,7 +1421,7 @@ It is said to the VM: &quot;Look, you have 1TB of RAM but most of it it&apos;s o
 <h3 class="mume-header" id="service-layer">Service layer</h3>
 
 <p align="center">
-<img width="600" src="./assets/orchestration-and-service-layer.png">
+  <img width="600" src="./assets/orchestration-and-service-layer.png">
 </p>
 <p><strong>What is a cloud service?</strong><br>
 Cloud services are IT resources that are packaged by the service providers and are offered to the consumers. Once constituent IT resources are provisioned and configured, a service is instantiated.</p>
@@ -1303,10 +1439,13 @@ Cloud services are IT resources that are packaged by the service providers and a
 <p><strong>Presents cloud interfaces to consume services</strong>: cloud interfaces are the functional interfaces and the <strong>management</strong> interfaces of the deployed service instances. Using these interfaces, the consumers perform computing activities, such as executing a transaction and administer their use of rented service instances, such as modifying, scaling, stopping, or restarting a service instance.</p>
 </li>
 </ul>
+<p>The <strong>service catalogue</strong> is no more than a menu of services, that lists the services available along with their attributes, costs, terms and conditions of use. For each service are specified the following: name, description, features and options (billing, subscription terms etc...), price, reference to SLA. Usually a client chooses a service from the catalogue, fill a form, agree the terms of use and gets the service. The consumer can interact with the rented services using cloud interfaces. With the management interface he can control his use of a rented service and with the functional interface he can use the services. Function provided by the two interfaces changes according to the rented service (IaaS, PaaS, SaaS).</p>
+<p>Service catalogue and cloud interfaces are exposed to consumers through a <strong>cloud portal.</strong> Cloud portal is also used by cloud administrators to manage the whole infrastructure and the lifecycle of cloud services. The portal act also as an intermediary with the orchestration layer: it routes service request to the orchestration layer and shows response to the consumers.</p>
+<p>THERE IS A MISSING PART ABOUT STANDARDS FOR THE COMMUNICATION BETWEEN SERVICES: TOSCA, REST, SOAP ETC... IT CAN BE FOUND INTO THE SLIDES. TODO: SUMMARIZE AND ADD THOSE PARTS TO THIS NOTES</p>
 <h3 class="mume-header" id="orchestration-layer">Orchestration layer</h3>
 
 <p align="center">
-<img width="600" src="./assets/orchestration-and-service-layer.png">
+  <img width="600" src="./assets/orchestration-and-service-layer.png">
 </p>
 <p>Automated arrangement, coordination, and management of various system or component functions in a cloud infrastructure to provide and manage cloud services.</p>
 <h4 class="mume-header" id="cloud-portal">Cloud portal</h4>
@@ -1356,12 +1495,12 @@ Cloud services are IT resources that are packaged by the service providers and a
 <p>Although some manual steps (performed by cloud administrators) may be required while processing the service provisioning and management functions, service providers are looking to <strong>automate these functions as much as possible</strong>.</p>
 <p>Cloud service providers typically deploy a purpose-designed <strong>orchestration software or orchestrator</strong> that orchestrates the execution of various system functions. <strong>The orchestrator programmatically integrates and sequences various system functions into automated workflows</strong> for executing higher-level service provisioning and management functions provided by the cloud portal. The orchestration workflows are <strong>not only meant for fulfilling requests from consumers</strong> but <strong>also for administering cloud infrastructure</strong>, such as <strong>adding resources to a resource pool, handling service-related issues, scheduling a backup for a service, billing, and reporting</strong>.</p>
 <p align="center">
-<img width="600" src="./assets/orchestrator-example.png">
+  <img width="600" src="./assets/orchestrator-example.png">
 </p>
 <h3 class="mume-header" id="business-continuity-layer">Business Continuity layer</h3>
 
 <p align="center">
-<img width="600" src="./assets/business-continuity-layer.png">
+  <img width="600" src="./assets/business-continuity-layer.png">
 </p>
 <p>Business continuity is a set of processes that includes <strong>all activities</strong> that a business must perform to <strong>mitigate the impact of service outage</strong>. Business continuity entails preparing for, responding to, and recovering from a system outage that adversely affects business operations. It describes the processes and procedures a service provider establishes to <strong>ensure that essential functions can continue during and after a disaster</strong>. Business continuity prevents interruption of mission-critical services, and reestablishes the impacted services as swiftly and smoothly as possible by using an automated process. Business continuity involves <strong>proactive measures</strong>, such as business impact analysis, risk assessment, building resilient IT infrastructure, deploying data protection solutions (<strong>backup and replication</strong>). It also involves <strong>reactive countermeasures</strong>, such as disaster recovery, to be invoked in the event of a service failure. Disaster recovery (DR) is the coordinated process of restoring IT infrastructure, including data that is required to support ongoing cloud services, after a natural or human-induced disaster occurs.</p>
 <h4 class="mume-header" id="single-point-of-failure">Single point of failure</h4>
@@ -1378,8 +1517,12 @@ Cloud services are IT resources that are packaged by the service providers and a
 <p>Be careful to <strong>active/passive failure</strong>, when a system fails but also the &quot;passive&quot; part fails immediatly because any checks have been executed.</p>
 <p><strong>Key techniques to protect compute</strong>:</p>
 <ul>
-<li>Clustering (Two common clustering implementations are: Active/active ; Active/passive)</li>
-<li><a href="#live-migration-of-a-vm">VM live migration</a></li>
+<li><strong>Compute clustering</strong> : at least two compute systems work together and are viewed as one, this provides high availability and load balancing. Clustering compute system enables failover in the event of single component failure, two common implementations are <strong>active/active</strong> and <strong>active/passive</strong>.
+<ul>
+<li><strong>Hypervisor clustering</strong> : is example of clustering at compute level where multiple hypervisors of different systems are clustered, providing continuous availability even upon a physical failure.</li>
+</ul>
+</li>
+<li><a href="#live-migration-of-a-vm"><strong>Virtual Machine Live Migration</strong></a> : running services are moved from one VM to another one without stopping them, this not only facilitates load balancing but also allows scheduled maintenance without downtime.</li>
 </ul>
 <p><strong>Key techniques to protect network connectivity</strong>:</p>
 <ul>
@@ -1396,19 +1539,19 @@ Cloud services are IT resources that are packaged by the service providers and a
 </ul>
 <p><strong>Key techniques to protect storage</strong>:</p>
 <ul>
-<li>RAID and erasure coding</li>
-<li>Dynamic disk sparing</li>
-<li>Configuring redundant storage system components</li>
+<li><strong>RAID and Dynamic Disk Sparing</strong> : RAIDs are aggregation of disks that appear as a single one (abstraction mechanism...). DDS consists in replacing a failed disk with a spare one automatically. The more the spare disks the more the availability.</li>
+<li><strong>Erasure coding</strong> : a set of N disks is divided in M disks that store data and K disks that store coding information. This provides a space-optimal data redundancy.</li>
+<li><strong>Storage resiliency using mirrored LUNs</strong> : a LUN has some mirror copies. Each operation on the LUN is immediately replicated to the copies that are stored in different storage systems. LUN and its copies form a storage pool.</li>
 </ul>
 <p align="center">
-<img src="./assets/redundancy.png" width="600">
+  <img src="./assets/redundancy.png" width="600">
 </p>
 <h4 class="mume-header" id="service-availability-zones">Service Availability Zones</h4>
 
 <p>A service availability zone is a <strong>location with its own set of resources and isolated from other zones</strong> to avoid that a failure in one zone will not impact other zones. A zone can be a part of a data center or may even be comprised of the whole data center. This provides redundant cloud computing facilities on which applications or services can be deployed.</p>
 <p>Service providers typically <strong>deploy multiple zones within a data center</strong> (to run multiple instances of a service), so that if one of the zone incurs outage due to some reasons, then the service can be failed over to the other zone. They also <strong>deploy multiple zones across geographically dispersed data centers</strong> (to run multiple instances of a service), so that the service can survive even if the failure is at the data center level. It is also important that there should be a mechanism that allows seamless (automated) failover of services running in one zone to another.</p>
 <p align="center">
-<img src="./assets/service-zones.png" width="600">
+  <img src="./assets/service-zones.png" width="600">
 </p>
 <h4 class="mume-header" id="live-migration-of-a-vm">Live Migration of a VM</h4>
 
@@ -1424,7 +1567,7 @@ Cloud services are IT resources that are packaged by the service providers and a
 </ul>
 <p>The whole process is a little bit easier if both the VMs use a shared storage.</p>
 <p align="center">
-<img src="./assets/vm-live-migration.png" width="600">
+  <img src="./assets/vm-live-migration.png" width="600">
 </p>
 <h4 class="mume-header" id="server-setup-checklist">Server Setup Checklist</h4>
 
@@ -1451,11 +1594,24 @@ The active directory allows for policy based management of the various servers.<
 </ul>
 <h4 class="mume-header" id="backups">Backups</h4>
 
-<p>It&apos; a data <strong>protection solution</strong>, and it should be automatized. It has become a crucial point in data center management to the extent in which cloud provider have started providing Backup-aaS and DisasterRecovery-aaS.</p>
-<p>With <strong>replicas are  data protection solutions</strong>. This task becomes more challenging with the growth of data, reduced IT budgets, and less time available for taking backups. Moreover, service providers need fast backup and recovery of data to meet their service level agreements. The amount of data loss and downtime that a business can endure in terms of <strong>RPO and RTO are the primary considerations</strong> in selecting and implementing a specific backup strategy.</p>
+<p>A backup is an additional copy of data, created and retained for the sole purpose of recovering lost data. Backup and recovery operations need to be automatized due to their large workload. For Backing up data we need:</p>
 <ul>
+<li><strong>Backup client</strong> : sends data to the storage node</li>
+<li><strong>Backup server</strong> : manages backup operations and maintains a catalogue.</li>
+<li><strong>Storage node</strong> : responsible for writing data into backup devices.</li>
+<li><strong>Backup device</strong> :
+<ul>
+<li><strong>Tape library</strong> : need a controlled environment, not optimize against duplicate content, data integrity is an issue.</li>
+<li><strong>Disk library</strong> : better performance, disks have features such deduplication, compression and encryption.</li>
+<li><strong>Virtual tape library</strong> : disks are abstracted and presented as tapes to the backup software. Better performance and reliability with respect to physical tapes and does not require maintenance.</li>
+</ul>
+</li>
+</ul>
+<p>With <strong>replicas are  data protection solutions</strong>. This task becomes more challenging with the growth of data, reduced IT budgets, and less time available for taking backups. Moreover, service providers need fast backup and recovery of data to meet their service level agreements. The amount of data loss and downtime that a business can endure in terms of <strong>RPO and RTO are the primary considerations</strong> in selecting and implementing a specific backup strategy.</p>
+<p><strong>RPO</strong> (Recovery Point Objective) and <strong>RTO</strong> (Recovery Time Objective) are key metrics when selecting and implementing specific backup strategies.</p>
+<ul>
+<li><strong>RPO (Recovery Point Objective)</strong>: indicates how many time passes between the production of a data and its securing</li>
 <li><strong>RTO (Recovery Time Objective)</strong>: time it will take to have a full recovery. Relates to the time taken to recover data from backup</li>
-<li><strong>RPO (Recovery Point Objective)</strong>: what is the last consistent copy of the storage I will find. How many data points do you have to go back in time? specifies the time interval between two backups. Is defined by business continuity planning. It is the maximum targeted period in which data might be lost from an IT service due to a major incident (DR - Disaster Recovery).</li>
 </ul>
 <p><strong>Network</strong> is the <strong>first problem</strong> when I want to make a backup, beacuse the <strong>size of the backup</strong> is bigger than the network bandwidth. Sometimes it&apos;s simply impossible to make a backup.</p>
 <p>Backup types:</p>
@@ -1473,104 +1629,95 @@ The active directory allows for policy based management of the various servers.<
 <p><strong>Backup as a Service</strong>: service providers offer backup as a service that enables an organization to reduce its backup management overhead. It also enables the individual consumer to perform backup and recovery anytime, from anywhere, using a network connection.</p>
 <p><strong>Backup window</strong>: the horizon effect: you decide a window but the stuff you need will be always in the deleted part.</p>
 <p><strong>Data Deduplication</strong>: the process of detecting and <strong>identifying the unique data segments</strong> (chunk) within a given set of data <strong>to eliminate redundancy</strong>. The use of deduplication techniques significantly reduces the amount of data to be backed up in a cloud environment, where typically a large number of VMs are deployed. <strong>Take the hash of two identical files</strong>, <strong>store only one</strong> of the two files <strong>and both the hashes</strong>. If the same file is required in two context, it is saved one time and is served to different context.</p>
-<p><strong>Replica</strong>: the process of creating an <strong>exact copy</strong> of the data. The syncronous replica needs an acknowledgement before proceeding, and any additional writes on the source cannot occur until each preceding write has been completed and acknowledged.  DBs like Oracle, SQL Servers want syncronous replica.</p>
+<p><strong>Replication</strong> : is the process of creating an exact copy of data with the aim of ensure availability of services. Replication can be local or remote.</p>
 <ul>
-<li><strong>Local</strong> replication
-<ul>
-<li>Snapshot</li>
-<li>Mirroring</li>
+<li><strong>Local replication</strong> : can be snapshot or mirroring. In snapshot technique are recorded changes to disks every time a snapshot is taken (like docker layering), mirroring has been already seen in LUNs redundancy technique.</li>
+<li><strong>Remote replication</strong> : if it his <strong>synchronous</strong> the first storage device waits for an ACK from the replica before confirming the storage modification to the compute system: this mechanism zeros RPO. If the replication is asynchronous there is eventual consistency and RPO is bounded.</li>
 </ul>
-</li>
-<li><strong>Remote</strong> replication
+<p>There is also some advanced replication solution such as <strong>CDP</strong> <strong>(Continuous data protection)</strong>: data changes are continuously captured and stored in a separate location; this allows to restore data to any previous point-in-time. CDP can be remote or local.</p>
+<p>CDP is made of:</p>
 <ul>
-<li>Synchronous: typically deployed for distances less than 200 KM between the two sites</li>
-<li>Asynchronous: write from a compute system is committed to the source and immediately acknowledged</li>
+<li><strong>Journal volume</strong> : a ledger that contains data that has changed from the time the replication session started. Journal size determines how far back in time the recovery can go.</li>
+<li><strong>CDP appliance</strong> : specialized hardware that runs the CDP software</li>
+<li><strong>Write splitter</strong> : capture writes from the compute system to the storage and split them into two copies.</li>
 </ul>
-</li>
+<p>TODO: INSERT IMAGE OF CDP, CAN BE TAKEN FROM SLIDES</p>
+<p>There exist providers that provides DRaaS (disaster recovery) services: in case of a disaster in the consumer production datacenter, its VMs are invoked into the DRaaS provider datacenter.</p>
+<p>We have talked about infrastructure resiliency, but resiliency is a desirable property also at application level. For the application level there are the following techniques:</p>
+<ul>
+<li><strong>Graceful degradation</strong> : a failure in one component should not prevent the whole service to work, even with reduced functionality.</li>
+<li><strong>Fault detection and retry logic</strong> : retry failing operation until they succeed, or a certain threshold is reached. A good retry logic is invisible to users.</li>
+<li><strong>Persistent state storage</strong> : store the state of an application out of the memory (e.g. in a repository), if an instance fails, the state is preserved.</li>
+<li><strong>Asynchronous event-drive processing</strong> : users&apos; requests are stored in a queue and processed asynchronously</li>
+<li><strong>Monitoring app availability</strong> : specialized tools monitor the state of an application, if there is an error the tool can restart the application. If the restart is not successful, the tool notifies the event to the VM management software that can, for example, restart the VM.</li>
 </ul>
 <h3 class="mume-header" id="security-layer-todo-complete">Security layer  (TODO: complete)</h3>
 
 <p align="center">
-<img src="./assets/security-layer.png" width="600">
+  <img src="./assets/security-layer.png" width="600">
 </p>
 <p>The fundamental requirements of information security and compliance pertain to both non-cloud and cloud infrastructure management. In both the environments, there are some common security requirements. However, in a cloud environment there are important additional factors, which a service provider must consider, that arise from information ownership, responsibility and accountability for information security, and the cloud infrastructure&#x2019;s multi-tenancy characteristic. Therefore, <strong>providing secure multi-tenancy is a key requirement</strong> for building a cloud infrastructure.</p>
-<p>Key security threats according:</p>
+<p>There are some well-known threats in the cloud environment. They are classified as follow:</p>
 <ul>
-<li>Data leakage: occurs when an unauthorized entity (an attacker) gains access to a cloud consumer&#x2019;s confidential data stored on the cloud infrastructure
-<ul>
-<li>=&gt; Data encryption, data shredding and multi-factor authentication</li>
-</ul>
-</li>
-<li>Data loss
-<ul>
-<li>=&gt; Backup and replication</li>
-</ul>
-</li>
-<li>Account hijacking: an attacker gains access to consumers&#x2019; accounts
-<ul>
-<li>multi-factor authentication and firewall</li>
-</ul>
-</li>
-<li>Insecure APIs: exploit vulnerability in an API to breach a cloud infrastructure
-<ul>
-<li>=&gt; proper design and security reviews</li>
-</ul>
-</li>
-<li>Malicious insiders
-<ul>
-<li>=&gt; access control policies</li>
-</ul>
-</li>
-<li>Denial of service
-<ul>
-<li>=&gt; limits on resource consumption</li>
-</ul>
-</li>
-<li>Abuse of cloud services
-<ul>
-<li>=&gt; difficult to mitigate</li>
-</ul>
-</li>
-<li>Shared technology vulnerabilities
-<ul>
-<li>=&gt; secure trusted components</li>
-</ul>
-</li>
+<li><strong>Data leakage</strong> : when an attacker gain access to confidential data. The attack is enabled by weak passwords, poor application design, malicious insiders or poor encryption. Countermeasures consist in good data encryption, both for at-rest and in-transit data, shredding of unused data, multifactor authentication.</li>
+<li><strong>Data loss</strong> : it can be prevented using backup and replication mechanism explained above.</li>
+<li><strong>Account hijacking</strong> : when an attacker gain access to a consumer account. This could happen due to phishing, MITM or keylbog malware.</li>
+<li><strong>Insecure APIs</strong> : they are responsible for provisioning, monitoring and orchestration. APIs should be designed following security bet practices and access to APIs should be restricted to authorized users.</li>
+<li><strong>DoS and DDoS attacks</strong> : can be prevented imposing restriction on resources usage.</li>
+<li><strong>Malicious insider</strong></li>
+<li><strong>Abuse</strong> : cloud resources can be used for illicit activities such as cracking software. It is important to establish an agreement with the consumers on what it can be done.</li>
+<li><strong>Loss of compliance:</strong> it occurs when the cloud provider or broker does not adhere to laws, regulation, corporate policies and procedures. For example, vulnerability assessment is mandatory when treating certain types of data.</li>
+<li><strong>Loss of governance</strong> : when the provider outsources its services to third parties it can lose control over security.</li>
 </ul>
 <p>Firewall, Antivirus, Standard procedures to direct safe execution of operations.</p>
 <h4 class="mume-header" id="levels-of-security">Levels of security</h4>
 
+<p>Above there is a list of common threats that consumer and providers must consider when handling cloud services. To be more specific, security mechanism must be deployed for each component of a cloud infrastructure:</p>
 <ul>
-<li><strong>Procedural</strong>: phising, the weakest link is the human</li>
-<li><strong>Logical</strong>: abstraction produced by the OS. <strong>mandatory access</strong> (classification of the infos); <strong>discreptional access</strong> (~ ACL)</li>
-<li><strong>Physical</strong></li>
-<li>Authentication
+<li>Security at compute level:
 <ul>
-<li>Process to ensure users or assets are who they claim to be</li>
-<li>Two methods: single-factor and multi-factor</li>
-</ul>
-</li>
-<li>Authorization
+<li><strong>Physical security</strong> : not only biometrics and badges but also disabling unused devices, surveillance cameras and alarm</li>
+<li><strong>Identity and access management</strong> : there are several mechanisms that can be divided in two categories.
 <ul>
-<li>Process of determining access rights of a user, device, application, or process to a service or resource</li>
-<li>Authorization should be performed only if authentication is successful</li>
-</ul>
-</li>
-<li>Auditing
+<li><strong>Authorization</strong> : in UNIX there are permissions that specify for each type of user what they <strong>CAN</strong> do (default deny policy). Windows have ACLs: determine what can be done and what should be logged, there is a mechanism of policy inheritance between related objects. In general an authentication mechanism uses <strong>Role-based access control.</strong></li>
+<li><strong>Authentication</strong> :
 <ul>
-<li>Process to evaluate the effectiveness of security enforcement mechanisms</li>
+<li><strong>OAuth</strong> : a one-time authentication with temporary tokens, involves resource owner, resource server, client and authorization server.</li>
+<li><strong>Multi-factor authentication</strong> : something you know + something you have</li>
+<li><strong>Kerberos</strong> : it is a network authentication protocol developed by MIT that allows client and server to authenticate each other over an insecure network</li>
+<li>Challenge response mechanism</li>
+<li><strong>OpenID</strong> : it is an open standard in which a service provider uses authentication services from an OpenID provider ///////////// IMMAGINE</li>
 </ul>
 </li>
 </ul>
-<p>Technical security mechanisms must be deployed at:</p>
-<ul>
-<li>Compute level</li>
-<li>Network level</li>
-<li>Storage level</li>
+</li>
+<li><strong>Virtual machine hardening</strong> : configure permissions, disable unused (virtual) drives, change default config. Also, secure OS and application using sandboxing and malware protection software.</li>
 </ul>
-<p>Just a bunch of terms:<br>
-Physical security; Identity and access management; Role-based access control; Network monitoring and analysis; Firewall; Intrusion detection and prevention system ;Adaptive security ; Port binding and fabric binding ;Virtual private network; Virtual LAN and virtual SAN; Zoning and iSNS discovery domain ; Security hypervisor and management server ; Virtual machine hardening ;Securing operating system and applications;LUN masking; Data encryption; Data shredding .</p>
-<p>Disabling all unused devices and ports</p>
+</li>
+<li>Security at network level:
+<ul>
+<li><strong>Network monitoring and analysis</strong> : can be active or passive and there are several tools to monitor, detect and prevent attacks and failure.</li>
+<li><strong>Firewall</strong> : a filter for data packets that travers a network, it can be deployed at several layer (network, compute or hypervisor), hence can be physical or virtual. Packets are filtered according to various parameters. Firewalls can be used to create DMZ: a zone that is between 2 firewalls, isolating it either from internet and intranet (CHECK IT).</li>
+<li><strong>Intrusion detection and prevention system</strong> : they are tools that automatized the detection of event that can compromise CIA of IT resources. IDS can be signature-based or anomaly-based (novelty detection). This kind of tools can be deployed at compute, network or hypervisor level. These tools are based on adaptive security: heuristics are used to learn user behaviour and detect anomalies.</li>
+<li><strong>VPN</strong> : extends a consumer&apos;s private network across a public network in a way so that is possible to apply internal security polices over the VPN. A VPN can be established via remote access or site-to-site</li>
+<li><strong>VLAN and VSAN</strong> : they provide isolation over a shared infrastructure</li>
+<li><strong>Zoning</strong></li>
+<li><strong>iSNS discovery domain</strong> : same as FC zones.</li>
+<li><strong>Port binding</strong> : limit the device that can be attached to a specific switch port</li>
+<li><strong>Fabric binding</strong> : only authorized switches can join a fabric.</li>
+</ul>
+</li>
+<li>Security at storage level:
+<ul>
+<li><strong>LUN masking</strong> : TODO: GIVE SOME DETAILS</li>
+<li><strong>Data encryption</strong></li>
+<li><strong>Data shredding</strong></li>
+</ul>
+</li>
+</ul>
+<p><strong>Security as a service</strong> : delegate a third party for the security enhancement of your system. It allows consumers to reduce CAPEX and security management burden.</p>
+<p>Another important concept in (cloud) security is <strong>GRC: governance, risk and compliance</strong>. Governance determine who/what has the authority to define policies and strategies. Risk management is the process of identify, assess, mitigate and monitor risks. Compliance is the act to adhere and demonstrate adherence to laws, regulations and internal policies.</p>
+<p>Auditing is a monitoring mechanism used to evaluate the effectiveness of policies and enforcing mechanisms of policies.</p>
 <p>Access Control Lists are difficult to manage with lots of users.<br>
 <strong>PAM</strong> (linux) Password Authentication Module: few systems use ACL via PAM.</p>
 <p><strong>auditing</strong> activity of checking that system security is properly working. Keep monitoring the interaction of the user on a resource; get an allert when something suspicious occurs.</p>
@@ -1578,12 +1725,6 @@ Physical security; Identity and access management; Role-based access control; Ne
 <p><strong>right != privilege</strong><br>
 The first is given to you by someone, the second it&apos;s posssesed by you just because who you are.<br>
 In Windows you (the admin) can take the ownership, but you can&apos;t give it. Noone logs as <strong>system</strong> (like linux root but in Windows). SID in Windows is unique for the entire system. (sysprep, sys internals, process explorer)</p>
-<p><strong>OAuth</strong> authorization mechanism, based on OTP tokens.<br>
-<strong>OpenID</strong> authentication<br>
-<strong>RBAC</strong> Roled Based Access Control</p>
-<p><strong>Kerberos</strong> based on symmetric crypthography. The client first asks for a ticket to the Kerbero&apos;s KDC, then it can access the resource using the same token.</p>
-<p><strong>byometric security</strong> : once it gets compromized can&apos;t be restored, because you can&apos;t change someone biometrical data.</p>
-<p>Disable the possibility of changing the MAC address at the hypervisor level.</p>
 <h4 class="mume-header" id="firwall">Firwall</h4>
 
 <ul>
@@ -1591,12 +1732,12 @@ In Windows you (the admin) can take the ownership, but you can&apos;t give it. N
 <li><strong>level 7 firewall</strong>: reconstruct the full pkt looking inside its content.</li>
 </ul>
 <p align="center">
-<img src="./assets/securityArchitecture.png" width="600">
+  <img src="./assets/securityArchitecture.png" width="600">
 </p>
 <h3 class="mume-header" id="service-managment-layer">Service Managment layer</h3>
 
 <p align="center">
-<img src="./assets/service-managment-layer.png" width="600">
+  <img src="./assets/service-managment-layer.png" width="600">
 </p>
 <p>Cloud service management has a service-based focus, meaning that the <strong>management functions are linked to the service requirements and service level agreement</strong> (SLA). Be <strong>aware of regulations and legal constraints</strong> that define how to run a system. Is this system behaving according to the regulations? Recap that information processors (cloud providers) are responsible of the data they process.</p>
 <p><strong>SLA</strong> Service Level Agreement: legal contract that you sign as a customer to the provider defining what the user is paying for.</p>
@@ -1741,7 +1882,7 @@ In the spine and leaf arch we can upgrade a spine reducing the bandwidth, but st
 
 <p>What actions can take the orchestration layer of a cloud system, and based on what information, in order to decide how many web server istances should be used to serve a Web system?</p>
 <p align="center">
-<img src="./assets/ex2.png" width="400">
+  <img src="./assets/ex2.png" width="400">
 </p>
 <h3 class="mume-header" id="solution-1">Solution</h3>
 
@@ -1790,7 +1931,7 @@ In the spine and leaf arch we can upgrade a spine reducing the bandwidth, but st
 </li>
 </ol>
 <p align="center">
-<img src="http://latex.codecogs.com/gif.latex?\text{PUE}%20=%20\dfrac{\text{total%20current}}{\text{compute%20current}}%20">
+  <img src="http://latex.codecogs.com/gif.latex?\text{PUE}%20=%20\dfrac{\text{total%20current}}{\text{compute%20current}}%20">
 </p>
 <ul>
 <li>calculate the toal current
@@ -1810,7 +1951,7 @@ In the spine and leaf arch we can upgrade a spine reducing the bandwidth, but st
 <h3 class="mume-header" id="solution-2">Solution 2</h3>
 
 <p align="center">
-<img src="./assets/10racks.jpeg" height="600px">
+  <img src="./assets/10racks.jpeg" height="600px">
 </p>
 <p align="center"><i>t1 and t2 are AC/DC transformers</i><br><i>ATS: Automatic Transfer Switch</i></p>
 <p>15 KW/Rack x 10 Racks = 150 KW to deliver towards our DC</p>
@@ -2072,20 +2213,30 @@ I said both should be effectively the same given that bandwidth would not be blo
 <th style="text-align:center"><a href="http://andybbruno.github.io"><img src="https://avatars2.githubusercontent.com/u/28092511?v=4" width="100px;" alt="Andrea Bruno"><br><sub><b>Andrea Bruno</b></sub></a><br><a href="https://github.com/giacomodeliberali/ict-infrastructures/commits?author=andybbruno" title="Documentation">&#x1F4D6;</a></th>
 </tr>
 </thead>
-<tbody></tbody>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://github.com/bongi23"><img src="https://avatars2.githubusercontent.com/u/33550265?v=4" width="100px;" alt="bongi23"><br><sub><b>bongi23</b></sub></a><br><a href="https://github.com/giacomodeliberali/ict-infrastructures/commits?author=bongi23" title="Documentation">&#x1F4D6;</a></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
 </table>
 <p>This project follows the <a href="https://github.com/all-contributors/all-contributors">all-contributors</a> specification. Contributions of any kind welcome!</p>
 
-  </div>
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
   
-  
-
-
-
-
-
-
-
-
-
-</body></html>
+    </body></html>
