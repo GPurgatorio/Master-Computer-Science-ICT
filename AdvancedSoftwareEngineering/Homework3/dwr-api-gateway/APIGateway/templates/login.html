@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>StoryTellers - Sign in</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container my-3">
+    <div class="row d-flex justify-content-center">
+        <div class="col-xs-12 col-sm-8 bg-light cont rounded pb-3" style="padding: 30px;">
+            <h3 class="text-center" style="margin-bottom: 20px;">Sign in</h3>
+            <form action="" method="POST">
+                {{ form.hidden_tag() }}
+                {% for field in form.display %}
+                    <div class="form-group">
+                        {{ form[field].label }}
+                        {{ form[field]() }}
+                        {% if form[field].errors %}
+                            {% for e in form[field].errors %}
+                                <small id="{{ form[field]() }}-help" class="form-text text-muted">{{ e }}</small>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="form-group">
+                                <label class="text-danger {{ category }}">{{ message }}</label>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <button type="submit" class="btn btn-primary" style="margin: auto; display: block;">Sign in</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+<script>
+    window.onload = function () {
+        document.getElementById('email').className = 'form-control';
+        document.getElementById('password').className = 'form-control';
+    };
+</script>
+</html>

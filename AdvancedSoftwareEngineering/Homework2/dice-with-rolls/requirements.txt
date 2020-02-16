@@ -1,0 +1,9 @@
+flask
+flask-login
+Flask-SQLAlchemy
+celery
+redis
+flask-wtf
+flask-sqlalchemy
+pip-tools
+wtforms

@@ -1,0 +1,29 @@
+swagger: '2.0'
+info:
+  title: API Gateway - Dice
+  version: '1.0'
+host: localhost
+schemes:
+  - http
+  - https
+produces:
+  - application/json
+  - text/html
+consumes:
+  - application/json
+paths:
+  /stories/new/settings:
+    get:
+      operationId: getSettingsPage
+      description: Renders the page where it's possible to choose the set and number of dice
+      responses:
+        '200':
+          description: OK
+
+  /stories/new/roll:
+    post:
+      operationId: getRollPage
+      description: Renders the page where it's possible to reroll dice
+      responses:
+        '200':
+          description: OK

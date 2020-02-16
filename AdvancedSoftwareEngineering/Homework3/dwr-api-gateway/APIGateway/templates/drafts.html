@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Story Tellers - Drafts</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type="text/javascript">
+        function ellipsify(str) {
+            if (str.length > 10) {
+                return (str.substring(0, 10) + "...");
+            } else {
+                return str;
+            }
+        }
+    </script>
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container bg-light cont my-3 rounded" style="padding: 30px;">
+    {% if current_user.is_authenticated %}
+        <div class="row mb-3">
+            <div class="col-xs-12 col-sm-12 d-flex justify-content-center">
+                {% if drafts|length > 0 %}
+                <h3>Your drafts stories:</h3>
+                {% else %}
+                <h3>No drafts!</h3>
+                {% endif %}
+            </div>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for category, message in messages %}
+                        <li class="text-danger ">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <div class="row mb-3">
+            <div class="col-xl-12 col-sm-12 justify-content-center">
+                <ul class="list-group">
+                    {% for draft in drafts %}
+                        <li class="list-group-item" style="width: 80%; margin: 0 auto;">
+                            <table style="margin: 0 auto;">
+                                <tr>
+                                    <td style="width: 500px;">
+                                        <b>Preview:</b>
+                                        <script type="text/javascript">ellipsify("{{ draft.text }}")</script>
+                                    </td>
+                                    <td rowspan="2"><a class="btn btn-primary"
+                                                       href="{{ home_url }}stories/new/write/{{ draft.id|string }}">Edit story</a></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Rolled dice:</b> {{ draft.figures }}</td>
+                                </tr>
+                            </table>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        <div class="row mb-3">
+            <div class="col-xs-12 col-sm-12 justify-content-center" style="text-align: center;">
+                <h3>You can't read these stories!</h3>
+                <h4>You must sign in</h4>
+            </div>
+        </div>
+    {% endif %}
+</div>
+</body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</html>

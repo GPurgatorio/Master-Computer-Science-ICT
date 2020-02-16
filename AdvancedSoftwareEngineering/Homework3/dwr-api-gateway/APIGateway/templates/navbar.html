@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="{{ home_url }}">
+        Story Tellers
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+{% if current_user.is_authenticated %}
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ home_url }}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ home_url }}stories">Read Stories</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ home_url }}users">Show Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ home_url }}users/{{ current_user.id }}">My Wall</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ home_url }}stories/new/settings">New Story</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ home_url }}search">Search</a>
+        </li>
+    </ul>
+    <form class="form-inline" action="{{ home_url }}logout" method="POST">
+        <button class="btn btn-danger my-2 my-sm-0" type="submit">Logout</button>
+    </form>
+{% else %}
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ home_url }}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ home_url }}stories">Read Stories</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ home_url }}users">Show Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ home_url }}search">Search</a>
+        </li>
+    </ul>
+    <form class="form-inline">
+        <button class="btn btn-success mr-2" type="button" onclick="window.location='{{ home_url }}login'">Sign in</button>
+        <button class="btn btn-secondary mr-2" type="button" onclick="window.location='{{ home_url }}register'">Sign up</button>
+    </form>
+{% endif %}
+</div>
+</nav>

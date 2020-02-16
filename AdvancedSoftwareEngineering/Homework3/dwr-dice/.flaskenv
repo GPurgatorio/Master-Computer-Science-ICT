@@ -1,0 +1,2 @@
+FLASK_APP=dice_service
+FLASK_DEBUG=0

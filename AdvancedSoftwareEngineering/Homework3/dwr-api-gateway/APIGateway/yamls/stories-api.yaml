@@ -1,0 +1,142 @@
+swagger: '2.0'
+info:
+  title: API Gateway - Stories
+  version: '1.0'
+host: localhost
+schemes:
+  - http
+  - https
+produces:
+  - text/html
+consumes:
+  - application/json
+paths:
+  /stories:
+    get:
+      operationId: getAll
+      description: Get all the stories without any filter.
+      responses:
+        '200':
+          description: OK
+          
+  /stories/latest:
+    get:
+      operationId: getLatest
+      description: Get the most recent story for each registered user.
+      responses:
+        '200':
+          description: OK
+            
+  /stories/range:
+    get:
+      operationId: getRange
+      description: Get all the stories that have been published between a (optional) begin date and a (optional) end date.
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - in: query
+          name: begin
+          type: string
+        - in: query
+          name: end
+          type: string
+        
+  /stories/drafts:
+    get:
+      operationId: getDrafts
+      description: Operation to get all your drafts.
+      responses:
+        '200':
+          description: OK
+
+  /stories/{id_story}:
+    get:
+      operationId: getStory
+      description: Get a non-draft specific story.
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - in: path
+          name: id_story
+          required: true
+          type: integer
+
+  /stories/{id_story}/react/{reaction_caption}:
+    get:
+      operationId: reactStory
+      description: Opeartion to react a story
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - in: path
+          name: id_story
+          required: true
+          type: integer
+        - in: path
+          name: reaction_caption
+          required: true
+          type: string
+
+  /stories/{id_story}/delete:
+    post:
+      operationId: deleteStory
+      description: Opeartion to delete a story
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - in: path
+          name: id_story
+          required: true
+          type: integer
+          
+  /stories/new/write:
+    get:
+      operationId: getWritePage
+      description: Renders the page where it's possible to write a story
+      responses:
+        '200':
+          description: OK
+
+    post:
+      operationId: writeNew
+      description: Operation to write a new story.
+      responses:
+        '200':
+          description: OK
+      
+  /stories/new/write/{id_story}:
+    get:
+      operationId: getDraftPage
+      description: Renders the page where it's possible to complete a previously saved draft
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - in: path
+          name: id_story
+          required: true
+          type: integer
+    post:
+      operationId: completeDraft
+      summary: Complete a draft
+      description: Operation to complete a precedently saved draft.
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - in: path
+          name: id_story
+          required: true
+          type: integer
+          
+  /stories/random:
+    get:
+      operationId: getRandom
+      description: Get a random non-draft story from other authors.
+      responses:
+        '200':
+          description: OK

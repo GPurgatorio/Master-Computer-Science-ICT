@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>StoryTellers - Search</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container bg-light cont my-3 rounded" style="padding: 30px;">
+    <div class="row mb-3">
+        <div class="col-xs-12 col-sm-12 d-flex justify-content-center">
+            <h3>Search a user or a story</h3>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="row mb-3">
+                    <div class="col-xs-12 col-sm-12 d-flex justify-content-center">
+                        <span class="{{ category }} text-danger">{{ message }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="row pb-3">
+        <div class="col-xs-12 col-sm-12">
+            <form action="" method="POST">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="query" id="query" required>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <h3>Users:</h3>
+            <ul class="list-group" style="margin: 0 auto; max-width: 60%;">
+                {% for user in list_of_users %}
+                    <li class="list-group-item align-items-center">
+                        <b>{{ user.firstname }} {{ user.lastname }}</b>
+                        <a class="btn btn-secondary float-right" href="{{ home_url }}users/{{ user.id }}">SHOW WALL</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-xs-12 col-sm-12">
+            <h3>Stories:</h3>
+        </div>
+    </div>
+    {% set card_count = [] %}
+    {% for story in list_of_stories %}
+        {% if card_count|length % 2 == 0 %}
+            <div class="row pb-3">
+        {% endif %}
+    <div class="col-xs-12 col-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <p class="card-text">{{ story.text }}</p>
+            </div>
+            <p style="text-align: center;">({{ story.date }})</p>
+            <div class="card-footer">
+                <a class="btn btn-primary" href="{{ home_url }}stories/{{ story.id }}">OPEN</a>
+                <a class="btn btn-secondary" href="{{ home_url }}users/{{ story.author_id }}">SHOW AUTHOR</a>
+            </div>
+        </div>
+    </div>
+    {% if card_count|length % 2 == 1 %}
+        </div>
+    {% endif %}
+        {% if card_count.append(1) %}{% endif %}
+    {% endfor %}
+    {% if card_count|length % 2 == 1 %}
+        </div>
+    {% endif %}
+</div>
+</body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</html>

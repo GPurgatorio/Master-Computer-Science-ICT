@@ -1,0 +1,137 @@
+swagger: '2.0'
+info:
+  title: Dice Service
+  version: '1.0'
+host: localhost
+schemes:
+  - http
+  - https
+produces:
+  - application/json
+consumes:
+  - application/json
+paths:
+  /sets:
+    get:
+      operationId: getSets
+      summary: getSets
+      description: Returns the list of all the available DiceSets
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DiceSet'
+        '204':
+          description: No Content
+
+    post:
+      operationId: addSet
+      summary: addSet
+      description: Add a new set (with 6 dice)
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              dice:
+                type: array
+                items:
+                  $ref: '#/definitions/Die'
+      responses:
+        '201':
+          description: 'DiceSet successfully created'
+        '400':
+          description: 'Some information are missing'
+        '409':
+          description: 'Already existing DiceSet'
+
+  /sets/{id_set}:
+    get:
+      operationId: getSet
+      summary: getSet
+      description: Return a specific set of dice
+      parameters:
+        - in: path
+          type: integer
+          name: id_set
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/DiceSet'
+        '404':
+          description: "DiceSet not found"
+
+    delete:
+      operationId: deleteSet
+      summary: deleteSet
+      description: Delete a specific set
+      parameters:
+        - in: path
+          type: integer
+          name: id_set
+          required: true
+      responses:
+        '200':
+          description: "DiceSet successfully deleted"
+        '404':
+          description: "DiceSet not found"
+
+  /sets/{id_set}/roll:
+    post:
+      operationId: rollSet
+      summary: rollSet
+      description: Return a list of random-chosen figures from dice into the set
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                number:
+                  type: integer
+                figure:
+                  type: string
+        '404':
+          description: DiceSet not found or dice_number not present
+        '400':
+          description: Incorrect number of dice
+      parameters:
+        - in: body
+          name: dice_number
+          schema:
+            type: integer
+        - in: path
+          type: integer
+          name: id_set
+          required: true
+
+definitions:
+  DiceSet:
+    title: DiceSet
+    type: object
+    properties:
+      name:
+        type: string
+      dice:
+        type: array
+        items:
+          $ref: '#/definitions/Die'
+  Die:
+    title: Die
+    type: object
+    properties:
+      number:
+        type: integer
+      figures:
+        type: array
+        items:
+          type: string

@@ -1,0 +1,32 @@
+<html>
+  <body>
+    {% if not exists %}
+    <div style="margin: 0 auto; width: 80%; text-align: center; vertical-align: middle;">
+      <h1>Sorry the story you've searched doesn't exist!</h1>
+      <a href="/stories">Come back</a>
+    </div>
+    {% else %}
+    <div style="margin: 0 auto; width: 80%; text-align: center; vertical-align: middle;">
+      <h1>Story #{{story.id}}</h1>
+        <p>
+          <b>Author:</b> {{story.author}} - <b>Date:</b> {{story.date}} - <b>{{story.likes}} Likes</b>
+        </p>
+        <p>
+          
+        </p>
+    </div>
+    <div style="margin: 0 auto; width: 80%; text-align: center; vertical-align: middle;">
+        <h3>Rolled dices:</h3>
+        <p>
+        {% for die in dice %}
+          <span>{{ die }}</span>
+        {% endfor %}
+        </p>
+    </div>
+    <div style="margin: 0 auto; width: 60%; text-align: center; vertical-align: middle;">
+      <h3>Text of the story:</h3>
+      <p>{{ story.text }}</p>
+    </div>
+    {% endif %}
+  </body>
+</html>

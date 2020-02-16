@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title>Roll the dice</title>
+</head>
+<body>
+    <h2>Rolled words</h2>
+    <ul>
+      {% for word in words %}
+          <li>{{ word }}</li>
+      {% endfor %}
+    </ul>
+    <form action="" method="GET">
+        <input type="submit" value="Re-roll dice">
+    </form>
+    <form action="{{ write_url }}" method="POST">
+        <input type="submit" value="Write story">
+    </form>
+</body>
+</html>

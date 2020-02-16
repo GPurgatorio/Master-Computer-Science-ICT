@@ -1,0 +1,297 @@
+swagger: '2.0'
+info:
+  title: Stories Service
+  description: Avalaible operation for stories
+  version: '0.1'
+host: 127.0.0.1
+schemes:
+  - http
+  - https
+paths:
+  /stories:
+    get:
+      summary: Returns a list of all the stories
+      operationId: getStories
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Array of stories as described in definitions
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/story'
+    post:
+      summary: Submit a story or a draft
+      operationId: writeStory
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: story_submit
+          schema:
+            $ref: '#/definitions/story_submit'
+      responses:
+        '400':
+          description: Errors in requestbody
+        '422':
+          description: Story doesn't contain all the words or it is too long
+        '201':
+          description: Draft created / Draft updated / Draft has been published / Story has been published
+
+  /stories/{id_story}:
+    get:
+      summary: Return the story specified by id_story
+      operationId: getStory
+      parameters:
+        - in: path
+          name: id_story
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        '404':
+          description: Specified story not found
+        '200':
+          description: Object story as in definitions
+          schema:
+            $ref: '#/definitions/story'
+    put:
+      summary: Update a draft
+      operationId: updateDraft
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id_story
+          required: true
+          type: integer
+        - in: body
+          name: story_submit
+          schema:
+            $ref: '#/definitions/story_update'
+      responses:
+        '500':
+          description: Error calling ReactionService
+        '400':
+          description: Errors in request body
+        '403':
+          description: Cannot update an already published story or other author's story
+        '422':
+          description: Story doesn't contain all the words or it is too long
+        '200':
+          description: Draft updated or story published
+
+    delete:
+      summary: Delete the story specified by story id
+      operationId: deleteStory
+      parameters:
+        - in: path
+          name: id_story
+          description: Id of story you want delete
+          required: true
+          type: integer
+        - in: body
+          name: user_id
+          description: Current user id
+          schema:
+            type: integer
+      responses:
+        '400':
+          description: Request is invalid, check if you are the author of the story and the id is a valid one
+        '200':
+          description: Story has been deleted
+  /stories/users/{id_user}:
+    get:
+      summary: Return the story of specified user
+      operationId: getStoriesUser
+      parameters:
+        - in: path
+          name: id_user
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        '404':
+          description: Stories of specified story not found
+        '200':
+          description: Array of stories as described in definitions
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/story'
+  /stories/latest:
+    get:
+      summary: Gets the last NON-draft story for each registered user
+      operationId: getLatestStories
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Array of story as described in definitions
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/story'
+
+  /stories/range:
+    get:
+      summary: Searches for stories that were made in a specific range of time
+      operationId: getRangeStories
+      parameters:
+        - in: query
+          name: begin
+          description: Range begin in 'yyyy-mm-dd' format
+          type: string
+        - in: query
+          name: end
+          description: Range end in 'yyyy-mm-dd' format
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Wrong URL parameters/Begin date cannot be higher than End date
+        '200':
+          description: Array of story as described in definitions
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/story'
+
+  /stories/random:
+    get:
+      summary: Get a random story written by other users in the last three days
+      operationId: getRandomStory
+      parameters:
+        - in: query
+          name: user_id
+          description: Current user id
+          type: integer
+      produces:
+        - application/json
+      responses:
+        '404':
+          description: There are no recent stories by other users
+        '200':
+          description: Object story descibed in definitions
+          schema:
+            $ref: '#/definitions/story'
+
+  /stories/drafts:
+    get:
+      summary: Returns a list of all the drafts
+      operationId: getDrafts
+      parameters:
+        - in: query
+          name: user_id
+          description: Current user id
+          type: integer
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid parameters
+        '404':
+          description: There are no recent drafts by this user
+        '200':
+          description: Array of drafts
+          schema:
+            $ref: '#/definitions/story_submit'
+  /stories/stats/{user_id}:
+    get:
+      summary: Get the statistics for a specific user
+      operationId: getStoriesStatistics
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: user_id
+          description: The user id
+          required: true
+          type: integer
+      responses:
+        '400':
+          description: Errors in requestbody
+        '200':
+          description: Statistics of stories for a given user
+
+  /search:
+    get:
+      summary: Return the list of all matching stories
+      operationId: search
+      parameters:
+        - in: query
+          name: query
+          required: True
+          description: The name of figures to search
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: A JSON array of JSON objects containing stories list
+          schema: 
+            type: array
+            items: 
+              $ref: '#/definitions/story'
+        '204':
+          description: An empty JSON array
+          schema: 
+            type: array
+            items: 
+              $ref: '#/definitions/story'
+        '400':
+          description: Error with query parameter
+definitions:
+  story:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Story id
+      text:
+        type: string
+        description: Story text
+      date:
+        type: string
+        description: DateTime of submission
+      figures:
+        type: string
+        description: Mandatory words in the story
+      author_id:
+        type: integer
+        description: Author's id
+      is_draft:
+        type: boolean
+        description: True if it is a draft, false if it has been published
+  story_submit:
+    type: object
+    properties:
+      as_draft:
+        type: boolean
+        description: True to save a draft, false otherwise
+      figures:
+        type: string
+        description: Mandatory words in the story #f1#f2#f3#f4#
+      text:
+        type: string
+        description: Story text to submit
+      user_id:
+        type: integer
+        description: the author of the story
+  story_update:
+    type: object
+    properties:
+      as_draft:
+        type: boolean
+        description: True to save a draft, false otherwise
+      text:
+        type: string
+        description: Story text to submit
+      user_id:
+        type: integer
+        description: the author of the story
+        

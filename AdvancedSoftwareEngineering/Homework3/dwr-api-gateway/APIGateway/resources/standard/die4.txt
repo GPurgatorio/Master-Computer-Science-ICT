@@ -1,0 +1,6 @@
+ladder
+car
+fir
+bang
+hat
+hamburger

@@ -1,0 +1,6 @@
+eagle
+parrot
+rooster
+dragon
+sheep
+snake

@@ -1,0 +1,73 @@
+# all the images are on the DockerHub.
+# The dockerfiles in this diretory explain how these images
+# have been generated
+
+version: '2'
+services:
+  gateway:
+    image: dicetellers/apigateway
+    ports:
+      - "5000:5000"
+    networks:
+      dice_network:
+        ipv4_address: 172.18.0.2
+
+  users:
+    image: dicetellers/users
+    ports:
+      - "5001:5001"
+    networks:
+      dice_network:
+        ipv4_address: 172.18.0.3
+
+
+  dice:
+    image: dicetellers/dice
+    ports:
+      - "5002:5002"
+    networks:
+      dice_network:
+        ipv4_address: 172.18.0.4
+
+  stories:
+    image: dicetellers/stories
+    ports:
+      - "5003:5003"
+    networks:
+      dice_network:
+        ipv4_address: 172.18.0.5
+
+  reactions:
+    image: dicetellers/reactions
+    ports:
+      - "5004:5004"
+    stdin_open: true
+    tty: true
+    networks:
+        dice_network:
+          ipv4_address: 172.18.0.6
+
+  redis-gateway:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    networks:
+      dice_network:
+        ipv4_address: 172.18.0.7
+
+  redis-reactions:
+    image: "redis:alpine"
+    ports:
+      - "6397:6379"
+    networks:
+      dice_network:
+        ipv4_address: 172.18.0.8
+
+
+networks:
+  dice_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+

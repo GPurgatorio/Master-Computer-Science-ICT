@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>StoryTellers - Users</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+        {% include 'navbar.html' %}
+<div class="container my-3">
+    <div class="row d-flex justify-content-center">
+        <div class="col-xs-12 col-sm-8 bg-light cont rounded pb-3" style="padding: 30px;">
+            <h3 class="text-center">User List</h3><br/>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flashes" style="text-align: center;">
+                        {% for category, message in messages %}
+                            <span class="text-danger {{ category }}">{{ message }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <ul class="list-group">
+                {% for user in users %}
+                    <li class="list-group-item align-items-center">
+                        <b>{{ user.firstname }} {{ user.lastname }}</b>
+                        <a class="btn btn-secondary float-right" href="{{ home_url }}users/{{ user.id }}">SHOW WALL</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</html>

@@ -1,0 +1,6 @@
+frankenstein
+ghost
+mummy
+vampire
+werewolf
+zombie

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Write a Story</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container my-3">
+    <div class="row d-flex justify-content-center">
+        <div class="col-xs-12 col-sm-8 bg-light cont rounded pb-3" style="padding: 30px">
+            <h3 class="text-center">Write your story!</h3><br/>
+            <h5>The words are: {{ words }}</h5>
+            {% if id_draft is not none %}
+            <form id="write_story_form" action="{{ home_url }}stories/new/write/{{ id_draft }}" method="POST">
+            {% else %}
+            <form id="write_story_form" action="{{ home_url }}stories/new/write" method="POST">
+            {% endif %}
+                {{ form.hidden_tag() }}
+                {% for field in form.display %}
+                    <div class="form-group">
+                        {{ form[field]() }}
+                        {% if form[field].errors %}
+                            {% for e in form[field].errors %}
+                                <small id="help-block" class="form-text text-muted">{{ e }}</small>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <div class="form-group">
+                    <label class="text-danger">{{ message }}</label>
+                </div>
+                <div class="btn-group justify-content-center" role="group">
+                    <button style="margin: auto; display: block;" type="button" class="btn btn-success"
+                            onclick="submitForm('submit')">Publish
+                    </button>
+                    <button style="margin: auto; display: block;" type="button" class="btn btn-primary"
+                            onclick="submitForm('draft')">Save as draft
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+<script>
+    window.onload = function () {
+        document.getElementById('text').className = 'form-control';
+    };
+
+    function submitForm(action) {
+        if (action == "submit") {
+            document.getElementById('as_draft').value = 0
+        } else {
+            document.getElementById('as_draft').value = 1
+        }
+        document.getElementById('write_story_form').submit();
+    }
+</script>
+</html>

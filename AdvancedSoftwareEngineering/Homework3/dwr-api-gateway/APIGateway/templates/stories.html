@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Story Tellers</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container bg-light cont my-3 rounded" style="padding: 30px;">
+    <div class="row mb-3">
+        <div class="col-xs-12 col-sm-12 d-flex justify-content-center">
+            <h3>Story List</h3>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="row mb-3">
+                    <div class="col-xs-12 col-sm-12 d-flex justify-content-center">
+                        <span class="{{ category }} text-danger">{{ message }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="row mb-3">
+        <div class="col-xs-12 col-sm-2 d-flex justify-content-center">
+            <button type="button" class="btn btn-outline-success" onclick="window.location='{{ home_url }}stories/latest'">Latest
+                Story
+            </button>
+        </div>
+        <div class="col-xs-12 col-sm-8 d-flex justify-content-center">
+            <form action="{{ home_url }}stories/range" method="GET">
+                <div class="form-row">
+                    <div class="col">
+                        <input type="date" class="form-control" name="begin" id="begin">
+                    </div>
+                    <div class="col">
+                        <input type="date" class="form-control" name="end" id="end">
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-outline-info"
+                                onclick="$(this).parents('form:first').submit()">Search Period
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-xs-12 col-sm-2 d-flex justify-content-center">
+            <a class="btn btn-outline-secondary" href="{{ home_url }}stories/random">Random Story</a>
+        </div>
+    </div>
+    {% set card_count = [] %}
+    {% for story in stories %}
+        {% if card_count|length % 2 == 0 %}
+            <div class="row pb-3">
+        {% endif %}
+    <div class="col-xs-12 col-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <p class="card-text">{{ story.text }}</p>
+            </div>
+            <p style="text-align: center;">({{ story.date }})</p>
+            <div class="card-footer">
+                <a class="btn btn-primary" style="margin-right: 20px;" href="{{ home_url }}stories/{{ story.id }}">OPEN STORY</a>
+                <a class="btn btn-secondary" href="{{ home_url }}users/{{ story.author_id }}">SHOW AUTHOR</a>
+            </div>
+        </div>
+    </div>
+    {% if card_count|length % 2 == 1 %}
+        </div>
+    {% endif %}
+        {% if card_count.append(1) %}{% endif %}
+    {% endfor %}
+    {% if card_count|length % 2 == 1 %}
+        </div>
+    {% endif %}
+</div>
+</body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</html>

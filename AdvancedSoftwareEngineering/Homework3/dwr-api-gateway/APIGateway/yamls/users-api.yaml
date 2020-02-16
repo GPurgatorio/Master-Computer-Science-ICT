@@ -1,0 +1,85 @@
+swagger: '2.0'
+info:
+  title: API Gateway - Users
+  version: '1.0'
+host: localhost
+schemes:
+  - http
+  - https
+produces:
+  - text/html
+consumes:
+  - application/json
+paths:
+  /users:
+    get:
+      operationId: getAll
+      description: Get all the users without any filter.
+      responses:
+        '200':
+          description: OK
+            
+  /users/{id_user}:
+    get:
+      operationId: getUser
+      description: Get a specific user.
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - in: path
+          name: id_user
+          required: true
+          type: integer
+          
+  /users/{id_user}/follow:
+    post:
+      operationId: followUser
+      description: Follow a specific user
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - in: path
+          name: id_user
+          required: true
+          type: integer
+  
+  /users/{id_user}/unfollow:
+    post:
+      operationId: unfollowUser
+      description: Unfollow a specific user
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - in: path
+          name: id_user
+          required: true
+          type: integer
+    
+  /users/{id_user}/followers:
+    get:
+      operationId: getFollowers
+      description: Get the list of followers of a specific user
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - in: path
+          name: id_user
+          required: true
+          type: integer
+      
+  /users/{id_user}/stories:
+    get:
+      operationId: getStoriesOfUser
+      description: Get the stories of a user
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - in: path
+          name: id_user
+          required: true
+          type: integer

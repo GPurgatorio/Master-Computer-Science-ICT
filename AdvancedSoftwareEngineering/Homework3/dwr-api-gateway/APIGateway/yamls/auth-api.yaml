@@ -1,0 +1,82 @@
+swagger: '2.0'
+info:
+  title: API Gateway - Home
+  version: '1.0'
+host: localhost
+schemes:
+  - http
+  - https
+produces:
+  - text/html
+consumes:
+  - application/json
+paths:
+  /:
+    get:
+      operationId: home
+      responses:
+        '200':
+          description: OK
+
+  /register:
+    get:
+      operationId: getRegisterPage
+      description: Renders the page where it's possible to register a new user
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: register
+      description: Operation to register a new user
+      responses:
+        '200':
+          description: OK
+
+  /login:
+    get:
+      operationId: getLoginPage
+      description: Renders the page where it's possible to login an already registered user
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: login
+      description: Operation to login a registered user
+      responses:
+        '200':
+          description: OK
+
+  /logout:
+    post:
+      operationId: logout
+      description: Operation to logout a logged in user
+      responses:
+        '200':
+          description: OK
+
+  /search:
+    get:
+      description: Return the search page
+      operationId: getSearchPage
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: search
+      summary: Search functionality
+      description: Return the list of all matching users and/or stories
+      parameters:
+        - in: query
+          name: query
+          required: True
+          description: The string to search
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: A JSON array of JSON objects containing users list
+        '204':
+          description: An empty JSON array
+        '400':
+          description: Error with query parameter

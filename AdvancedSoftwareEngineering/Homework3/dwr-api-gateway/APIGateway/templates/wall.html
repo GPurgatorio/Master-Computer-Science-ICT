@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Story Tellers</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+{% include 'navbar.html' %}
+{% if not_found %}
+    <div style="margin: 0 auto; text-align: center; margin-top: 50px;">
+        <h1>:(</h1>
+        <h2>Sorry the user doesn't exist!</h2>
+    </div>
+{% else %}
+    {% if current_user.is_authenticated %}
+        {% if my_wall %}
+            <div class="container bg-light cont my-3 rounded" style="padding: 30px;">
+                <div class="row mb-3">
+                    <div class="col-xs-12 col-sm-12 d-flex justify-content-center">
+                        <h3>{{ user_info.firstname }} {{ user_info.lastname }}'s wall</h3>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-xl-12 col-sm-12 justify-content-center" style="text-align: center;">
+                        <b>Date of birth:</b> {{ user_info.dateofbirth }}<br/>
+                        <b>Email:</b> {{ user_info.email }}
+                    </div>
+                    <div class="col-xl-12 col-sm-12 justify-content-center"
+                         style="text-align: center; margin-top: 20px;">
+                        <b>Statistics:</b>
+                        <table style="margin: 0 auto; text-align: center;">
+                            <tr>
+                                <td>{{ stats["stories_stats"]["num_stories"] }}</td>
+                                <td rowspan="2">&nbsp;</td>
+                                <td>{{ stats['reactions_stats']['tot_num_reactions'] }}</td>
+                                <td rowspan="2">&nbsp;</td>
+                                <td>{{ stats['stories_stats']['tot_num_dice'] }}</td>
+                                <td rowspan="2">&nbsp;</td>
+                                <td>{{ stats['follower_stats']['num_followers'] }}</td>
+                                <td rowspan="2">&nbsp;</td>
+                                <td>{{ stats['follower_stats']['followers_last_month'] }}</td>
+                                <td rowspan="2">&nbsp;</td>
+                                <td>{{ stats['reactions_stats']['avg_reactions'] }}</td>
+                                <td rowspan="2">&nbsp;</td>
+                                <td>{{ stats['stories_stats']['avg_dice'] }}</td>
+                            </tr>
+                            <tr>
+                                <td><b># Stories</b></td>
+                                <td><b># Reactions</b></td>
+                                <td><b># Total Dice</b></td>
+                                <td><b># Followers</b></td>
+                                <td><b>Followers of last month</b></td>
+                                <td><b>Avg reactions per story</b></td>
+                                <td><b>Avg dice per story</b></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row mb-3" style="margin: 0 auto; text-align: center;">
+                        <div class="col-xl-12 col-sm-12 justify-content-center" style="margin-top: 25px;">
+                            <a class="btn btn-primary" href="{{ home_url }}users/{{ user_info.id }}/stories"><span class="book-open">My stories</span></a>
+                            <a class="btn btn-secondary" href="{{ home_url }}stories/drafts"><span class="firstdraft">My drafts</span></a>
+                            <br/><br/>
+                            <form action="{{ home_url }}users/{{ user_info.id }}/followers" method="get">
+                                <input type="submit" class="btn btn-primary"
+                                       value="Show {{ user_info.firstname }}'s followers"/>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="container bg-light cont my-3 rounded" style="padding: 30px;">
+                <div class="row mb-3">
+                    <div class="col-xl-12 d-flex justify-content-center">
+                        <h3>{{ user_info.firstname }} {{ user_info.lastname }}'s wall</h3>
+                    </div>
+                </div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flashes">
+                            {% for category, message in messages %}
+                                <div class="row mb-3">
+                                    <div class="col-xl-12 d-flex justify-content-center">
+                                        <h5 class="text-danger {{ category }}">{{ message }}</h5>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                <div class="row mb-3">
+                    <div class="col-xl-12 col-sm-12 d-flex justify-content-center" style="text-align: center;">
+                        <form action="{{ home_url }}users/{{ user_info.id }}/follow" method="POST">
+                            <input type="submit" class="btn btn-primary mr-3" value="Follow">
+                        </form>
+                        <form action="{{ home_url }}users/{{ user_info.id }}/unfollow" method="POST">
+                            <input type="submit" class="btn btn-secondary" value="Unfollow">
+                        </form>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-xl-12 col-sm-12 justify-content-center" style="text-align: center;">
+                        <br/><br/>
+                        <b>Date of birth:</b> {{ user_info.dateofbirth }}<br/>
+                        <b>Email:</b> {{ user_info.email }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-xl-12 col-sm-12 justify-content-center"
+                         style="text-align: center; margin-top: 20px;">
+                        <b>Statistics:</b>
+                        <table style="margin: 0 auto; text-align: center;">
+                            <tr>
+                                <td>{{ stats.stories_stats.num_stories }}</td>
+                                <td rowspan="2">&nbsp;</td>
+                                <td>{{ stats.follower_stats.num_followers }}</td>
+                            </tr>
+                            <tr>
+                                <td><b># Stories</b></td>
+                                <td><b># Followers</b></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row mb-3" style="margin: 0 auto; text-align: center;">
+                    <div class="col-xl-12 col-sm-12 d-flex justify-content-center" style="margin-top: 25px;">
+                        <form action="{{ home_url }}users/{{ user_info.id }}/stories" method="get">
+                            <input type="submit" class="btn btn-primary mr-3"
+                                   value="Show {{ user_info.firstname }}'s stories"/>
+                        </form>
+                        <form action="{{ home_url }}users/{{ user_info.id }}/followers" method="get">
+                            <input type="submit" class="btn btn-primary"
+                                   value="Show {{ user_info.firstname }}'s followers"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="container bg-light cont my-3 rounded" style="padding: 30px;">
+            <div class="row mb-3">
+                <div class="col-xs-12 col-sm-12 d-flex justify-content-center">
+                    <h3>{{ user_info.firstname }} {{ user_info.lastname }}'s wall</h3>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-xl-12 col-sm-12 justify-content-center" style="text-align: center;">
+                    <b>Date of birth:</b> {{ user_info.dateofbirth }}<br/>
+                    <b>Email:</b> {{ user_info.email }}
+                </div>
+                <div class="col-xl-12 col-sm-12 justify-content-center" style="text-align: center; margin-top: 20px;">
+                    <b>Statistics:</b>
+                    <table style="margin: 0 auto; text-align: center;">
+                        <tr>
+                            <td>{{ stats.stories_stats.num_stories }}</td>
+                            <td rowspan="2">&nbsp;</td>
+                            <td>{{ stats.follower_stats.num_followers }}</td>
+                        </tr>
+                        <tr>
+                            <td><b># Stories</b></td>
+                            <td><b># Followers</b></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row mb-3" style="margin: 0 auto; text-align: center;">
+                    <div class="col-xl-12 col-sm-12 justify-content-center" style="margin-top: 25px;">
+                        <form action="{{ home_url }}users/{{ user_info.id }}/stories" method="get">
+                            <input type="submit" class="btn btn-primary"
+                                   value="Show {{ user_info.firstname }}'s stories"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+</body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Setting for new story</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container my-3">
+    <div class="row d-flex justify-content-center">
+        <div class="col-xs-12 col-sm-6 bg-light cont rounded pb-3" style="padding: 30px;">
+            <h3 class="text-center">Settings for new story</h3>
+            <form action="{{ home_url }}stories/new/roll" method="POST">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="dice_img_set">Dice set: </label>
+                    </div>
+                    <select class="custom-select" name="dice_img_set" id="dice_img_set">
+                        <!--<option value="standard">Standard</option>
+                        <option value="animal">Animal</option>
+                        <option value="halloween">Halloween</option>-->
+                        {% for set in sets %}
+                            <option value="{{ set.id }}_{{ set.name|lower }}" >{{ set.name|title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="dice_number">Number of dice: </label>
+                    </div>
+                    <select class="custom-select" name="dice_number" id="dice_number">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="input-group mb-3">
+                                <label class="text-danger {{ category }}">{{ message }}</label>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <div class="input-group justify-content-center">
+                    <button type="button" class="btn btn-outline-success"
+                            onclick="$(this).parents('form:first').submit()">Go rolling dice!
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous">
+</script>
+
+</html>

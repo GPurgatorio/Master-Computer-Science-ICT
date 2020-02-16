@@ -1,0 +1,8 @@
+crypto.algos.Caesar 4
+crypto.algos.CaesarW 13
+crypto.algos.CaesarN 8
+crypto.algos.CaesarWN 22
+crypto.algos.Permutation 2,3,0,4,1,5
+crypto.algos.PermutationW 3,2,1,4,0
+crypto.algos.PermutationN 2,3,0,4,1
+crypto.algos.PermutationWN 0,3,2,1

@@ -1,0 +1,6 @@
+blood
+bones
+cauldron
+potion
+cobweb
+candies
