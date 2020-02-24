@@ -19,7 +19,7 @@ package core;
 import gui.GUIDrones;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.beans.VetoableChangeListener;
 import javax.swing.JLabel;
 
 /**
@@ -27,12 +27,14 @@ import javax.swing.JLabel;
  *
  * @author Giulio Purgatorio <giulio.purgatorio93 at gmail.com>
  */
-public class ExtendedJLabel extends JLabel implements PropertyChangeListener {
+public class ExtendedJLabel extends JLabel implements VetoableChangeListener {
     
     // The random color of the text
     private final Color textColor;
     // Whether the drone is flying or not
     private boolean droneFlying;
+    // Whether the drone's takeOff() method succeded or not yet
+    private boolean set = false;
     
     public ExtendedJLabel() {
         super();
@@ -45,7 +47,8 @@ public class ExtendedJLabel extends JLabel implements PropertyChangeListener {
     }
     
     /**
-     * Gets the color of the text
+     * Gets the color of the text.
+     * 
      * @return the randomly generated color for this label
      */
     private Color getColor() {
@@ -66,7 +69,8 @@ public class ExtendedJLabel extends JLabel implements PropertyChangeListener {
     }
     
     /**
-     * Sets the text accordingly to the given location
+     * Sets the text accordingly to the given location.
+     * 
      * @param loc the location to be displayed
      */
     public void setText(Location loc) {
@@ -80,7 +84,7 @@ public class ExtendedJLabel extends JLabel implements PropertyChangeListener {
      * @param pce the PropertyChangeEvent that fired
      */
     @Override
-    public void propertyChange(PropertyChangeEvent pce) {
+    public void vetoableChange(PropertyChangeEvent pce) {
         switch (pce.getPropertyName()) {
             // The referred drone has moved to a new location
             case "loc":
@@ -93,6 +97,9 @@ public class ExtendedJLabel extends JLabel implements PropertyChangeListener {
                 setText(getStringText(x, y));
                 // .. and sets the label on the new position
                 setLocation(x,y);
+                
+                // The takeOff method succeeded, so we won't consider the future vetoables
+                set = true;
                 
                 // Refreshes the JPanel in order to show the update
                 GUIDrones.updateGUI();
@@ -111,6 +118,15 @@ public class ExtendedJLabel extends JLabel implements PropertyChangeListener {
                 GUIDrones.updateGUI();
                 break;
             
+            case "esc":
+                // If the takeOff hasn't yet succeeded, we move the Label according to the drone
+                if(!set) {
+                    set = true;
+                    Location defaultLoc = (Location) pce.getNewValue();
+                    setLocation((int) defaultLoc.getX(), (int) defaultLoc.getY());
+                }
+                break;
+                
             default:
                 System.out.println(pce.getPropertyName() + " fired");
                 break;

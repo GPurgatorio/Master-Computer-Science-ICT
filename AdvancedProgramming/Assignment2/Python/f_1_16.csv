@@ -1,9 +1,0 @@
-run num,is warmup,timing
-1,True,N/D
-2,True,N/D
-3,True,N/D
-4,True,N/D
-5,True,N/D
-1,False,271.18
-2,False,271.62
-3,False,271.16

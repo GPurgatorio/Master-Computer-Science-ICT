@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2019 Giulio Purgatorio <giulio.purgatorio93 at gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package Exercise4;
 
@@ -22,6 +33,8 @@ import java.util.TreeMap;
 import java.util.stream.Stream;
 
 /**
+ * Exercise 4 of the Java's Streams. 
+ * A counting words example using the MapReduce framework.
  *
  * @author Giulio Purgatorio <giulio.purgatorio93 at gmail.com>
  */
@@ -32,7 +45,7 @@ public class CountingWords extends MyMapReduce<String, List<String>, String, Int
         
         /* "The program should ask the user for the absolute path of the directory 
         where documents are stored. Only files ending in .txt should be considered." */
-        System.out.println("Write the absolute path of the directory where documents are stored");
+        System.out.println("Write the absolute path of the directory where documents are stored.");
         Scanner s = new Scanner(System.in);
         String input = s.nextLine();
         
@@ -68,7 +81,7 @@ public class CountingWords extends MyMapReduce<String, List<String>, String, Int
                 
                 Arrays.stream(ws)
                         .filter(w -> w.length() > 3)
-                        .map(w -> w.toLowerCase().replaceAll("[^a-z0-9]", ""))
+                        .map(w -> w.toLowerCase().replaceAll("[^a-z0-9]", ""))  
                         .forEach(w -> tree.put(w, tree.getOrDefault(w, 0)+1));
                 }
             );
@@ -89,6 +102,11 @@ public class CountingWords extends MyMapReduce<String, List<String>, String, Int
         return s1.compareTo(s2);
     }
 
+    /*  "The reduce function takes as input a stream of pairs (w, lst) 
+        where w is a string and lst is a list of integers. It returns 
+        a corresponding stream of pairs (w, sum) where sum is the sum 
+        of the integers in lst."
+    */
     @Override
     protected Stream<Pair<String, Integer>> reduce(Stream<Pair<String, List<Integer>>> s) {
         
@@ -103,11 +121,16 @@ public class CountingWords extends MyMapReduce<String, List<String>, String, Int
         return tree.entrySet().stream().map(res -> new Pair(res.getKey(), res.getValue()));
     }
 
+    /*  "The write function takes as input the output of reduce and writes 
+        the stream in a CSV (Comma Separated Value) file, one pair per line,
+        in alphanumeric ordering. For the write function you can exploit the
+        enclosed class Writer.java in the way you prefer."
+    */
     @Override
     protected void write(Stream<Pair<String, Integer>> s) {
         File dst = new File("output.csv");
         try {
             Writer.write(dst, s);
-        } catch (FileNotFoundException e) { System.err.println("Error during the write() method: " + e.getMessage()); return; }
+        } catch (FileNotFoundException e) { System.err.println("Error during the write() method: " + e.getMessage());}
     }
 }
