@@ -6,4 +6,5 @@ The main idea is that it may be helpful to others, in order to know what is pres
 Every repository will have its ReadMe file, so take in mind to read that before jumping straight to the codes or stuff.
 
 Hoping that this will help you in some ways, I'll leave you with my favorite CS quote.
-"Computer Science is no more about computers than astronomy is about telescopes."
+
+*"Computer Science is no more about computers than astronomy is about telescopes."*

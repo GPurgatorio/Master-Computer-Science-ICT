@@ -1,6 +1,8 @@
 # Advanced Programming
 
-This course focuses heavily on understanding what happens under the hood of programming languages.
+This course focuses heavily on understanding what happens under the hood of programming languages. 
+[Site](http://pages.di.unipi.it/corradini/Didattica/AP-19/)
+
 Once this is done, 3 main langs are chosen: Java, Haskell, and Python.
 
 In the folders, it's possible to see the various assignments, which were divided into two parts:
