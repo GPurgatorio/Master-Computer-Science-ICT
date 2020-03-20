@@ -1,0 +1,31 @@
+// Test 10
+// The array has indexes of booleans, so only 2 spots: true and false.
+// We declare the "true" index as false, and assign the h1-th value true: 
+// this will either override the previously written "false" or write on the other index.
+// Then we simply assign the two low values (array has been declared as low) and leak is successful.
+
+declare array a : low;
+
+a[true] = false;
+a[h1] = true;
+l1 = a[true];
+
+a[true] = false;
+a[h2] = true;
+l2 = a[true];
+
+a[true] = false;
+a[h3] = true;
+l3 = a[true];
+
+a[true] = false;
+a[h4] = true;
+l4 = a[true];
+
+a[true] = false;
+a[h5] = true;
+l5 = a[true];
+
+a[true] = false;
+a[h6] = true;
+l6 = a[true];

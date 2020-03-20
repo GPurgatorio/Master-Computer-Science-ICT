@@ -1,0 +1,24 @@
+// Test 9
+// We abuse the simple model of dynamic allocation (by value) by:
+// 1) updating the contents of a reference (ref)
+// 2) dereferencing the reference variable (deref)
+
+declare ref h : low;
+
+ref h = h1;
+l1 = deref(h);
+
+ref h = h2;
+l2 = deref(h);
+
+ref h = h3;
+l3 = deref(h);
+
+ref h = h4;
+l4 = deref(h);
+
+ref h = h5;
+l5 = deref(h);
+
+ref h = h6;
+l6 = deref(h);

@@ -1,0 +1,11 @@
+declare proc p(in x : low, out y : low) {
+  y = x;
+} 
+{ skip; }
+
+if(h1) p(true, l1); else p(false, l1);
+if(h2) p(true, l2); else p(false, l2);
+if(h3) p(true, l3); else p(false, l3);
+if(h4) p(true, l4); else p(false, l4);
+if(h5) p(true, l5); else p(false, l5);
+if(h6) p(true, l6); else p(false, l6);

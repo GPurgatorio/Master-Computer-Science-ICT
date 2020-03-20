@@ -1,0 +1,31 @@
+// Test 2
+
+if (h1) 
+  l1 = true;
+else
+  l1 = false;
+    
+if (h2) 
+  l2 = true;
+else
+  l2 = false;
+
+if (h3) 
+  l3 = true;
+else
+  l3 = false;
+
+if (h4) 
+  l4 = true;
+else
+  l4 = false;
+
+if (h5) 
+  l5 = true;
+else
+  l5 = false;
+
+if (h6) 
+  l6 = true;
+else
+  l6 = false;
