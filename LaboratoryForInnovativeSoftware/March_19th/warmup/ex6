@@ -1,0 +1,16 @@
+var h = lbl(true); var x;
+(function () {
+	if (h) {
+		return true;
+	}
+	x = 1;
+	return false;
+})();
+
+//write context <T> not below return context <>
+
+//monitor stack trace:
+//ex6:4:2
+//    return true;
+
+//at <monitor> (ex6:2:1)

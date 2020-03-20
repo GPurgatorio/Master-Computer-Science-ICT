@@ -1,0 +1,28 @@
+// Test 5
+// Since we're allowed to declassify ONLY h1, we simply assign it to other variables and check it
+
+// First way of doing it
+test = declassify(h1);
+if(test)
+	l1 = true;
+else
+  l1 = false;
+
+// Second way of doing it
+h1 = h2;
+test = declassify(h1);
+l2 = false;
+if(test)
+	l2 = true;
+else
+  skip;
+
+// Third way of doing it
+h1 = h3;
+l3 = declassify(h1);
+h1 = h4;
+l4 = declassify(h1);
+h1 = h5;
+l5 = declassify(h1);
+h1 = h6;
+l6 = declassify(h1);
