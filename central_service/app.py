@@ -32,23 +32,26 @@ def home():
     return 'You are not logged in', 200
 
 
-@app.route('/api/v0.0/users/login', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    json_request = request.get_json()
-    users = mongo.db.users
-    login_user = users.find_one({'email': json_request['email']})
+    if request.method == 'POST':
+        json_request = request.get_json()
+        users = mongo.db.users
+        login_user = users.find_one({'email': json_request['email']})
 
-    if login_user:
-        if bcrypt.hashpw(json_request['password'].encode('utf-8'), login_user['password']) == login_user['password']:
-            session['email'] = login_user['email']
-            session['name'] = login_user['name']
-            session['surname'] = login_user['surname']
-            return "OK!", 200
+        if login_user:
+            if bcrypt.hashpw(json_request['password'].encode('utf-8'), login_user['password']) == login_user['password']:
+                session['is_logged'] = True
+                session['email'] = login_user['email']
+                session['name'] = login_user['name']
+                session['surname'] = login_user['surname']
+                return "OK!", 200
 
-    return 'Invalid username/password combination', 400
+        return 'Invalid username/password combination', 400
+    if request.method == 'GET':
+        #rendetemplate login
 
-
-@app.route('/api/v0.0/users/register', methods=['POST'])
+@app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'POST':
         json_request = request.get_json()
@@ -68,8 +71,8 @@ def register():
 
         return 'That username already exists!', 400
 
-    #if request.method == 'GET':
-    #return "OK!", 200
+    if request.method == 'GET':
+        #rendetemplate register
 
 
 @app.route('/api/v0.0/rooms', methods=['GET', 'POST', 'PUT'])
@@ -96,6 +99,23 @@ def policy_id(id):
     policy_to_return = mongo.db.policies.find_one_or_404({"_id": id})
     return jsonify(policy_to_return), 200
 
+@app.route('/api/v0.0/policies/new', methods=['GET','POST'])
+    if request.method == 'GET':
+        #rendetemplate
+    
+    if request.method == 'POST':
+        #user must be logged in
+        if 'email' in session:
+            policies = mongo.db.policies
+            policies.insert(
+                {
+                    "user_id": request.form['user_id'],
+                    "room_id": request.form['room_id'],
+                }
+            )
+        else:
+            #redirect login
+            
 if __name__ == '__main__':
     app.secret_key = 'mysecret'
     app.run(debug=True)
