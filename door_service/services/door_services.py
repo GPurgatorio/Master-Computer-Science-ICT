@@ -13,7 +13,7 @@ def open_door_message_handler(payload):
     '''
     This method expect a json payload with the following format:
         {
-            "to": string,
+            "door_id": string,
             "user": string,
             "open": Bool
         }
@@ -23,7 +23,7 @@ def open_door_message_handler(payload):
     this method returns a boolean representing the success of the operation
     '''
     message = json.loads(payload)
-    if message["to"] == config.DEVICE_ID:
+    if message["door_id"] == config.DEVICE_ID:
         if message["open"]:
             gpio.door_open()
         else:
