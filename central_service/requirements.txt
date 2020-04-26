@@ -6,6 +6,7 @@ Flask
 
 # Flask Packages
 Flask-PyMongo
+dnspython
 
 # Encrypting password
 bcrypt

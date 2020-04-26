@@ -1,32 +1,28 @@
 #!flask/bin/python
 from flask import Flask, request, jsonify, session, render_template, redirect, url_for, flash
 from flask_pymongo import PyMongo
+from bson.json_util import loads, dumps
 import bcrypt
 
+secrets = open("super_secret.txt", "r")
+secrets_splitted = secrets.read().split()
+mongodb_pass = secrets_splitted[0]
+session_secret = secrets_splitted[1]
+
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/chessaRMI"
+
+app.config["MONGO_URI"] = "mongodb+srv://chessarmi:"+mongodb_pass+"@mcps-project-txguh.mongodb.net/chessaRMI?retryWrites=true&w=majority"
+
 mongo = PyMongo(app)
 
-
-@app.route('/api/v0.0/users', methods=['GET'])
-def users():
-    users_to_return = []
-    for user in mongo.db.users.find():
-        users_to_return.append(user)
-    return jsonify(users_to_return), 200
-
-
-@app.route('/api/v0.0/users/<id>', methods=['GET'])
-def users_id(id):
-    user_to_return = mongo.db.users.find_one_or_404({"_id": id})
-    return jsonify(user_to_return), 200
-
+def is_logged(session):
+	return  'name' in session and 'surname' in session
 
 @app.route("/")
 @app.route("/home")
 @app.route("/index")
 def home():
-    if 'name' in session and 'surname' in session:
+    if is_logged(session):
         return render_template("user.html", name=session['name'], surname=session['surname'])
 
     return render_template("login.html")
@@ -59,6 +55,9 @@ def logout():
     session.clear()
     return redirect(url_for("home"))
 
+#
+# MOCK endpoints. Administrators stuff. Only with PostMan
+#
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -86,11 +85,25 @@ def register():
         return "To do (maybe)", 200
 
 
+@app.route('/api/v0.0/users', methods=['GET'])
+def users():
+    users_to_return = []
+    for user in mongo.db.users.find():
+        users_to_return.append(dumps(user))
+    return jsonify(users_to_return), 200
+
+
+@app.route('/api/v0.0/users/<id>', methods=['GET'])
+def users_id(id):
+    user_to_return = mongo.db.users.find_one_or_404({"_id": id})
+    return jsonify(user_to_return), 200
+
+
 @app.route('/api/v0.0/rooms', methods=['GET', 'POST', 'PUT'])
 def rooms():
     rooms_to_return = []
     for room in mongo.db.rooms.find():
-        rooms_to_return.append(room)
+        rooms_to_return.append(dumps(room))
     return jsonify(rooms_to_return), 200
 
 
@@ -104,7 +117,7 @@ def room_id(id):
 def policies():
     policies_to_return = []
     for policy in mongo.db.policies.find():
-        policies_to_return.append(policy)
+        policies_to_return.append(dumps(policy))
     return jsonify(policies_to_return), 200
 
 
@@ -122,7 +135,7 @@ def boffa():
 
     if request.method == 'POST':
         # user must be logged in
-        if 'email' in session:
+        if is_logged(session):
             policies = mongo.db.policies
             policies.insert(
                 {
@@ -135,5 +148,8 @@ def boffa():
 
 
 if __name__ == '__main__':
-    app.secret_key = 'mysecret'
+    app.secret_key = session_secret
+    app.config['SESSION_TYPE'] = 'filesystem'
+
+    app.debug = True
     app.run(debug=True)
