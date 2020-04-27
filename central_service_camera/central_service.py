@@ -1,12 +1,12 @@
 #TODO: Integrate to the central service
 
-''' The expected request is a JSON string with the following format:
+''' The expected request payload is a JSON string with the following format:
         {
             "door_id": string,
             "encoding": array
         }
-    where door_id is the identifier associated with the door and encoding is the 128-dimensional 
-    encoding of the face of the user who tries to open the door.
+    where "door_id" is the identifier associated with the door and "encoding" is the 128-dimensional 
+    encoding of the face of the user who tries to access the room.
 
     The replies to the requests will be published on the topic RESPONSE_TOPIC, specified in the config.py 
     file and their payload will be a JSON string with the following format:
@@ -51,7 +51,7 @@ def on_publish(mqtt_client, userdata, mid):
     print("Message published")
 
 def run():
-    mqtt_client = mqtt.Client(client_id="central_service")
+    mqtt_client = mqtt.Client()
     mqtt_client.on_connect = on_connect
     mqtt_client.on_subscribe = on_subscribe
     mqtt_client.on_publish = on_publish
