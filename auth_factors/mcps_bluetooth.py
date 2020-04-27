@@ -1,5 +1,5 @@
 import bluetooth
-
+from config import BT_TIME_DELTA
 
 def __dictify_device(device):
     keys = ('address', 'name')
@@ -14,7 +14,7 @@ def __dictify_device(device):
 def discover_devices():
     print("Performing inquiry...")
 
-    nearbly_devices = bluetooth.discover_devices(duration=5, lookup_names=True, flush_cache=True)
+    nearbly_devices = bluetooth.discover_devices(duration=BT_TIME_DELTA, lookup_names=True, flush_cache=True)
 
     print("I've found {} devices".format(len(nearbly_devices)))
 
