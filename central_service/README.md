@@ -22,3 +22,11 @@ To install MongoDB (from [here](https://docs.mongodb.com/manual/tutorial/install
 
 And then to start it: 
 - ```sudo systemctl start mongod```
+
+This is for *face_recognition*: 
+
+```
+sudo apt-get install build-essential cmake pkg-config
+sudo apt-get install libx11-dev libatlas-base-dev
+sudo apt-get install libgtk-3-dev libboost-python-dev
+```
