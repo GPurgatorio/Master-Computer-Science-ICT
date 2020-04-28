@@ -1,11 +1,13 @@
 import bluetooth
+
 from config import BT_TIME_DELTA
+
 
 def __dictify_device(device):
     keys = ('address', 'name')
 
     # decode the address (convert from bytes to str)
-    address = device[0].decode(encoding='utf-8', errors='strict')
+    address = device[0].decode('utf-8')
     name = device[1]
     values = [address, name]
     return dict(zip(keys, values))
