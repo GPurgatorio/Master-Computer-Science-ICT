@@ -8,7 +8,7 @@ import mqtt_client
 
 
 def run_camera():
-    mqtt_client.connect()
+    mqtt_client.init_mqtt()
 
     video_capture = cv2.VideoCapture(0)
     if not video_capture:
