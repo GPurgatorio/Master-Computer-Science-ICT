@@ -1,11 +1,12 @@
 #!flask/bin/python
-from flask import Flask, request, jsonify, session, render_template, redirect, url_for, flash
-from flask_pymongo import PyMongo
-import paho.mqtt.client as mqtt
-import time, json, threading
-from datetime import datetime
+import json
+import threading
 
 import bcrypt
+import paho.mqtt.client as mqtt
+from flask import Flask, request, jsonify, session, render_template, redirect, url_for, flash
+from flask_pymongo import PyMongo
+
 from config import *
 
 app = Flask(__name__)
@@ -16,7 +17,7 @@ mongo = PyMongo(app)
 
 
 def is_logged(session):
-	return 'name' in session and 'surname' in session
+    return 'name' in session and 'surname' in session
 
 
 @app.route("/")
@@ -56,6 +57,7 @@ def logout():
     session.clear()
     return redirect(url_for("home"))
 
+
 #
 # MOCK endpoints. Administrators stuff. Only with PostMan
 #
@@ -73,13 +75,13 @@ def register():
             hashpass = bcrypt.hashpw(
                 json_request['password'].encode('utf-8'), bcrypt.gensalt())
             users.insert_one({'email': json_request['email'],
-                          'password': hashpass,
-                          'name': json_request['name'],
-                          'surname': json_request['surname'],
-                          'face_code': json_request['face_code'],
-                          'rooms' : [],
-                          'devices_id' : []
-                          })
+                              'password': hashpass,
+                              'name': json_request['name'],
+                              'surname': json_request['surname'],
+                              'face_code': json_request['face_code'],
+                              'rooms': [],
+                              'devices_id': []
+                              })
             return "OK!", 201
 
         return 'That username already exists!', 400
@@ -119,11 +121,13 @@ def room_id(id):
     room_to_return = mongo.db.rooms.find_one_or_404({"_id": id})
     return jsonify(room_to_return), 200
 
+
 @app.route('/api/v0.0/rooms/new', methods=['POST'])
 def room_new():
     json_request = request.get_json()
-    mongo.db.rooms.insert_one({'name': json_request['name'], "users_allowed" : []})
+    mongo.db.rooms.insert_one({'name': json_request['name'], "users_allowed": []})
     return "OK!", 201
+
 
 @app.route('/api/v0.0/policies', methods=['GET', 'POST', 'PUT'])
 def policies():
@@ -149,28 +153,33 @@ def boffa():
         policies = mongo.db.policies
         policies.insert_one(
             {
-                "user_id" : user_for_policie["_id"],
-                "room_id" : room_for_policie["_id"],
-                "type" : json_request["type"]
+                "user_id": user_for_policie["_id"],
+                "room_id": room_for_policie["_id"],
+                "type": json_request["type"]
             }
         )
-        mongo.db.users.update_one({"_id" : user_for_policie["_id"]}, {'$push': {'rooms': room_for_policie["_id"]}})
-        mongo.db.rooms.update_one({"_id" : room_for_policie["_id"]}, {'$push': {'users_allowed': user_for_policie["_id"]}})
+        mongo.db.users.update_one({"_id": user_for_policie["_id"]}, {'$push': {'rooms': room_for_policie["_id"]}})
+        mongo.db.rooms.update_one({"_id": room_for_policie["_id"]},
+                                  {'$push': {'users_allowed': user_for_policie["_id"]}})
 
     return "OK!", 201
+
 
 def insert_in_mongo_thread(msg):
     mongo.db.discovered_devices.insert_one(msg)
 
+
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+    print("Connected with result code " + str(rc))
     client.subscribe(REQUEST_TOPIC)
 
+
 def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
+    print(msg.topic + " " + str(msg.payload))
     th = threading.Thread(target=insert_in_mongo_thread, args=(json.loads(msg.payload),))
     th.daemon = True
     th.start()
+
 
 client = mqtt.Client()
 

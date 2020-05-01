@@ -9,3 +9,6 @@ DB_URL = "mongodb+srv://chessarmi:"+DB_PASSWORD + \
 
 REQUEST_TOPIC = "door/request"
 RESPONSE_TOPIC = "door/open"
+
+EXPIRATION_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+BT_TIME_DELTA = 5

@@ -8,4 +8,8 @@ BT_DISCOVER_TOPIC = "bluetooth/discover"
 BT_TIME_DELTA = 5
 EXPIRATION_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
-DOOR_ID = "door_bt_1"
+DOOR_ID = "room_A"
+
+DB_PASSWORD = "chessarmi"
+DB_URL = "mongodb+srv://chessarmi:{}@mcps-project-txguh.mongodb.net/chessaRMI?retryWrites=true&w=majority"\
+    .format(DB_PASSWORD)

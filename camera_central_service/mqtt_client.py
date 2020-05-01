@@ -17,32 +17,36 @@
     the encoded face in the request and "open" is True only if the user has the rights to access the room.
 '''
 
-import paho.mqtt.client as mqtt
-from pymongo import MongoClient
 import json
 
-from config import *
-from camera_central_service import handle_request
+import paho.mqtt.client as mqtt
 
+from camera_central_service import handle_request
+from config import *
 
 mqtt_client = mqtt.Client()
 
+
 def on_connect(mqtt_client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+    print("Connected with result code " + str(rc))
+
 
 def on_subscribe(mqtt_client, userdata, mid, granted_qos):
     print("Subscribe ok")
 
+
 def on_message(mqtt_client, userdata, message):
     print("Message received")
     payload = message.payload.decode()
-    print("message = "+payload)
+    print("message = " + payload)
     reply = handle_request(json.loads(payload))
-    print("reply = "+reply)
+    print("reply = " + reply)
     mqtt_client.publish(topic=RESPONSE_TOPIC, payload=reply)
+
 
 def on_publish(mqtt_client, userdata, mid):
     print("Message published")
+
 
 def init_mqtt():
     mqtt_client.on_connect = on_connect

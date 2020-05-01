@@ -1,4 +1,6 @@
 import bluetooth
+import signal
+import sys
 
 from config import BT_TIME_DELTA
 
