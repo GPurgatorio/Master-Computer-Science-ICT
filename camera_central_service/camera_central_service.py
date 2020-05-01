@@ -5,6 +5,7 @@ from pymongo import MongoClient
 
 from config import DB_URL, EXPIRATION_DATE_FORMAT, BT_TIME_DELTA
 
+
 mongo_client = MongoClient(DB_URL)
 db = mongo_client.chessaRMI
 
@@ -30,18 +31,15 @@ def handle_request(request):
         response["door_id"] = room["name"]
 
         # Check access rights
-        if room["_id"] in user["rooms"]:
+        policy = db.policies.find_one({"user_id": user["_id"], "room_id": room["_id"]})
+        if policy:
             # If a 2-factor authentication is required
-            policy = db.policies.find_one({"user_id": user["_id"], "room_id": room["_id"]})
-            if policy:
-                if policy["type"] == 1:
-                    response["open"] = check_bluetooth_device(user, room)
-                else:
-                    response["open"] = True
+            if policy["type"] == 1:
+                response["open"] = check_bluetooth_device(user, room)
             else:
-                response["open"] = False
+                response["open"] = True
     except Exception as e:
-        print(e)
+        print(str(e))
 
     return json.dumps(response)
 
