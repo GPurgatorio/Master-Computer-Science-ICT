@@ -1,22 +1,16 @@
 #!flask/bin/python
 from flask import Flask, request, jsonify, session, render_template, redirect, url_for, flash
 from flask_pymongo import PyMongo
-import bcrypt
+import paho.mqtt.client as mqtt
+import time, json, threading
+from datetime import datetime
 
-''' If we want to be secure
-secrets = open("super_secret.txt", "r")
-secrets_splitted = secrets.read().split()
-mongodb_pass = secrets_splitted[0]
-session_secret = secrets_splitted[1]
-'''
-#else
-mongodb_pass = "chessarmi"
-session_secret = "mysecret"
+import bcrypt
+from config import *
 
 app = Flask(__name__)
 
-app.config["MONGO_URI"] = "mongodb+srv://chessarmi:"+mongodb_pass + \
-	"@mcps-project-txguh.mongodb.net/chessaRMI?retryWrites=true&w=majority"
+app.config["MONGO_URI"] = DB_URL
 
 mongo = PyMongo(app)
 
@@ -78,12 +72,13 @@ def register():
         if existing_user is None:
             hashpass = bcrypt.hashpw(
                 json_request['password'].encode('utf-8'), bcrypt.gensalt())
-            users.insert({'email': json_request['email'],
+            users.insert_one({'email': json_request['email'],
                           'password': hashpass,
                           'name': json_request['name'],
                           'surname': json_request['surname'],
                           'face_code': json_request['face_code'],
-                          "rooms" : []
+                          'rooms' : [],
+                          'devices_id' : []
                           })
             return "OK!", 201
 
@@ -127,7 +122,7 @@ def room_id(id):
 @app.route('/api/v0.0/rooms/new', methods=['POST'])
 def room_new():
     json_request = request.get_json()
-    mongo.db.rooms.insert({'name': json_request['name'], "users_allowed" : []})
+    mongo.db.rooms.insert_one({'name': json_request['name'], "users_allowed" : []})
     return "OK!", 201
 
 @app.route('/api/v0.0/policies', methods=['GET', 'POST', 'PUT'])
@@ -152,10 +147,11 @@ def boffa():
     room_for_policie = mongo.db.rooms.find_one_or_404({"name": json_request["room_name"]})
     if request.method == 'POST':
         policies = mongo.db.policies
-        policies.insert(
+        policies.insert_one(
             {
-                "user_id": user_for_policie["_id"],
-                "room_id": room_for_policie["_id"]
+                "user_id" : user_for_policie["_id"],
+                "room_id" : room_for_policie["_id"],
+                "type" : json_request["type"]
             }
         )
         mongo.db.users.update_one({"_id" : user_for_policie["_id"]}, {'$push': {'rooms': room_for_policie["_id"]}})
@@ -163,8 +159,30 @@ def boffa():
 
     return "OK!", 201
 
+def insert_in_mongo_thread(msg):
+    mongo.db.discovered_devices.insert_one(msg)
+
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code "+str(rc))
+    client.subscribe(REQUEST_TOPIC)
+
+def on_message(client, userdata, msg):
+    print(msg.topic+" "+str(msg.payload))
+    th = threading.Thread(target=insert_in_mongo_thread, args=(json.loads(msg.payload),))
+    th.daemon = True
+    th.start()
+
+client = mqtt.Client()
+
 if __name__ == '__main__':
-    app.secret_key = session_secret
+    client.on_connect = on_connect
+    client.on_message = on_message
+
+    client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
+    client.connect(MQTT_ADDRESS, MQTT_PORT, 5)
+    client.loop_start()
+
+    app.secret_key = SESSION_SECRET
     app.config['SESSION_TYPE'] = 'filesystem'
 
     app.debug = True
