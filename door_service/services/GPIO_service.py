@@ -11,11 +11,9 @@ class Class2World(Interface2World):
     """Class used for the physical interaction with the GPIO of the Raspberry Pi"""
 
     def door_open(self):
-        for i in range(5):
             GPIO.output(config.OPEN_DOOR_PIN, GPIO.HIGH)
-            time.sleep(0.2)
+            time.sleep(4)
             GPIO.output(config.OPEN_DOOR_PIN, GPIO.LOW)
-            time.sleep(0.2)
 
     def flash_error_led(self):
         for i in range(5):
