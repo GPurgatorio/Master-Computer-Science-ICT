@@ -7,7 +7,7 @@ import paho.mqtt.client as mqtt
 from flask import Flask, request, jsonify, session, render_template, redirect, url_for, flash
 from flask_pymongo import PyMongo
 
-from config import *
+from central_service.config import *
 
 app = Flask(__name__)
 
@@ -25,7 +25,10 @@ def is_logged(session):
 @app.route("/index")
 def home():
     if is_logged(session):
-        return render_template("user.html", name=session['name'], surname=session['surname'])
+        login_user = mongo.db.users.find_one({'email': session['email']})
+        policies_to_return = get_policies(login_user["_id"])
+        return render_template("user.html", name=session['name'], surname=session['surname'],
+                               policies=policies_to_return)
 
     return render_template("login.html")
 
@@ -42,7 +45,10 @@ def login():
                 session['email'] = login_user['email']
                 session['name'] = login_user['name']
                 session['surname'] = login_user['surname']
-                return render_template("user.html", name=session['name'], surname=session['surname'])
+                policies_to_return = get_policies(login_user["_id"])
+
+                return render_template("user.html", name=session['name'], surname=session['surname'],
+                                       policies=policies_to_return)
 
         flash('Wrong credentials')
         return render_template("login.html")
@@ -144,25 +150,90 @@ def policy_id(id):
     return jsonify(policy_to_return), 200
 
 
-@app.route('/api/v0.0/policies/new', methods=['GET', 'POST'])
+@app.route("/policy/new")
+def add_policy():
+    if not is_logged(session):
+        flash("Login first")
+        return redirect(url_for("home"))
+
+    users_to_return = []
+    rooms_to_return = []
+    policies_to_return = []
+    for room in mongo.db.rooms.find():
+        room['_id'] = str(room['_id'])
+        rooms_to_return.append(room)
+
+    for user in mongo.db.users.find():
+        user['_id'] = str(user['_id'])
+        users_to_return.append(user)
+
+    tot = 1     # num of policies (0 FR, 1 BT + FR)
+    for policy in mongo.db.policies.find():
+        if int(policy['type']) > tot:
+            tot = policy['type']
+
+    for i in range(tot+1):
+        policies_to_return.append({"type": str(i)})
+
+    return render_template("add_policy.html", users=users_to_return, rooms=rooms_to_return, policies=policies_to_return)
+
+
+@app.route('/api/v0.0/policies/new', methods=['POST'])
 def boffa():
-    json_request = request.get_json()
-    user_for_policie = mongo.db.users.find_one_or_404({"email": json_request["email"]})
-    room_for_policie = mongo.db.rooms.find_one_or_404({"name": json_request["room_name"]})
-    if request.method == 'POST':
+    form = request.form
+    user_for_policy = mongo.db.users.find_one_or_404({"email": form["email"]})
+    room_for_policy = mongo.db.rooms.find_one_or_404({"name": form["room_name"]})
+    if request.method == 'POST' and is_logged(session):
+        # TODO: Check that it doesn't exist already           (vvv doesn't work vvv)
+        # check = mongo.db.policies.find({"user_id": user_for_policy["_id"], "room_id": room_for_policy["_id"]})
+        # if check:
+        #     print("Already existing policy")
+        #     return "Hey", 201
+
         policies = mongo.db.policies
         policies.insert_one(
             {
-                "user_id": user_for_policie["_id"],
-                "room_id": room_for_policie["_id"],
-                "type": json_request["type"]
+                "user_id": user_for_policy["_id"],
+                "room_id": room_for_policy["_id"],
+                "type": int(form["plc"])
             }
         )
-        mongo.db.users.update_one({"_id": user_for_policie["_id"]}, {'$push': {'rooms': room_for_policie["_id"]}})
-        mongo.db.rooms.update_one({"_id": room_for_policie["_id"]},
-                                  {'$push': {'users_allowed': user_for_policie["_id"]}})
+        mongo.db.users.update_one({"_id": user_for_policy["_id"]}, {'$push': {'rooms': room_for_policy["_id"]}})
+        mongo.db.rooms.update_one({"_id": room_for_policy["_id"]},
+                                  {'$push': {'users_allowed': user_for_policy["_id"]}})
 
-    return "OK!", 201
+        return redirect(url_for("add_policy"))
+
+    flash("It either wasn't a POST or you're not logged in")
+    return redirect(url_for("home"))
+
+
+# Auxiliary functions
+
+def get_policies(_id):
+    # Returns the policies for the given user_id for each room he's "in"
+    policies_to_return = []
+    for policy in mongo.db.policies.find():
+        if not _id == policy["user_id"]:
+            continue
+        give_me_a_policy_list = policies_to_str(policy)
+        if give_me_a_policy_list is None:
+            continue
+        policies_to_return.append(give_me_a_policy_list)
+    return policies_to_return
+
+
+# Writes the policies in string format depending on the "type" field
+def policies_to_str(policy):
+    r = mongo.db.rooms.find_one({'_id': policy["room_id"]})
+    if not r:
+        return None
+    res = {}
+    if policy["type"] == 0:
+        res = {"room": r["name"], "name": "Face Recognition"}
+    elif policy["type"] == 1:
+        res = {"room": r["name"], "name": "FR + Bluetooth"}
+    return res
 
 
 def insert_in_mongo_thread(msg):
