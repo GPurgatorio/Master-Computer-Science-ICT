@@ -38,19 +38,42 @@
 		<header class="page-header header container-fluid">
 			<div class="row d-flex justify-content-center">
 				<div class="col-xs-12 col-sm-8 bg-light cont rounded pb-3" style="padding: 30px;">
-					<h2>Hello, {{name}} {{surname}}!</h2>
-					<div class="row">
-						<div class="column"><h3>Policy List</h3>
-                            {% for policy in policies %}
-                                <option value={{ policy["name"] }}>{{ policy["room"] }}: {{ policy["name"] }}</option>
-                            {% endfor %}
-						</div>
-<!--						<div class="column"><h3>Allowed Users</h3>
-							{% for user in users %}
-                                <option value={{ user["name"] }}>{{ user["name"] }}  {{ user["surname"] }}</option>
-                            {% endfor %}
-						</div>-->
-					</div>
+					<h2>Hello, Admin!</h2>
+                    <form class="form-signin" action="/api/v0.0/policies/new" method="POST">
+                        <div class="row">
+                            <div class="column">
+                                <label for="rms">Choose a room:</label>
+                                <select id="rms" name="room_name">
+                                    {% for room in rooms %}
+                                        <option value={{ room["name"] }}>{{ room["name"] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="column">
+                                <!--<input type="checkbox" id="facerec" name="facebox" value="Nopety">
+                                <label for="facerec">Face Recognition</label><br>-->
+                                <label for="usr">Choose a user:</label>
+                                <select id="usr" name="email">
+                                    {% for user in users %}
+                                        <option value={{ user["email"] }}>{{ user["name"] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="column">
+                                <label for="plc">Choose a policy:</label>
+                                <select id="plc" name="plc">
+                                    {% for policy in policies %}
+                                        <option name="policy" value={{ policy["type"] }}>{{ policy["type"] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="column">
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
 				</div>
 			</div>
 		</header>
