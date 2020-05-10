@@ -55,7 +55,7 @@
                                 <label for="usr">Choose a user:</label>
                                 <select id="usr" name="email">
                                     {% for user in users %}
-                                        <option value={{ user["email"] }}>{{ user["name"] }}</option>
+                                        <option value={{ user["email"] }}>{{ user["name"] }} {{ user["surname"] }}</option>
                                     {% endfor %}
                                 </select>
                             </div>

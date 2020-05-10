@@ -7,7 +7,8 @@ import paho.mqtt.client as mqtt
 from flask import Flask, request, jsonify, session, render_template, redirect, url_for, flash
 from flask_pymongo import PyMongo
 
-from central_service.config import *
+from config import *
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
@@ -184,11 +185,10 @@ def boffa():
     user_for_policy = mongo.db.users.find_one_or_404({"email": form["email"]})
     room_for_policy = mongo.db.rooms.find_one_or_404({"name": form["room_name"]})
     if request.method == 'POST' and is_logged(session):
-        # TODO: Check that it doesn't exist already           (vvv doesn't work vvv)
-        # check = mongo.db.policies.find({"user_id": user_for_policy["_id"], "room_id": room_for_policy["_id"]})
-        # if check:
-        #     print("Already existing policy")
-        #     return "Hey", 201
+        check = mongo.db.policies.find({"user_id": ObjectId(user_for_policy["_id"]), "room_id": ObjectId(room_for_policy["_id"])})
+        if check:
+             print("Already existing policy")
+             return "Hey", 201
 
         policies = mongo.db.policies
         policies.insert_one(
@@ -232,7 +232,7 @@ def policies_to_str(policy):
     if policy["type"] == 0:
         res = {"room": r["name"], "name": "Face Recognition"}
     elif policy["type"] == 1:
-        res = {"room": r["name"], "name": "FR + Bluetooth"}
+        res = {"room": r["name"], "name": "Face Recognition + Bluetooth"}
     return res
 
 
@@ -255,12 +255,14 @@ def on_message(client, userdata, msg):
 client = mqtt.Client()
 
 if __name__ == '__main__':
+    '''
     client.on_connect = on_connect
     client.on_message = on_message
 
     client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
     client.connect(MQTT_ADDRESS, MQTT_PORT, 5)
     client.loop_start()
+    '''
 
     app.secret_key = SESSION_SECRET
     app.config['SESSION_TYPE'] = 'filesystem'
