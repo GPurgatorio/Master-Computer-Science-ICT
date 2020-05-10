@@ -29,7 +29,7 @@ def home():
         login_user = mongo.db.users.find_one({'email': session['email']})
         policies_to_return = get_policies(login_user["_id"])
         return render_template("user.html", name=session['name'], surname=session['surname'],
-                               policies=policies_to_return)
+                               policies=policies_to_return, admin=session['admin'])
 
     return render_template("login.html")
 
@@ -46,10 +46,11 @@ def login():
                 session['email'] = login_user['email']
                 session['name'] = login_user['name']
                 session['surname'] = login_user['surname']
+                session['admin'] = login_user['admin']
                 policies_to_return = get_policies(login_user["_id"])
 
                 return render_template("user.html", name=session['name'], surname=session['surname'],
-                                       policies=policies_to_return)
+                                       policies=policies_to_return, admin=session['admin'])
 
         flash('Wrong credentials')
         return render_template("login.html")
@@ -87,7 +88,8 @@ def register():
                               'surname': json_request['surname'],
                               'face_code': json_request['face_code'],
                               'rooms': [],
-                              'devices_id': []
+                              'devices_id': [],
+                              'admin': 0
                               })
             return "OK!", 201
 
@@ -157,6 +159,10 @@ def add_policy():
         flash("Login first")
         return redirect(url_for("home"))
 
+    if not session['admin']:
+        flash("You must be an admin to add policies")
+        return redirect(url_for("home"))
+
     users_to_return = []
     rooms_to_return = []
     policies_to_return = []
@@ -176,7 +182,8 @@ def add_policy():
     for i in range(tot+1):
         policies_to_return.append({"type": str(i)})
 
-    return render_template("add_policy.html", users=users_to_return, rooms=rooms_to_return, policies=policies_to_return)
+    return render_template("add_policy.html", users=users_to_return, rooms=rooms_to_return, policies=policies_to_return,
+                           admin=session['admin'])
 
 
 @app.route('/api/v0.0/policies/new', methods=['POST'])
@@ -187,8 +194,8 @@ def boffa():
     if request.method == 'POST' and is_logged(session):
         check = mongo.db.policies.find({"user_id": ObjectId(user_for_policy["_id"]), "room_id": ObjectId(room_for_policy["_id"])})
         if check:
-             print("Already existing policy")
-             return "Hey", 201
+            flash("Already existing policy")
+            return redirect(url_for("add_policy"))
 
         policies = mongo.db.policies
         policies.insert_one(

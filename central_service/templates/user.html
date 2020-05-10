@@ -19,6 +19,12 @@
 			<button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
+			{% if admin %}
+				<a class="navbar-brand" href="/policy/new">Add Policy</a>
+				<button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			{% endif %}
 			<div class="collapse navbar-collapse" id="main-navigation">
 				<ul class="navbar-nav">
 					<li class="nav-item">
@@ -38,11 +44,25 @@
 		<header class="page-header header container-fluid">
 			<div class="row d-flex justify-content-center">
 				<div class="col-xs-12 col-sm-8 bg-light cont rounded pb-3" style="padding: 30px;">
-					<h2>Hello, {{name}} {{surname}}!</h2>
+					{% with messages = get_flashed_messages(with_categories=true) %}
+						{% if messages %}
+						  <div class="flashes">
+							{% for category, message in messages %}
+							  <div class="row mb-3">
+								<div class="col-xl-12 d-flex justify-content-center">
+								  <h5 class="text-danger {{ category }}">{{ message }}</h5>
+								</div>
+							  </div>
+							{% endfor %}
+						  </div>
+						{% endif %}
+				  	{% endwith %}
+					<h2>Welcome back, {{name}} {{surname}}!</h2>
+					<br>
 					<div class="row">
 						<div class="column"><h3>Policy List</h3>
                             {% for policy in policies %}
-                                <option value={{ policy["name"] }}>{{ policy["room"] }}: {{ policy["name"] }}</option>
+                                <option style="padding: 30px" value={{ policy["name"] }}>{{ policy["room"] }}: {{ policy["name"] }}</option>
                             {% endfor %}
 						</div>
 <!--						<div class="column"><h3>Allowed Users</h3>
