@@ -262,14 +262,12 @@ def on_message(client, userdata, msg):
 client = mqtt.Client()
 
 if __name__ == '__main__':
-    '''
     client.on_connect = on_connect
     client.on_message = on_message
 
     client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
     client.connect(MQTT_ADDRESS, MQTT_PORT, 5)
     client.loop_start()
-    '''
 
     app.secret_key = SESSION_SECRET
     app.config['SESSION_TYPE'] = 'filesystem'
