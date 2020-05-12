@@ -89,7 +89,7 @@ def register():
                               'face_code': json_request['face_code'],
                               'rooms': [],
                               'devices_id': [],
-                              'admin': 0
+                              'admin': False
                               })
             return "OK!", 201
 
@@ -193,7 +193,8 @@ def boffa():
     room_for_policy = mongo.db.rooms.find_one_or_404({"name": form["room_name"]})
     if request.method == 'POST' and is_logged(session):
         check = mongo.db.policies.find({"user_id": ObjectId(user_for_policy["_id"]), "room_id": ObjectId(room_for_policy["_id"])})
-        if check:
+
+        if check.count():
             flash("Already existing policy")
             return redirect(url_for("add_policy"))
 
@@ -209,6 +210,7 @@ def boffa():
         mongo.db.rooms.update_one({"_id": room_for_policy["_id"]},
                                   {'$push': {'users_allowed': user_for_policy["_id"]}})
 
+        flash("Policy added correctly")
         return redirect(url_for("add_policy"))
 
     flash("It either wasn't a POST or you're not logged in")
