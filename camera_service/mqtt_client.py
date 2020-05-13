@@ -28,6 +28,7 @@ def init_mqtt():
     
     mqtt_client.connect(MQTT_ADDRESS, port=MQTT_PORT)
     mqtt_client.subscribe(REQUEST_TOPIC)
+    mqtt_client.loop_start()
 
 def send_request(face_encoding, door_id):
     request = json.dumps({
