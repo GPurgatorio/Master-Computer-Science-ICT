@@ -6,5 +6,7 @@ MQTT_PASSWORD = "qwerty99" # Ciste Approves ;)
 REQUEST_TOPIC = "door/request"
 
 DOOR_ID = "door123"
-WAIT_TIME_FACE = 2 #how many seconds a face has to remain in front of the camera
-WAIT_TIME_REQUEST = 5 #how many seconds the program waits after a request
+WAIT_TIME_FACE = 2 # how many seconds a face has to remain in front of the camera
+WAIT_TIME_REQUEST = 5 # how many seconds the program waits after a request
+
+TOLERANCE = 0.4 # tolerance for face_recognition.compare_faces()

@@ -1,9 +1,10 @@
+import face_recognition
 import json
 from datetime import datetime, timedelta
-
+from numpy import array
 from pymongo import MongoClient
 
-from config import DB_URL, EXPIRATION_DATE_FORMAT, BT_TIME_DELTA
+from config import DB_URL, EXPIRATION_DATE_FORMAT, BT_TIME_DELTA, TOLERANCE
 
 
 mongo_client = MongoClient(DB_URL)
@@ -19,7 +20,12 @@ def handle_request(request):
 
     try:
         # Check if the user exists
-        user = db.users.find_one({"face_code": {"$all": request["encoding"]}})
+        user = None
+        enc = array(request["encoding"])
+        for usr in db.users.find():
+            if face_recognition.compare_faces([array(usr["face_code"])], enc, tolerance=TOLERANCE)[0]:
+                user = usr
+                break
         if not user:
             return json.dumps(response)
         response["user"] = user["email"]
@@ -39,7 +45,7 @@ def handle_request(request):
             else:
                 response["open"] = True
     except Exception as e:
-        print(str(e))
+        print("ERROR: "+str(e))
 
     return json.dumps(response)
 

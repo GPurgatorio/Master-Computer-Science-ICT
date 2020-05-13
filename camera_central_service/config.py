@@ -12,3 +12,5 @@ RESPONSE_TOPIC = "door/open"
 
 EXPIRATION_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 BT_TIME_DELTA = 5
+
+TOLERANCE = 0.4 # tolerance for face_recognition.compare_faces()

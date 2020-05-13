@@ -3,7 +3,7 @@ import cv2
 import json
 from time import time, sleep
 
-from config import DOOR_ID, WAIT_TIME_FACE, WAIT_TIME_REQUEST
+from config import DOOR_ID, WAIT_TIME_FACE, WAIT_TIME_REQUEST, TOLERANCE
 import mqtt_client
 
 
@@ -23,7 +23,7 @@ def run_camera():
         enc = get_face_encoding(frame)
 
         # If there is a detected face and it is equal to the one detected before
-        if len(enc)!=0 and len(prev_enc)!=0 and face_recognition.compare_faces([prev_enc], enc)[0]:
+        if len(enc)!=0 and len(prev_enc)!=0 and face_recognition.compare_faces([prev_enc], enc, tolerance=TOLERANCE)[0]:
             # Send the request only when WAIT_TIME_FACE is elapsed
             if time() - prev_enc_time > WAIT_TIME_FACE:
                 mqtt_client.send_request(enc, DOOR_ID)
