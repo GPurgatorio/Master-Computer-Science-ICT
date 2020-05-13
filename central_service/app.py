@@ -100,6 +100,24 @@ def register():
         return "To do (maybe)", 200
 
 
+@app.route('/users/new_photo', methods=['POST'])
+def new_photo():
+    # Use Postman!
+    if request.method == 'POST':
+        json_request = request.get_json()
+        users = mongo.db.users
+        existing_user = users.find_one({'email': json_request['email']})
+
+        if existing_user is not None:
+
+            mongo.db.users.update_one({"_id": existing_user["_id"]},  { '$set' :{
+                                      'face_code': json_request['face_code']}})
+
+            return "OK!", 201
+
+        return 'That username does not exists!', 400
+
+
 @app.route('/api/v0.0/users', methods=['GET'])
 def users():
     users_to_return = []
@@ -134,7 +152,8 @@ def room_id(id):
 @app.route('/api/v0.0/rooms/new', methods=['POST'])
 def room_new():
     json_request = request.get_json()
-    mongo.db.rooms.insert_one({'name': json_request['name'], "users_allowed": []})
+    mongo.db.rooms.insert_one(
+        {'name': json_request['name'], "users_allowed": []})
     return "OK!", 201
 
 
@@ -190,9 +209,11 @@ def add_policy():
 def boffa():
     form = request.form
     user_for_policy = mongo.db.users.find_one_or_404({"email": form["email"]})
-    room_for_policy = mongo.db.rooms.find_one_or_404({"name": form["room_name"]})
+    room_for_policy = mongo.db.rooms.find_one_or_404(
+        {"name": form["room_name"]})
     if request.method == 'POST' and is_logged(session):
-        check = mongo.db.policies.find({"user_id": ObjectId(user_for_policy["_id"]), "room_id": ObjectId(room_for_policy["_id"])})
+        check = mongo.db.policies.find({"user_id": ObjectId(
+            user_for_policy["_id"]), "room_id": ObjectId(room_for_policy["_id"])})
 
         if check.count():
             flash("Already existing policy")
@@ -206,7 +227,8 @@ def boffa():
                 "type": int(form["plc"])
             }
         )
-        mongo.db.users.update_one({"_id": user_for_policy["_id"]}, {'$push': {'rooms': room_for_policy["_id"]}})
+        mongo.db.users.update_one({"_id": user_for_policy["_id"]}, {
+                                  '$push': {'rooms': room_for_policy["_id"]}})
         mongo.db.rooms.update_one({"_id": room_for_policy["_id"]},
                                   {'$push': {'users_allowed': user_for_policy["_id"]}})
 
@@ -256,7 +278,8 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     print(msg.topic + " " + str(msg.payload))
-    th = threading.Thread(target=insert_in_mongo_thread, args=(json.loads(msg.payload),))
+    th = threading.Thread(target=insert_in_mongo_thread,
+                          args=(json.loads(msg.payload),))
     th.daemon = True
     th.start()
 
