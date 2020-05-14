@@ -1,9 +1,9 @@
 import face_recognition
 import cv2
 import json
-from time import time, sleep
+from time import time
 
-from config import DOOR_ID, WAIT_TIME_FACE, WAIT_TIME_REQUEST, TOLERANCE
+from config import DOOR_ID, FDT, FDT_FACE, FDT_AFTER_REQUEST, TOLERANCE
 import mqtt_client
 
 
@@ -15,25 +15,31 @@ def run_camera():
         print("Error with camera")
         return
 
-    prev_enc = []
-    prev_enc_time = 0
     while True:
-        # Check if the webcam detects a face
         ret, frame = video_capture.read()
+        #print(time())
         enc = get_face_encoding(frame)
 
-        # If there is a detected face and it is equal to the one detected before
-        if len(enc)!=0 and len(prev_enc)!=0 and face_recognition.compare_faces([prev_enc], enc, tolerance=TOLERANCE)[0]:
-            # Send the request only when WAIT_TIME_FACE is elapsed
-            if time() - prev_enc_time > WAIT_TIME_FACE:
+        # If a face has been detected
+        if len(enc)!=0:
+            #print("face detected")
+            discard_frames(video_capture, FDT_FACE)
+            ret, frame = video_capture.read()
+            #print(time())
+            enc2 = get_face_encoding(frame)
+
+            # If the face is still in front of the camera, send the request
+            if len(enc2)!=0 and face_recognition.compare_faces([enc], enc2, tolerance=TOLERANCE)[0]:
+                #print("sending request")
                 mqtt_client.send_request(enc, DOOR_ID)
-                prev_enc = []
-                sleep(WAIT_TIME_REQUEST)
-        # Otherwise, update detected face
+                discard_frames(video_capture, FDT_AFTER_REQUEST)
+            #else:
+                #print("not equal")
+
         else:
-            prev_enc = enc
-            if len(enc) != 0:
-                prev_enc_time = time()
+            discard_frames(video_capture, FDT)
+        
+
                 
 def get_face_encoding(frame):
     # Get faces location
@@ -44,6 +50,9 @@ def get_face_encoding(frame):
     else:
         return []
 
+def discard_frames(video_capture, n):
+    for i in range(n):
+        video_capture.read()
 
 if __name__ == '__main__':
     run_camera()
