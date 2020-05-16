@@ -39,9 +39,11 @@ def on_message(mqtt_client, userdata, message):
     print("Message received")
     payload = message.payload.decode()
     print("message = " + payload)
-    reply = handle_request(json.loads(payload))
-    print("reply = " + reply)
-    mqtt_client.publish(topic=RESPONSE_TOPIC, payload=reply)
+    id_door, reply = handle_request(json.loads(payload))
+    if id_door:
+        print("reply = " + reply)
+        topic = RESPONSE_TOPIC + id_door + "/open"
+        mqtt_client.publish(topic=topic, payload=reply)
 
 
 def on_publish(mqtt_client, userdata, mid):

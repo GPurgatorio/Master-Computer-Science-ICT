@@ -9,6 +9,18 @@ AB_image = "faces/AB.jpg"
 
 class TestAccessRoom(unittest.TestCase):
 
+    # An user tries to access a non-existing room
+    def test_access_unknown_room(self):
+        encoding = get_encoding(AB_image)
+        request = {
+            "door_id": "non-existing_room",
+            "encoding": encoding
+        }
+        id_door, data = handle_request(request)
+
+        self.assertIsNone(id_door)
+        self.assertIsNone(data)
+
     # An unknown user tries to access room_A
     def test_access_unknown_user(self):
         encoding = get_encoding(UNK_image)
@@ -16,7 +28,8 @@ class TestAccessRoom(unittest.TestCase):
             "door_id": "room_A",
             "encoding": encoding
         }
-        reply = json.loads(handle_request(request))
+        id_door, data = handle_request(request)
+        reply = json.loads(data)
         
         assert reply["user"]==""
         self.assertFalse(reply["open"])
@@ -28,7 +41,8 @@ class TestAccessRoom(unittest.TestCase):
             "door_id": "room_storage",
             "encoding": encoding
         }
-        reply = json.loads(handle_request(request))
+        id_door, data = handle_request(request)
+        reply = json.loads(data)
 
         assert reply["user"]=="a@a.com"
         assert reply["door_id"]=="room_storage"
@@ -41,7 +55,8 @@ class TestAccessRoom(unittest.TestCase):
             "door_id": "room_C",
             "encoding": encoding
         }
-        reply = json.loads(handle_request(request))
+        id_door, data = handle_request(request)
+        reply = json.loads(data)
 
         assert reply["user"]=="a@a.com"
         assert reply["door_id"]=="room_C"

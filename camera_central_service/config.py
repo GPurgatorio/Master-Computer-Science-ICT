@@ -8,7 +8,7 @@ DB_URL = "mongodb+srv://chessarmi:"+DB_PASSWORD + \
 	"@mcps-project-txguh.mongodb.net/chessaRMI?retryWrites=true&w=majority"
 
 REQUEST_TOPIC = "door/request"
-RESPONSE_TOPIC = "door/open"
+RESPONSE_TOPIC = "door/"
 
 EXPIRATION_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 BT_TIME_DELTA = 5

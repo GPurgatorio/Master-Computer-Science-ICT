@@ -19,7 +19,13 @@ def handle_request(request):
     }
 
     try:
-        # Check if the user exists
+        # Check if the room exists
+        room = db.rooms.find_one({"name": request["door_id"]})
+        if not room:
+            return None, None
+        response["door_id"] = room["name"]
+
+         # Check if the user exists
         user = None
         enc = array(request["encoding"])
         for usr in db.users.find():
@@ -27,14 +33,8 @@ def handle_request(request):
                 user = usr
                 break
         if not user:
-            return json.dumps(response)
+            return room["name"], json.dumps(response)
         response["user"] = user["email"]
-
-        # Check if the room exists
-        room = db.rooms.find_one({"name": request["door_id"]})
-        if not room:
-            return json.dumps(response)
-        response["door_id"] = room["name"]
 
         # Check access rights
         policy = db.policies.find_one({"user_id": user["_id"], "room_id": room["_id"]})
@@ -47,7 +47,7 @@ def handle_request(request):
     except Exception as e:
         print("ERROR: "+str(e))
 
-    return json.dumps(response)
+    return room["name"], json.dumps(response)
 
 
 def check_bluetooth_device(user, room):
