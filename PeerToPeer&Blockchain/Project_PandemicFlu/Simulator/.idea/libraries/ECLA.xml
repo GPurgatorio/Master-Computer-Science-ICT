@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ECLA">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/ECLA.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

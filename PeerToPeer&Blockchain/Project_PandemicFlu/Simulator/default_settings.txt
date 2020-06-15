@@ -1,0 +1,145 @@
+#
+# Default settings for the simulation
+# These are very basic ones to prove the simulator's correctness
+#
+
+### Pandemic Flu Project - settings
+
+## "Operating Systems"-related settings
+# Total number of Operating Systems to consider in the simulations
+PandemicFlu.nrOfOS = 1
+
+# 1 operating systems is supported (if adding more, change the previous parameter)
+PandemicFlu.operatingSystem0 = Android
+# PandemicFlu.operatingSystem1 = iOS
+# PandemicFlu.operatingSystem2 = Windows
+# PandemicFlu.operatingSystem3 = Fake
+
+# Distribution percentage for the 4 OS (sum must be 1) [checked]
+PandemicFlu.percOS0 = 1
+# PandemicFlu.percOS1 = 0.3
+# PandemicFlu.percOS2 = 0.1
+# PandemicFlu.percOS3 = 0.1
+
+
+## Infection-related probabilities
+# 20%  probability of being infected (if compatible operating system) [checked]
+PandemicFlu.propagationProb = 0.2
+# 10% probability to install a patch (for each user) [checked]
+PandemicFlu.patchProbability = 0.1
+
+# Number of hotspots (Points of Interest) 
+PandemicFlu.nrOfPois = 3
+
+## Automaton machine settings
+# Probability of standing still in the hotspot
+PandemicFlu.haltingProb = 0.3
+
+# Probability of moving to another hotspot
+PandemicFlu.travellingProb = 0.2
+
+# Probability of going around the hostspot
+PandemicFlu.exploringProb = 0.5
+# Number of times the node will choose a random point around the current hotspot while exploring
+PandemicFlu.exploreNum = 8
+# Range of exploration around the hotspot
+PandemicFlu.exploreRange = 300
+
+## World settings
+# Every how many ticks the simulation will roll the patch installation (43200s == 12h)
+PandemicFlu.installCheck = 10000
+# Every how many ticks the simulation will print stats (the "cycle" referred in pdf's requests)
+PandemicFlu.statCheck = 10000
+
+## GUI related
+# The circle range that will be drawn around all hotspots if "show hotspots" in the Menù bar is selected [default: true]
+PandemicFlu.HotspotRangeIndicator = 100
+# The background color for all hotspots [default is #9febf5]
+PandemicFlu.HotspotHexColor = #9febf5
+
+
+
+
+
+# Default settings (most already present in the downloadable version)
+## Scenario settings
+Scenario.name = pandemic_scenario_basic
+Scenario.simulateConnections = true
+Scenario.updateInterval = 0.1
+# 43200s == 12h, so 259200 is 3 whole days. 20001 is put to have 2 patch cycles
+Scenario.endTime = 20001
+
+# World's size for Movement Models without implicit size (width, height; meters)
+MovementModel.worldSize = 3000, 3000
+
+
+# "Bluetooth" interface for all nodes
+btInterface.type = SimpleBroadcastInterface
+# Transmit speed of 2 Mbps = 250kBps
+btInterface.transmitSpeed = 250k
+btInterface.transmitRange = 10
+
+
+# Define 6 different node groups
+Scenario.nrofHostGroups = 2
+
+## Group-specific settings:
+# Common settings for all groups
+Group.movementModel = PandemicFluRoutine
+Group.asPrevious = 0
+Group.router = EpidemicRouter
+Group.bufferSize = 5M
+Group.waitTime = 100, 500
+# All nodes have the bluetooth interface
+Group.nrofInterfaces = 1
+Group.interface1 = btInterface
+# Walking speeds (0.5 1.5)
+Group.speed = 0.5, 1.5
+# Message TTL of 300 minutes (5 hours)
+Group.msgTtl = 300
+Group.nrofHosts = 10
+
+# Group 1 (specific settings)
+Group1.groupID = g1_
+
+# Group 2
+Group2.groupID = g2_
+
+
+## Reports - all report names have to be valid report classes
+
+# how many reports to load
+Report.nrofReports = 5
+# length of the warm up period (simulated seconds)
+Report.warmup = 0
+# default directory of reports (can be overridden per Report with output setting)
+Report.reportDir = reports/
+# Report classes to load ConnONE inutile
+Report.report1 = InterContactTimesReport
+Report.report2 = AdjacencyGraphvizReport
+Report.report3 = ConnectivityDtnsim2Report
+Report.report4 = ContactsPerHourReport
+Report.report5 = EncountersVSUniqueEncountersReport
+
+## Movement model settings
+# seed for movement models' pseudo random number generator (default = 0)
+MovementModel.rngSeed = 42
+# How long time to move hosts in the world before real simulation
+MovementModel.warmup = 1000
+
+## Default settings for some routers settings
+ProphetRouter.secondsInTimeUnit = 30
+SprayAndWaitRouter.nrofCopies = 6
+SprayAndWaitRouter.binaryMode = true
+
+## Optimization settings -- these affect the speed of the simulation
+## see World class for details.
+Optimization.cellSizeMult = 5
+Optimization.randomizeUpdateOrder = true
+
+# how many events to show in the log panel (default = 30)
+GUI.EventLogPanel.nrofEvents = 100
+
+## Message creation parameters
+# How many event generators
+Events.nrof = 0
