@@ -13,3 +13,15 @@
 [submodule "md-advanced-software-engineering"]
 	path = md-advanced-software-engineering
 	url = https://github.com/GPurgatorio/md-advanced-software-engineering
+[submodule "md-security-methods-and-verification"]
+	path = md-security-methods-and-verification
+	url = https://github.com/GPurgatorio/md-security-methods-and-verification
+[submodule "md-ict-risk-assessment"]
+	path = md-ict-risk-assessment
+	url = https://github.com/GPurgatorio/md-ict-risk-assessment
+[submodule "dm-project"]
+	path = dm-project
+	url = https://github.com/jacopo-massa/dm-project
+[submodule "ml-project"]
+	path = ml-project
+	url = https://github.com/jacopo-massa/ml-project
