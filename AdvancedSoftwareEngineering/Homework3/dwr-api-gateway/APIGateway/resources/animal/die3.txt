@@ -1,6 +1,0 @@
-rabbit
-mouse
-cat
-chicken
-dog
-horse

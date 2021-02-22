@@ -1,6 +1,0 @@
-bear
-cow
-elephant
-panda
-bull
-rhino

@@ -1,7 +1,0 @@
-[run]
-
-omit =
-    *__init__.py*
-
-include =
-    */dice_service/*

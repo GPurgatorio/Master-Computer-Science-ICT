@@ -1,2 +1,0 @@
-FLASK_DEBUG=TRUE
-FLASK_APP=ReactionsService

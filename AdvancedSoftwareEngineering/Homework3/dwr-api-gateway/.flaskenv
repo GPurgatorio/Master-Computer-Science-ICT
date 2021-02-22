@@ -1,2 +1,0 @@
-FLASK_APP=APIGateway
-FLASK_DEBUG=True

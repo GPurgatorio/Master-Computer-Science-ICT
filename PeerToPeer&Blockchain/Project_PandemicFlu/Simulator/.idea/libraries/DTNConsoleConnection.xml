@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="DTNConsoleConnection">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/DTNConsoleConnection.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

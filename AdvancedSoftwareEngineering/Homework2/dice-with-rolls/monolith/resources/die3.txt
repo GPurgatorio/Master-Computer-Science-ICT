@@ -1,6 +1,0 @@
-cat
-pencil
-baloon
-bananas
-phone
-icecream

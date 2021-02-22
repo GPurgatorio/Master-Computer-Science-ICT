@@ -1,6 +1,0 @@
-whale
-penguin
-dolphin
-orca
-seahorses
-turtle

@@ -1,6 +1,0 @@
-cat
-executioner
-death
-witch
-skull
-spider

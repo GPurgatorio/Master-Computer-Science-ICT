@@ -1,15 +1,15 @@
 [submodule "md-advanced-programming"]
 	path = md-advanced-programming
 	url = https://github.com/GPurgatorio/md-advanced-programming
-[submodule "md-advanced-software-engineering"]
-	path = md-advanced-software-engineering
-	url = https://github.com/GPurgatorio/md-advanced-software-engineering
-[submodule "md-mobile-and-cyber-physical-systems"]
-	path = md-mobile-and-cyber-physical-systems
-	url = https://github.com/GPurgatorio/md-mobile-and-cyber-physical-systems
-[submodule "md-peer-to-peer-systems-and-blockchains"]
-	path = md-peer-to-peer-systems-and-blockchains
-	url = https://github.com/GPurgatorio/md-peer-to-peer-systems-and-blockchains
 [submodule "ict-infrastructures"]
 	path = ict-infrastructures
 	url = https://github.com/md-cs-student-unipi/ict-infrastructures
+[submodule "md-peer-to-peer-systems-and-blockchains"]
+	path = md-peer-to-peer-systems-and-blockchains
+	url = https://github.com/GPurgatorio/md-peer-to-peer-systems-and-blockchains
+[submodule "md-mobile-and-cyber-physical-systems"]
+	path = md-mobile-and-cyber-physical-systems
+	url = https://github.com/GPurgatorio/md-mobile-and-cyber-physical-systems
+[submodule "md-advanced-software-engineering"]
+	path = md-advanced-software-engineering
+	url = https://github.com/GPurgatorio/md-advanced-software-engineering
