@@ -1,9 +1,0 @@
-// Test 4
-// if(h_ith) skip; else { skip; skip; }		then submit and see #steps, either 1 or 2. [Abuse timing] Results below
-
-l1 = true;
-l2 = false;
-l3 = true;
-l4 = false;
-l5 = false;
-l6 = true;

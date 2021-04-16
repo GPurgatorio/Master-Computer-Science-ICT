@@ -1,8 +1,0 @@
-// Test 7
-
-let (test = h1) in l1 = test;
-let (test = h2) in l2 = test;
-let (test = h3) in l3 = test;
-let (test = h4) in l4 = test;
-let (test = h5) in l5 = test;
-let (test = h6) in l6 = test;

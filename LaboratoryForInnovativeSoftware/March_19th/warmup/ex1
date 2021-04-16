@@ -1,9 +1,0 @@
-var h = lbl(true);
-var l = false;
-if (h) {l=true;}
-
-//Ecma.prototype.DefineOwnProperty: security context <T> not below existing value label <> for property l
-
-//monitor stack trace:
-//ex1:3:10
-//    true

@@ -1,9 +1,0 @@
-// Test 3
-// Just do while(h1) { skip; } , submit, you see it won't terminate -> l1 = true. [Abuse non-termination]
-
-l1 = true;
-l2 = false;
-l3 = true;
-l4 = false;
-l5 = true;
-l6 = true;

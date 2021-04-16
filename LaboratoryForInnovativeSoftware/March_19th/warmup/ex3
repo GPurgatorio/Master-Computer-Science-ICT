@@ -1,9 +1,0 @@
-var h = lbl(true);
-var o = { x : false};
-if(h) { o["x"] = true; }
-
-//Ecma.prototype.DefineOwnProperty: security context <T> not below existing value label <> for property x
-
-//monitor stack trace:
-//ex3:3:17
-//    true

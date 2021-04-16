@@ -1,9 +1,0 @@
-var h = lbl(true);
-var o = {};
-if (h) { o["x"] = true; }
-
-//Ecma.prototype.DefineOwnProperty: security context <T> not below structure <>
-
-//monitor stack trace:
-//ex2:3:18
-//    true
