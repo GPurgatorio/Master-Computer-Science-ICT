@@ -25,3 +25,6 @@
 [submodule "ml-project"]
 	path = ml-project
 	url = https://github.com/jacopo-massa/ml-project
+[submodule "md-algorithm-engineering"]
+	path = md-algorithm-engineering
+	url = https://github.com/GPurgatorio/md-algorithm-engineering
