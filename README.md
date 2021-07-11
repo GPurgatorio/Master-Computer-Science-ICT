@@ -27,7 +27,7 @@
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
-    <li><a href="#about-the-project">Exams</a></li>
+    <li><a href="#exams">Exams</a></li>
 	<ul>
         <li><a href="#ase">Advanced Software Engineering</a></li>
 		<li><a href="#ap">Advanced Programming</a></li>
